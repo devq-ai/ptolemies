@@ -1,0 +1,101 @@
+{
+  "targets": [
+    {
+      "url": "https://ai.pydantic.dev/",
+      "name": "Pydantic AI",
+      "depth": 3,
+      "category": "Core Frameworks",
+      "tags": ["pydantic", "llm", "tools", "agent", "framework"],
+      "priority": "high"
+    },
+    {
+      "url": "https://www.pymc.io/",
+      "name": "PyMC",
+      "depth": 3,
+      "category": "Statistical Libraries",
+      "tags": ["bayesian", "statistics", "mcmc", "probabilistic-programming"],
+      "priority": "high"
+    },
+    {
+      "url": "https://wildwood.readthedocs.io/en/latest/",
+      "name": "Wildwood",
+      "depth": 2,
+      "category": "ML Libraries",
+      "tags": ["machine-learning", "random-forest", "decision-trees", "ensemble-methods"],
+      "priority": "medium"
+    },
+    {
+      "url": "https://logfire.pydantic.dev/docs/",
+      "name": "Logfire",
+      "depth": 2,
+      "category": "Observability",
+      "tags": ["logging", "observability", "monitoring", "structured-logging"],
+      "priority": "high"
+    },
+    {
+      "url": "https://docs.crawl4ai.com/",
+      "name": "Crawl4AI",
+      "depth": 2,
+      "category": "Data Ingestion",
+      "tags": ["web-crawling", "data-extraction", "content-analysis", "mcp"],
+      "priority": "high"
+    },
+    {
+      "url": "https://surrealdb.com/docs/surrealdb",
+      "name": "SurrealDB",
+      "depth": 3,
+      "category": "Database",
+      "tags": ["database", "graph-database", "multi-model", "query-language", "surql"],
+      "priority": "critical"
+    },
+    {
+      "url": "https://help.getzep.com/concepts",
+      "name": "Graphiti (Zep K-RAG)",
+      "depth": 2,
+      "category": "Knowledge Graphs",
+      "tags": ["knowledge-graph", "rag", "visualization", "graph-relationships"],
+      "priority": "high"
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/",
+      "name": "FastAPI",
+      "depth": 2,
+      "category": "Web Frameworks",
+      "tags": ["python", "api", "web", "async", "starlette"],
+      "priority": "high"
+    }
+  ],
+  "schedules": [
+    {
+      "name": "Core Frameworks Update",
+      "schedule": "0 0 * * 1",
+      "urls": [
+        "https://ai.pydantic.dev/",
+        "https://surrealdb.com/docs/surrealdb"
+      ],
+      "depth": 2,
+      "tags": ["weekly-update", "core-frameworks"],
+      "category": "Regular Updates"
+    },
+    {
+      "name": "Monthly Library Update",
+      "schedule": "0 0 1 * *",
+      "urls": [
+        "https://www.pymc.io/",
+        "https://wildwood.readthedocs.io/en/latest/",
+        "https://logfire.pydantic.dev/docs/",
+        "https://docs.crawl4ai.com/",
+        "https://help.getzep.com/concepts"
+      ],
+      "depth": 2,
+      "tags": ["monthly-update", "libraries"],
+      "category": "Regular Updates"
+    }
+  ],
+  "default_config": {
+    "extract_code": true,
+    "extract_tables": true,
+    "respect_robots_txt": true,
+    "user_agent": "Ptolemies Knowledge Crawler/1.0 (https://github.com/devq-ai/ptolemies)"
+  }
+}
