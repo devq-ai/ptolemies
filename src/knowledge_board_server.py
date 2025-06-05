@@ -25,6 +25,31 @@ from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Configure Logfire if available
+logfire_initialized = False
+try:
+    import logfire
+    
+    # Initialize Logfire if token is available
+    logfire_token = os.getenv("LOGFIRE_TOKEN")
+    if logfire_token:
+        logfire.configure(
+            token=logfire_token,
+            service_name=os.getenv("LOGFIRE_SERVICE_NAME", "ptolemies-knowledge-board"),
+            environment=os.getenv("LOGFIRE_ENVIRONMENT", "development")
+        )
+        logfire_initialized = True
+        logging.info("Logfire initialized successfully")
+    else:
+        logging.info("Logfire token not found, running without Logfire")
+except ImportError:
+    logging.info("Logfire not installed, running without observability")
+    logfire = None
 
 # Add project paths
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +60,12 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("knowledge_board")
+
+# Log initialization status
+if logfire_initialized:
+    logger.info("Knowledge Board server starting with Logfire observability")
+else:
+    logger.info("Knowledge Board server starting without Logfire")
 
 # Configuration
 NEO4J_URI = "bolt://localhost:7687"
@@ -60,6 +91,11 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # Templates
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
+
+# Instrument FastAPI with Logfire if available
+if logfire and logfire_initialized:
+    logfire.instrument_fastapi(app)
+    logger.info("FastAPI instrumented with Logfire")
 
 class Neo4jClient:
     """Neo4j client for querying graph data"""
@@ -95,6 +131,8 @@ class Neo4jClient:
                 return result.single()["test"] == 1
         except Exception as e:
             logger.error(f"Neo4j connection test failed: {str(e)}")
+            if logfire:
+                logfire.error("Neo4j connection test failed", error=str(e))
             return False
     
     def get_graph_stats(self) -> Dict[str, int]:
@@ -282,6 +320,9 @@ neo4j_client = Neo4jClient()
 @app.get("/", response_class=HTMLResponse)
 async def knowledge_board(request: Request):
     """Main knowledge board page"""
+    if logfire:
+        logfire.info("Knowledge board main page accessed")
+    
     stats = neo4j_client.get_graph_stats()
     
     context = {
@@ -296,11 +337,15 @@ async def knowledge_board(request: Request):
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
+    if logfire:
+        logfire.info("Health check requested")
+    
     neo4j_healthy = neo4j_client.test_connection()
     
     return {
         "status": "healthy" if neo4j_healthy else "degraded",
         "neo4j_connected": neo4j_healthy,
+        "logfire": "enabled" if logfire_initialized else "disabled",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
@@ -349,7 +394,15 @@ async def search_entities(
     limit: int = Query(20, description="Maximum results")
 ):
     """Search entities"""
-    results = neo4j_client.search_entities(q, limit=limit)
+    if logfire:
+        with logfire.span("entity_search", query=q, limit=limit):
+            results = neo4j_client.search_entities(q, limit=limit)
+            logfire.info("Entity search completed", 
+                        query=q, 
+                        result_count=len(results))
+    else:
+        results = neo4j_client.search_entities(q, limit=limit)
+    
     return {
         "query": q,
         "results": results,
@@ -362,7 +415,16 @@ async def get_entity_neighbors(
     depth: int = Query(2, description="Depth of neighbor search")
 ):
     """Get entity and its connected neighbors"""
-    return neo4j_client.get_entity_neighbors(entity_id, depth=depth)
+    if logfire:
+        with logfire.span("get_entity_neighbors", entity_id=entity_id, depth=depth):
+            result = neo4j_client.get_entity_neighbors(entity_id, depth=depth)
+            logfire.info("Entity neighbors retrieved",
+                        entity_id=entity_id,
+                        node_count=len(result.get("nodes", [])),
+                        edge_count=len(result.get("edges", [])))
+            return result
+    else:
+        return neo4j_client.get_entity_neighbors(entity_id, depth=depth)
 
 @app.get("/api/temporal/timeline")
 async def get_temporal_timeline():
