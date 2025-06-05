@@ -40,6 +40,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, Field, validator
 import uvicorn
+from dotenv import load_dotenv
 
 from ..db.surrealdb_client import SurrealDBClient, ResourceNotFoundError, QueryError
 from ..models.knowledge_item import (
@@ -50,12 +51,42 @@ from ..models.knowledge_item import (
     Relationship
 )
 
+# Load environment variables
+load_dotenv()
+
+# Configure Logfire if available
+logfire_initialized = False
+try:
+    import logfire
+    
+    # Initialize Logfire if token is available
+    logfire_token = os.getenv("LOGFIRE_TOKEN")
+    if logfire_token:
+        logfire.configure(
+            token=logfire_token,
+            service_name=os.getenv("LOGFIRE_SERVICE_NAME", "ptolemies-mcp-server"),
+            environment=os.getenv("LOGFIRE_ENVIRONMENT", "development")
+        )
+        logfire_initialized = True
+        logging.info("Logfire initialized successfully")
+    else:
+        logging.info("Logfire token not found, running without Logfire")
+except ImportError:
+    logging.info("Logfire not installed, running without observability")
+    logfire = None
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger("ptolemies_mcp")
+
+# Log initialization status
+if logfire_initialized:
+    logger.info("Ptolemies MCP server starting with Logfire observability")
+else:
+    logger.info("Ptolemies MCP server starting without Logfire")
 
 # Set up API key authentication
 API_KEY_NAME = "X-API-Key"
@@ -194,6 +225,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Instrument FastAPI with Logfire if available
+if logfire and logfire_initialized:
+    logfire.instrument_fastapi(app)
+    logger.info("FastAPI instrumented with Logfire")
+
 # Global database client
 db_client = None
 
@@ -298,6 +334,9 @@ async def health_check():
     Returns:
         dict: Health status
     """
+    if logfire:
+        logfire.info("Health check requested")
+    
     try:
         # Check database connection
         db = await get_db_client()
@@ -306,17 +345,21 @@ async def health_check():
             "status": "healthy",
             "services": {
                 "database": "connected",
+                "logfire": "enabled" if logfire_initialized else "disabled",
             },
             "timestamp": datetime.utcnow().isoformat(),
         }
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")
+        if logfire:
+            logfire.error("Health check failed", error=str(e))
         return JSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={
                 "status": "unhealthy",
                 "services": {
                     "database": "disconnected",
+                    "logfire": "enabled" if logfire_initialized else "disabled",
                 },
                 "error": str(e),
                 "timestamp": datetime.utcnow().isoformat(),
@@ -407,8 +450,19 @@ async def invoke_tool(
     request_id = request.state.request_id
     start_time = datetime.now()
     
+    # Log the request
+    if logfire:
+        logfire.info(f"Tool invocation: {tool_name}", 
+                    tool_name=tool_name,
+                    request_id=request_id,
+                    operation=mcp_request.operation)
+    
     # Validate tool name
     if tool_name != mcp_request.tool:
+        if logfire:
+            logfire.warning("Tool name mismatch", 
+                          url_tool=tool_name, 
+                          body_tool=mcp_request.tool)
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
@@ -427,45 +481,92 @@ async def invoke_tool(
     try:
         result = None
         
-        if tool_name == "search":
-            # Validate parameters
-            params = SearchParameters(**mcp_request.parameters)
-            result = await handle_search(db, params)
-        
-        elif tool_name == "retrieve":
-            # Validate parameters
-            params = RetrieveParameters(**mcp_request.parameters)
-            result = await handle_retrieve(db, params)
-        
-        elif tool_name == "store":
-            # Validate parameters
-            params = StoreParameters(**mcp_request.parameters)
-            result = await handle_store(db, params)
-        
-        elif tool_name == "related":
-            # Validate parameters
-            params = RelatedParameters(**mcp_request.parameters)
-            result = await handle_related(db, params)
-        
-        else:
-            return JSONResponse(
-                status_code=status.HTTP_404_NOT_FOUND,
-                content={
-                    "error": {
-                        "code": "tool_not_found",
-                        "message": f"Tool '{tool_name}' not found",
-                        "details": {
-                            "available_tools": ["search", "retrieve", "store", "related"]
+        if logfire:
+            with logfire.span(f"mcp_tool_{tool_name}", tool_name=tool_name, request_id=request_id):
+                if tool_name == "search":
+                    # Validate parameters
+                    params = SearchParameters(**mcp_request.parameters)
+                    result = await handle_search(db, params)
+                
+                elif tool_name == "retrieve":
+                    # Validate parameters
+                    params = RetrieveParameters(**mcp_request.parameters)
+                    result = await handle_retrieve(db, params)
+                
+                elif tool_name == "store":
+                    # Validate parameters
+                    params = StoreParameters(**mcp_request.parameters)
+                    result = await handle_store(db, params)
+                
+                elif tool_name == "related":
+                    # Validate parameters
+                    params = RelatedParameters(**mcp_request.parameters)
+                    result = await handle_related(db, params)
+                
+                else:
+                    return JSONResponse(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        content={
+                            "error": {
+                                "code": "tool_not_found",
+                                "message": f"Tool '{tool_name}' not found",
+                                "details": {
+                                    "available_tools": ["search", "retrieve", "store", "related"]
+                                }
+                            },
+                            "metadata": {
+                                "request_id": request_id
+                            }
                         }
-                    },
-                    "metadata": {
-                        "request_id": request_id
+                    )
+        else:
+            # Handle without Logfire
+            if tool_name == "search":
+                # Validate parameters
+                params = SearchParameters(**mcp_request.parameters)
+                result = await handle_search(db, params)
+            
+            elif tool_name == "retrieve":
+                # Validate parameters
+                params = RetrieveParameters(**mcp_request.parameters)
+                result = await handle_retrieve(db, params)
+            
+            elif tool_name == "store":
+                # Validate parameters
+                params = StoreParameters(**mcp_request.parameters)
+                result = await handle_store(db, params)
+            
+            elif tool_name == "related":
+                # Validate parameters
+                params = RelatedParameters(**mcp_request.parameters)
+                result = await handle_related(db, params)
+            
+            else:
+                return JSONResponse(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    content={
+                        "error": {
+                            "code": "tool_not_found",
+                            "message": f"Tool '{tool_name}' not found",
+                            "details": {
+                                "available_tools": ["search", "retrieve", "store", "related"]
+                            }
+                        },
+                        "metadata": {
+                            "request_id": request_id
+                        }
                     }
-                }
-            )
+                )
         
         # Calculate execution time
         execution_time = int((datetime.now() - start_time).total_seconds() * 1000)
+        
+        # Log successful completion
+        if logfire:
+            logfire.info(f"Tool {tool_name} completed successfully",
+                        tool_name=tool_name,
+                        execution_time_ms=execution_time,
+                        request_id=request_id)
         
         # Build response
         response = MCPResult(
@@ -486,6 +587,12 @@ async def invoke_tool(
     
     except ValidationError as e:
         logger.error(f"Validation error: {str(e)}")
+        if logfire:
+            logfire.error("Tool validation error",
+                         tool_name=tool_name,
+                         error_type="ValidationError",
+                         error_message=str(e),
+                         request_id=request_id)
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
@@ -504,6 +611,12 @@ async def invoke_tool(
     
     except ResourceNotFoundError as e:
         logger.error(f"Resource not found: {str(e)}")
+        if logfire:
+            logfire.error("Resource not found",
+                         tool_name=tool_name,
+                         error_type="ResourceNotFoundError",
+                         error_message=str(e),
+                         request_id=request_id)
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={
@@ -520,6 +633,12 @@ async def invoke_tool(
     
     except QueryError as e:
         logger.error(f"Query error: {str(e)}")
+        if logfire:
+            logfire.error("Database query error",
+                         tool_name=tool_name,
+                         error_type="QueryError",
+                         error_message=str(e),
+                         request_id=request_id)
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
@@ -536,6 +655,12 @@ async def invoke_tool(
     
     except Exception as e:
         logger.exception(f"Unexpected error: {str(e)}")
+        if logfire:
+            logfire.exception("Unexpected tool error",
+                            tool_name=tool_name,
+                            error_type=type(e).__name__,
+                            error_message=str(e),
+                            request_id=request_id)
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
@@ -601,6 +726,13 @@ async def handle_search(db: SurrealDBClient, params: SearchParameters):
         dict: Search results
     """
     logger.info(f"Performing semantic search for query: {params.query}")
+    if logfire:
+        logfire.info("Semantic search initiated",
+                    query=params.query,
+                    limit=params.limit,
+                    threshold=params.threshold,
+                    has_tag_filters=bool(params.filter_tags),
+                    has_content_type_filter=bool(params.filter_content_type))
     
     # Generate query embedding
     query_vector = await get_embedding_for_text(params.query)
@@ -621,6 +753,12 @@ async def handle_search(db: SurrealDBClient, params: SearchParameters):
         item_dict = item.dict()
         item_dict["score"] = score
         formatted_results.append(item_dict)
+    
+    if logfire:
+        logfire.info("Semantic search completed",
+                    query=params.query,
+                    result_count=len(formatted_results),
+                    top_score=formatted_results[0]["score"] if formatted_results else None)
     
     return {
         "query": params.query,
@@ -645,6 +783,11 @@ async def handle_retrieve(db: SurrealDBClient, params: RetrieveParameters):
         dict: Retrieved item
     """
     logger.info(f"Retrieving knowledge item: {params.item_id}")
+    if logfire:
+        logfire.info("Knowledge item retrieval",
+                    item_id=params.item_id,
+                    include_embeddings=params.include_embeddings,
+                    include_relationships=params.include_relationships)
     
     # Get the knowledge item
     item = await db.get_knowledge_item(params.item_id)
@@ -682,6 +825,14 @@ async def handle_store(db: SurrealDBClient, params: StoreParameters):
         dict: Created item
     """
     logger.info(f"Storing new knowledge item: {params.title}")
+    if logfire:
+        logfire.info("Knowledge item creation",
+                    title=params.title,
+                    content_type=params.content_type,
+                    content_length=len(params.content),
+                    tag_count=len(params.tags),
+                    generate_embedding=params.generate_embedding,
+                    has_source=bool(params.source))
     
     # Create the knowledge item
     item_create = KnowledgeItemCreate(
@@ -719,9 +870,19 @@ async def handle_store(db: SurrealDBClient, params: StoreParameters):
             item_update = KnowledgeItemUpdate(embedding_id=created_embedding.id)
             updated_item = await db.update_knowledge_item(item.id, item_update)
             item_dict = updated_item.dict()
+            
+            if logfire:
+                logfire.info("Embedding generated",
+                           item_id=item.id,
+                           embedding_id=created_embedding.id,
+                           dimensions=len(vector))
         
         except Exception as e:
             logger.warning(f"Failed to generate embedding for item {item.id}: {str(e)}")
+            if logfire:
+                logfire.warning("Embedding generation failed",
+                              item_id=item.id,
+                              error=str(e))
     
     return {
         "item": item_dict,
@@ -741,6 +902,12 @@ async def handle_related(db: SurrealDBClient, params: RelatedParameters):
         dict: Related items
     """
     logger.info(f"Finding related items for: {params.item_id}")
+    if logfire:
+        logfire.info("Related items search",
+                    item_id=params.item_id,
+                    direction=params.direction,
+                    limit=params.limit,
+                    has_type_filter=bool(params.relationship_types))
     
     # Get the knowledge item to verify it exists
     item = await db.get_knowledge_item(params.item_id)

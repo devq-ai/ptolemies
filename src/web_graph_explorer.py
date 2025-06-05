@@ -17,12 +17,38 @@ import asyncio
 import json
 import logging
 import sys
+import os
 from pathlib import Path
 from typing import Dict, Any
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Configure Logfire if available
+logfire_initialized = False
+try:
+    import logfire
+    
+    # Initialize Logfire if token is available
+    logfire_token = os.getenv("LOGFIRE_TOKEN")
+    if logfire_token:
+        logfire.configure(
+            token=logfire_token,
+            service_name=os.getenv("LOGFIRE_SERVICE_NAME", "ptolemies-web-explorer"),
+            environment=os.getenv("LOGFIRE_ENVIRONMENT", "development")
+        )
+        logfire_initialized = True
+        logging.info("Logfire initialized successfully")
+    else:
+        logging.info("Logfire token not found, running without Logfire")
+except ImportError:
+    logging.info("Logfire not installed, running without observability")
+    logfire = None
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -34,10 +60,21 @@ from ptolemies.integrations.graphiti.service_wrapper import GraphitiServiceConfi
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("web_explorer")
 
+# Log initialization status
+if logfire_initialized:
+    logger.info("Web Graph Explorer starting with Logfire observability")
+else:
+    logger.info("Web Graph Explorer starting without Logfire")
+
 # Global hybrid manager
 manager: HybridKnowledgeManager = None
 
 app = FastAPI(title="Ptolemies Knowledge Graph Explorer", version="1.0.0")
+
+# Instrument FastAPI with Logfire if available
+if logfire and logfire_initialized:
+    logfire.instrument_fastapi(app)
+    logger.info("FastAPI instrumented with Logfire")
 
 async def get_manager():
     """Get or create hybrid manager."""
@@ -52,6 +89,9 @@ async def get_manager():
 @app.get("/", response_class=HTMLResponse)
 async def graph_explorer():
     """Serve the main graph explorer interface."""
+    if logfire:
+        logfire.info("Graph explorer main page accessed")
+    
     html_content = """
 <!DOCTYPE html>
 <html lang="en">
@@ -719,15 +759,34 @@ async def api_search(request: Request):
         include_entities = data.get("include_entities", True)
         include_relationships = data.get("include_relationships", True)
         
-        manager = await get_manager()
-        
-        result = await manager.hybrid_search(
-            query=query,
-            limit=limit,
-            include_documents=include_documents,
-            include_entities=include_entities,
-            include_relationships=include_relationships
-        )
+        if logfire:
+            with logfire.span("hybrid_search", query=query, limit=limit):
+                manager = await get_manager()
+                
+                result = await manager.hybrid_search(
+                    query=query,
+                    limit=limit,
+                    include_documents=include_documents,
+                    include_entities=include_entities,
+                    include_relationships=include_relationships
+                )
+                
+                logfire.info("Search completed",
+                           query=query,
+                           document_count=len(result.documents) if hasattr(result, 'documents') else 0,
+                           entity_count=len(result.entities) if hasattr(result, 'entities') else 0,
+                           relationship_count=len(result.relationships) if hasattr(result, 'relationships') else 0,
+                           processing_time=result.processing_time if hasattr(result, 'processing_time') else None)
+        else:
+            manager = await get_manager()
+            
+            result = await manager.hybrid_search(
+                query=query,
+                limit=limit,
+                include_documents=include_documents,
+                include_entities=include_entities,
+                include_relationships=include_relationships
+            )
         
         # Convert datetime objects to strings before serialization
         result_dict = result.to_dict()
@@ -742,6 +801,11 @@ async def api_search(request: Request):
         
     except Exception as e:
         logger.error(f"Search API error: {str(e)}")
+        if logfire:
+            logfire.error("Search API error",
+                         error_type=type(e).__name__,
+                         error_message=str(e),
+                         query=query if 'query' in locals() else None)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/explore")
@@ -754,13 +818,33 @@ async def api_explore(request: Request):
         layout = data.get("layout", "force")
         include_documents = data.get("include_documents", True)
         
-        manager = await get_manager()
-        
-        viz_data = await manager.get_graph_visualization(
-            query=query,
-            depth=depth,
-            layout=layout
-        )
+        if logfire:
+            with logfire.span("graph_exploration", query=query, depth=depth, layout=layout):
+                manager = await get_manager()
+                
+                viz_data = await manager.get_graph_visualization(
+                    query=query,
+                    depth=depth,
+                    layout=layout
+                )
+                
+                node_count = len(viz_data.get("nodes", []))
+                edge_count = len(viz_data.get("edges", []))
+                
+                logfire.info("Graph exploration completed",
+                           query=query,
+                           depth=depth,
+                           layout=layout,
+                           node_count=node_count,
+                           edge_count=edge_count)
+        else:
+            manager = await get_manager()
+            
+            viz_data = await manager.get_graph_visualization(
+                query=query,
+                depth=depth,
+                layout=layout
+            )
         
         # Add exploration metadata
         response = {
@@ -780,11 +864,19 @@ async def api_explore(request: Request):
         
     except Exception as e:
         logger.error(f"Explore API error: {str(e)}")
+        if logfire:
+            logfire.error("Explore API error",
+                         error_type=type(e).__name__,
+                         error_message=str(e),
+                         query=query if 'query' in locals() else None)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/stats")
 async def api_stats():
     """API endpoint for system statistics."""
+    if logfire:
+        logfire.info("System stats requested")
+    
     try:
         manager = await get_manager()
         
@@ -798,13 +890,23 @@ async def api_stats():
                 "surrealdb": {"status": "active", "documents": len(documents)},
                 "graphiti": {"status": "active", "service_url": "http://localhost:8001"}
             },
-            "integration_status": "hybrid_active"
+            "integration_status": "hybrid_active",
+            "logfire": "enabled" if logfire_initialized else "disabled"
         }
+        
+        if logfire:
+            logfire.info("System stats retrieved",
+                       total_documents=len(documents),
+                       storage_active=True)
         
         return JSONResponse(content=stats)
         
     except Exception as e:
         logger.error(f"Stats API error: {str(e)}")
+        if logfire:
+            logfire.error("Stats API error",
+                         error_type=type(e).__name__,
+                         error_message=str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.on_event("startup")
