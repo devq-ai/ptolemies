@@ -68,3 +68,7 @@ See the `docs/` directory for detailed documentation, including:
 - System specifications
 - SurrealDB integration details
 - Crawl target configuration
+
+## Knowledge Graph
+
+![Knowledge Graph](docs/knowlege-graph.png)
