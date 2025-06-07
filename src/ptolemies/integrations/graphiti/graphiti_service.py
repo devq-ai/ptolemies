@@ -144,6 +144,98 @@ class HealthResponse(BaseModel):
     neo4j_connected: bool = Field(description="Neo4j connection status")
     timestamp: datetime = Field(description="Check timestamp")
 
+async def create_neo4j_visualization(driver, query: str = "", depth: int = 2):
+    """Create real graph visualization from Neo4j data"""
+    try:
+        async with driver.session() as session:
+            # Get actual entities and relationships
+            if query:
+                # Search for entities related to the query
+                cypher_query = """
+                    MATCH (e:Entity)
+                    WHERE toLower(e.name) CONTAINS toLower($query) 
+                       OR toLower(e.summary) CONTAINS toLower($query)
+                    WITH e
+                    LIMIT 20
+                    
+                    OPTIONAL MATCH (e)-[r:RELATES_TO]-(connected:Entity)
+                    
+                    RETURN e, r, connected
+                """
+                result = await session.run(cypher_query, {"query": query})
+            else:
+                # Get a sample of the graph
+                cypher_query = """
+                    MATCH (e:Entity)
+                    WITH e
+                    LIMIT 10
+                    
+                    OPTIONAL MATCH (e)-[r:RELATES_TO]-(connected:Entity)
+                    
+                    RETURN e, r, connected
+                """
+                result = await session.run(cypher_query)
+            
+            nodes = {}
+            edges = []
+            
+            async for record in result:
+                entity = record.get('e')
+                relationship = record.get('r')
+                connected = record.get('connected')
+                
+                if entity:
+                    nodes[entity['uuid']] = {
+                        "id": entity['uuid'],
+                        "label": entity['name'],
+                        "type": "entity", 
+                        "size": 1.0,
+                        "color": "#1f77b4",
+                        "summary": entity.get('summary', ''),
+                        "group_id": entity.get('group_id', '')
+                    }
+                
+                if connected:
+                    nodes[connected['uuid']] = {
+                        "id": connected['uuid'],
+                        "label": connected['name'],
+                        "type": "entity",
+                        "size": 1.0, 
+                        "color": "#ff7f0e",
+                        "summary": connected.get('summary', ''),
+                        "group_id": connected.get('group_id', '')
+                    }
+                
+                if relationship and entity and connected:
+                    edges.append({
+                        "id": relationship['uuid'],
+                        "source": entity['uuid'],
+                        "target": connected['uuid'], 
+                        "label": relationship['name'],
+                        "fact": relationship.get('fact', ''),
+                        "weight": 1.0
+                    })
+            
+            return {
+                "nodes": list(nodes.values()),
+                "edges": edges,
+                "metadata": {
+                    "query": query,
+                    "node_count": len(nodes),
+                    "edge_count": len(edges),
+                    "data_source": "real_neo4j_data"
+                }
+            }
+            
+    except Exception as e:
+        logger.error(f"Error creating real visualization: {e}")
+        # Fallback to basic mock data
+        return {
+            "nodes": [{"id": "error", "label": "Visualization Error", "type": "error"}],
+            "edges": [],
+            "metadata": {"error": str(e)}
+        }
+
 async def initialize_graphiti():
     """Initialize the Graphiti client."""
     global graphiti_client
@@ -438,14 +530,11 @@ async def get_graph_visualization(
         raise HTTPException(status_code=503, detail="Graphiti client not available")
     
     try:
-        # Use real Neo4j data instead of mock data
-        from .visualization import create_real_graph_visualization
-        
-        # Get the Neo4j driver from graphiti client
+        # Create real visualization directly from Neo4j
         driver = graphiti_client.driver
         
-        # Create real visualization
-        viz_data = create_real_graph_visualization(driver, query, depth)
+        # Get actual entities and relationships from Neo4j
+        viz_data = await create_neo4j_visualization(driver, query, depth)
         
         if viz_data and viz_data.get("nodes"):
             logger.info(f"Generated real visualization for '{query}' with {len(viz_data['nodes'])} nodes")
