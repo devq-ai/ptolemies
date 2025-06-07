@@ -119,7 +119,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .client import GraphitiIntegrationClient
+# from .client import GraphitiIntegrationClient
 
 # Configure logging
 logger = logging.getLogger(__name__)

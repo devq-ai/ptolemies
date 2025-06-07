@@ -39,6 +39,7 @@ from ..models.knowledge_item import (
 
 # Setup logging
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -181,7 +182,7 @@ class SurrealDBClient:
             # Let SurrealDB handle the timestamps via query
             now_iso = datetime.utcnow().isoformat() + 'Z'
             
-            # Use SurrealQL CREATE with string timestamps
+            # Use SurrealQL CREATE with proper datetime function and handle optional fields
             create_query = """
                 CREATE knowledge_item CONTENT {
                     title: $title,
@@ -190,18 +191,18 @@ class SurrealDBClient:
                     metadata: $metadata,
                     tags: $tags,
                     source: $source,
+                    source_url: $source,
                     category: $category,
                     source_type: $source_type,
-                    created_at: $now,
-                    updated_at: $now,
+                    embedding_id: "",
+                    summary: "",
+                    created_at: time::now(),
+                    updated_at: time::now(),
                     version: 1
                 }
             """
             
-            params = {
-                **item_dict,
-                "now": now_iso
-            }
+            params = item_dict
             
             result = await self.client.query(create_query, params)
             
@@ -210,7 +211,7 @@ class SurrealDBClient:
                 created_items = result[0]["result"]
                 if created_items and len(created_items) > 0:
                     created_item = created_items[0]
-                    return KnowledgeItem.parse_obj(created_item)
+                    return KnowledgeItem.model_validate(created_item)
                 else:
                     raise QueryError("No item created")
             else:
@@ -247,7 +248,7 @@ class SurrealDBClient:
             item = await self.client.select(f"knowledge_item:{item_id}")
             
             if item and len(item) > 0:
-                return KnowledgeItem.parse_obj(item[0])
+                return KnowledgeItem.model_validate(item[0])
             
             raise ResourceNotFoundError(f"Knowledge item not found: {item_id}")
         
@@ -293,7 +294,7 @@ class SurrealDBClient:
             updated_item = await self.client.update(f"knowledge_item:{item_id}", update_dict)
             
             if updated_item and len(updated_item) > 0:
-                return KnowledgeItem.parse_obj(updated_item[0])
+                return KnowledgeItem.model_validate(updated_item[0])
             
             raise QueryError(f"Failed to update knowledge item: {item_id}")
         
@@ -404,7 +405,7 @@ class SurrealDBClient:
                 items_data = result[0]["result"]
                 for item_data in items_data:
                     try:
-                        items.append(KnowledgeItem.parse_obj(item_data))
+                        items.append(KnowledgeItem.model_validate(item_data))
                     except ValidationError:
                         # Skip invalid items
                         pass
@@ -458,7 +459,7 @@ class SurrealDBClient:
             if result and len(result) > 0 and "result" in result[0]:
                 created_embeddings = result[0]["result"]
                 if created_embeddings and len(created_embeddings) > 0:
-                    created_embedding = Embedding.parse_obj(created_embeddings[0])
+                    created_embedding = Embedding.model_validate(created_embeddings[0])
                     
                     # If this embedding is associated with an item, update the item
                     if item_id:
@@ -513,7 +514,7 @@ class SurrealDBClient:
             if result and len(result) > 0 and "result" in result[0]:
                 embeddings = result[0]["result"]
                 if embeddings and len(embeddings) > 0:
-                    return Embedding.parse_obj(embeddings[0])
+                    return Embedding.model_validate(embeddings[0])
             
             raise ResourceNotFoundError(f"Embedding not found: {embedding_id}")
         
@@ -737,7 +738,7 @@ class SurrealDBClient:
                             "weight": rel.get("weight", 1.0),
                             "metadata": rel.get("metadata", {}),
                         }
-                        relationships.append(Relationship.parse_obj(rel_data))
+                        relationships.append(Relationship.model_validate(rel_data))
             
             # Get incoming relationships
             if direction in ["incoming", "both"]:
@@ -761,7 +762,7 @@ class SurrealDBClient:
                             "weight": rel.get("weight", 1.0),
                             "metadata": rel.get("metadata", {}),
                         }
-                        relationships.append(Relationship.parse_obj(rel_data))
+                        relationships.append(Relationship.model_validate(rel_data))
             
             return relationships
         
@@ -946,7 +947,7 @@ class SurrealDBClient:
                         
                         # Parse the knowledge item
                         try:
-                            knowledge_item = KnowledgeItem.parse_obj(item_data)
+                            knowledge_item = KnowledgeItem.model_validate(item_data)
                             items_with_scores.append((knowledge_item, score))
                         except ValidationError as e:
                             logger.warning(f"Failed to parse knowledge item: {str(e)}")

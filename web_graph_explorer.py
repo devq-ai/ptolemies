@@ -871,6 +871,132 @@ async def api_explore(request: Request):
                          query=query if 'query' in locals() else None)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/graph/data")
+async def api_graph_data(limit: int = 200, query: str = ""):
+    """API endpoint for graph visualization data."""
+    if logfire:
+        logfire.info("Graph data requested", limit=limit, query=query)
+    
+    try:
+        manager = await get_manager()
+        
+        # Get graph visualization data
+        viz_data = await manager.get_graph_visualization(
+            query=query if query else "",
+            depth=2,
+            layout="force"
+        )
+        
+        # Format nodes for vis.js
+        formatted_nodes = []
+        for node in viz_data.get("nodes", []):
+            formatted_nodes.append({
+                "id": node.get("id", ""),
+                "label": node.get("label", "Unknown"),
+                "size": max(node.get("size", 1.0) * 20, 10),  # Ensure minimum size
+                "color": {
+                    "background": node.get("color", "#9D00FF"),
+                    "border": "#1B03A3"
+                },
+                "font": {"color": "#E3E3E3"},
+                "title": node.get("summary", "No description available")
+            })
+        
+        # Format edges for vis.js  
+        formatted_edges = []
+        for edge in viz_data.get("edges", []):
+            formatted_edges.append({
+                "id": edge.get("id", ""),
+                "from": edge.get("source", ""),
+                "to": edge.get("target", ""),
+                "label": edge.get("label", ""),
+                "color": {"color": edge.get("color", "#9D00FF")},
+                "width": max(edge.get("weight", 1.0) * 2, 1),
+                "title": edge.get("fact", "")
+            })
+        
+        response = {
+            "nodes": formatted_nodes,
+            "edges": formatted_edges,
+            "stats": {
+                "nodes": len(formatted_nodes),
+                "edges": len(formatted_edges),
+                "total_documents": len(formatted_nodes)
+            }
+        }
+        
+        if logfire:
+            logfire.info("Graph data retrieved",
+                       nodes=len(formatted_nodes),
+                       edges=len(formatted_edges))
+        
+        return JSONResponse(content=response)
+        
+    except Exception as e:
+        logger.error(f"Graph data API error: {str(e)}")
+        if logfire:
+            logfire.error("Graph data API error",
+                         error_type=type(e).__name__,
+                         error_message=str(e))
+        # Return empty graph on error
+        return JSONResponse(content={
+            "nodes": [],
+            "edges": [],
+            "stats": {"nodes": 0, "edges": 0, "total_documents": 0}
+        })
+
+@app.get("/api/search/entities")
+async def api_search_entities(q: str = "", limit: int = 10):
+    """API endpoint for entity search."""
+    if logfire:
+        logfire.info("Entity search requested", query=q, limit=limit)
+    
+    try:
+        manager = await get_manager()
+        
+        # Get graph visualization data with search query
+        viz_data = await manager.get_graph_visualization(
+            query=q if q else "",
+            depth=1,
+            layout="force"
+        )
+        
+        # Format results for search dropdown
+        results = []
+        for node in viz_data.get("nodes", [])[:limit]:
+            results.append({
+                "id": node.get("id", ""),
+                "name": node.get("label", "Unknown"),
+                "summary": node.get("summary", "No description available")
+            })
+        
+        response = {
+            "results": results,
+            "total": len(results),
+            "query": q
+        }
+        
+        if logfire:
+            logfire.info("Entity search completed",
+                       query=q,
+                       results_count=len(results))
+        
+        return JSONResponse(content=response)
+        
+    except Exception as e:
+        logger.error(f"Entity search API error: {str(e)}")
+        if logfire:
+            logfire.error("Entity search API error",
+                         error_type=type(e).__name__,
+                         error_message=str(e),
+                         query=q)
+        # Return empty results on error
+        return JSONResponse(content={
+            "results": [],
+            "total": 0,
+            "query": q
+        })
+
 @app.get("/api/stats")
 async def api_stats():
     """API endpoint for system statistics."""
