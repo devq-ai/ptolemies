@@ -418,4 +418,3 @@ python generate_report.py
 
 ---
 
-*Ptolemies Knowledge Base - Production-ready knowledge management for AI applications*
