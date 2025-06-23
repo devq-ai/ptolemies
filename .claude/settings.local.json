@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(LOGFIRE_IGNORE_NO_CONFIG=1 python -m pytest tests/test_main_app.py -v)",
+      "Bash(LOGFIRE_IGNORE_NO_CONFIG=1 python -m pytest tests/test_main_app.py::TestFastAPIApplication::test_health_endpoint -v)",
+      "Bash(LOGFIRE_IGNORE_NO_CONFIG=1 python -m pytest tests/test_main_app_simple.py -v)",
+      "Bash(python -m pytest tests/test_neo4j_mcp_server.py -v --tb=short)",
+      "Bash(PYTHONPATH=. python3 tests/test_neo4j_mcp_server.py)",
+      "Bash(sed:*)",
+      "Bash(PYTHONPATH=src python tests/test_neo4j_integration.py)",
+      "Bash(PYTHONPATH=src python tests/test_neo4j_integration_simple.py)",
+      "Bash(PYTHONPATH=src python tests/test_hybrid_query_engine.py)",
+      "Bash(PYTHONPATH=src python tests/test_performance_optimizer.py)",
+      "Bash(python -m pytest tests/test_crawl4ai_integration.py -v)",
+      "Bash(python:*)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_local_cache_set_and_get -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py::TestRedisSerializer::test_serialization_error_handling tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_local_cache_delete tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_local_cache_exists -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py -x --tb=short)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_redis_operations_with_mock -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py -k \"not test_redis_operations_with_mock and not test_redis_cached_decorator\" --tb=short)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_value_size_limit tests/test_redis_cache_layer.py::TestUtilityFunctions::test_warm_cache_with_common_data_default tests/test_redis_cache_layer.py::TestIntegrationScenarios::test_cache_performance_under_load -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py::TestRedisCacheLayer::test_value_size_limit -v)",
+      "Bash(python -m pytest tests/test_redis_cache_layer.py --tb=no -q)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py -v)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py::TestPtolemiesMCPConfig -v)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py::TestPtolemiesMCPServer -v)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py::TestMCPToolHandlers::test_handle_semantic_search_success -v)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py -k \"test_handle\" --tb=short)",
+      "Bash(python -m pytest tests/test_ptolemies_mcp_server.py --tb=short -q)",
+      "Bash(python -m pytest tests/test_mcp_tool_registry.py -v)",
+      "Bash(python -m pytest tests/test_mcp_tool_registry.py::TestMCPToolRegistry::test_get_tool_specs_inactive_excluded -v)",
+      "Bash(true)",
+      "Bash(python -m pytest tests/test_mcp_tool_registry.py tests/test_ptolemies_mcp_server.py -v)",
+      "Bash(python:*)"
+    ],
+    "deny": []
+  }
+}

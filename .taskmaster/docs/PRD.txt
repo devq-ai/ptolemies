@@ -1,0 +1,264 @@
+# PTOLEMIES - DevQ.AI Knowledge Base System
+## Product Requirements Document (PRD)
+
+### EXECUTIVE SUMMARY
+Ptolemies is the centralized knowledge base for the DevQ.AI ecosystem, providing RAG (Retrieval-Augmented Generation) capabilities through SurrealDB and graph-based knowledge representation via Neo4j. The system will crawl, process, store, and serve documentation from 18+ technical sources to power the DevQ.AI agent ecosystem.
+
+### OBJECTIVES
+1. Build a comprehensive knowledge base system with dual-database architecture
+2. Implement MCP (Model Context Protocol) servers for seamless integration
+3. Provide high-quality documentation retrieval for AI agents
+4. Enable graph-based knowledge exploration and relationship mapping
+5. Deliver real-time metrics and visualization capabilities
+
+### SYSTEM ARCHITECTURE
+
+#### Core Components
+1. **SurrealDB Integration**
+   - Vector storage for semantic search
+   - Document chunking and embedding
+   - RAG query processing
+   - Full-text search capabilities
+
+2. **Neo4j Integration**
+   - Graph-based knowledge representation
+   - Relationship mapping between concepts
+   - Hierarchical documentation structure
+   - Cross-reference tracking
+
+3. **Crawl4AI Engine**
+   - Automated documentation crawling
+   - Content extraction and processing
+   - Quality scoring and filtering
+   - Incremental update support
+   - Reference implementation: https://github.com/coleam00/mcp-crawl4ai-rag
+
+4. **MCP Server Infrastructure**
+   - Ptolemies MCP server for ecosystem access
+   - Integration with existing MCP tools
+   - Standardized API interfaces
+   - Real-time synchronization
+
+### TECHNICAL REQUIREMENTS
+
+#### Infrastructure Stack
+- **Databases**: SurrealDB (RAG), Neo4j (Graph)
+- **Backend**: FastAPI with Pydantic models
+- **Monitoring**: Logfire for observability
+- **Testing**: PyTest with 90% coverage requirement
+- **Task Management**: TaskMaster AI integration
+- **Authentication**: Upstash Redis for session management
+
+#### MCP Tools Required
+- taskmaster-ai: Task generation and management
+- context7: Contextual reasoning support
+- surrealdb: Database operations
+- neo4j: Graph database operations
+- crawl4ai: Web crawling capabilities
+- filesystem: File operations
+- git: Version control
+- fetch: HTTP operations
+- memory: Session persistence
+- sequentialthinking: Complex problem solving
+- github: Repository management
+- orchestrator: Multi-agent coordination
+
+### FUNCTIONAL SPECIFICATIONS
+
+#### 1. Knowledge Acquisition
+**Documentation Targets**:
+- Pydantic AI (https://ai.pydantic.dev/)
+- PyMC (https://www.pymc.io/)
+- Wildwood (https://wildwood.readthedocs.io/en/latest/)
+- Logfire (https://logfire.pydantic.dev/docs/) - CRAWLED
+- Crawl4AI (https://docs.crawl4ai.com/)
+- SurrealDB (https://surrealdb.com/docs/surrealdb) - CRAWLED
+- FastAPI (https://fastapi.tiangolo.com/) - CRAWLED
+- FastMCP (https://gofastmcp.com/getting-started/welcome)
+- Claude Code (https://docs.anthropic.com/en/docs/claude-code/overview)
+- AnimeJS (https://animejs.com/documentation/)
+- NextJS (https://nextjs.org/docs)
+- Shadcn (https://ui.shadcn.com/docs)
+- Tailwind (https://v2.tailwindcss.com/docs)
+- Panel (https://panel.holoviz.org/)
+- PyGAD (https://pygad.readthedocs.io/en/latest/)
+- circom (https://docs.circom.io/)
+- bokeh (https://docs.bokeh.org)
+
+**Crawling Parameters**:
+- Max depth: 2 levels
+- Max pages per source: 250
+- Delay between requests: 1000ms
+- Respect robots.txt: true
+- User agent: "Ptolemies Knowledge Crawler/1.0"
+
+#### 2. Data Processing Pipeline
+1. **Content Extraction**
+   - HTML to Markdown conversion
+   - Code block preservation
+   - Metadata extraction
+   - Link relationship mapping
+
+2. **Quality Filtering**
+   - Relevance scoring
+   - Duplicate detection
+   - Content validation
+   - Version tracking
+
+3. **Embedding Generation**
+   - Provider: OpenAI
+   - Model: text-embedding-3-large
+   - Dimensions: 1536
+   - Batch size: 100
+
+4. **Storage Strategy**
+   - SurrealDB: Vectorized content chunks
+   - Neo4j: Document structure and relationships
+   - Redis: Caching and session data
+
+#### 3. Query Capabilities
+1. **RAG Queries**
+   - Semantic search
+   - Context-aware retrieval
+   - Multi-document synthesis
+   - Relevance ranking
+
+2. **Graph Queries**
+   - Concept relationships
+   - Documentation hierarchy
+   - Cross-reference navigation
+   - Dependency mapping
+
+3. **Hybrid Queries**
+   - Combined semantic + graph search
+   - Multi-modal retrieval
+   - Contextual filtering
+   - Result aggregation
+
+### METRICS & REPORTING
+
+#### Volume Metrics
+- Total Pages Crawled
+- Total Pages Stored
+- Total Processing Time (minutes)
+- Average Processing Speed (seconds/page)
+- Success Rate (%)
+
+#### Quality Metrics
+- Average Quality Score
+- Content Filtering Effectiveness (storage rate)
+- Embedding Coverage
+- Query Response Time
+
+#### Infrastructure Metrics
+- SurrealDB Items Stored
+- Neo4j Relationships Created
+- Vector Embeddings Created
+- Cache Hit Rate
+
+### IMPLEMENTATION PHASES
+
+#### Phase 1: Foundation (Week 1)
+1. Set up TaskMaster AI integration
+2. Verify all MCP tools accessibility
+3. Configure SurrealDB and Neo4j connections
+4. Implement base FastAPI application
+5. Create PyTest framework with coverage
+
+#### Phase 2: Neo4j MCP Development (Week 2)
+1. Build Neo4j MCP server from existing code
+2. Implement comprehensive test suite
+3. Add Logfire instrumentation
+4. Deploy and integrate with ecosystem
+5. Document API specifications
+
+#### Phase 3: Crawling Infrastructure (Week 3-4)
+1. Implement Crawl4AI integration
+2. Build content processing pipeline
+3. Create quality scoring system
+4. Develop incremental update logic
+5. Test with initial documentation sources
+
+#### Phase 4: Storage & Retrieval (Week 5-6)
+1. Implement SurrealDB vector storage
+2. Build Neo4j graph relationships
+3. Create hybrid query engine
+4. Optimize retrieval performance
+5. Add caching layer with Redis
+
+#### Phase 5: MCP Service Creation (Week 7)
+1. Design Ptolemies MCP interface
+2. Implement core MCP handlers
+3. Add authentication and rate limiting
+4. Create comprehensive documentation
+5. Test integration with DevQ.AI ecosystem
+
+#### Phase 6: Visualization & Analytics (Week 8)
+1. Build SurrealDB visualization dashboards
+2. Create Neo4j graph visualizations
+3. Implement real-time metrics tracking
+4. Add export capabilities
+5. Deploy monitoring infrastructure
+
+### SECURITY & COMPLIANCE
+1. **Authentication**: API key-based access control
+2. **Rate Limiting**: Per-client request throttling
+3. **Data Privacy**: No PII storage
+4. **Audit Logging**: Complete request tracking
+5. **Encryption**: TLS for all communications
+
+### PERFORMANCE REQUIREMENTS
+1. **Query Response**: < 100ms for cached results
+2. **Crawling Speed**: 5-10 pages per second
+3. **Embedding Generation**: 100 documents per minute
+4. **Uptime**: 99.9% availability
+5. **Concurrent Users**: Support 1000+ simultaneous queries
+
+### SUCCESS CRITERIA
+1. Successfully crawl and index all 18 documentation sources
+2. Achieve 90% test coverage across all components
+3. Deliver sub-100ms query response times
+4. Create 10,000+ graph relationships
+5. Process 5,000+ documentation pages
+6. Enable seamless integration with DevQ.AI agents
+
+### MAINTENANCE & UPDATES
+1. **Scheduled Crawling**: Weekly documentation updates
+2. **Version Tracking**: Git-based change detection
+3. **Quality Monitoring**: Automated content validation
+4. **Performance Tuning**: Monthly optimization cycles
+5. **Backup Strategy**: Daily database snapshots
+
+### DELIVERABLES
+1. Ptolemies FastAPI application with full test coverage
+2. Neo4j MCP server with documentation
+3. Crawl4AI integration pipeline
+4. SurrealDB RAG implementation
+5. Ptolemies MCP service
+6. Visualization dashboards
+7. Comprehensive API documentation
+8. Deployment and operations guide
+
+### RISK MITIGATION
+1. **Data Loss**: Implement redundant storage
+2. **API Changes**: Version-aware crawling
+3. **Performance Degradation**: Auto-scaling infrastructure
+4. **Security Breaches**: Regular security audits
+5. **Integration Failures**: Comprehensive error handling
+
+### TIMELINE
+Total Duration: 8 weeks
+- Foundation & Setup: 1 week
+- Core Development: 4 weeks
+- Integration & Testing: 2 weeks
+- Deployment & Documentation: 1 week
+
+### BUDGET CONSIDERATIONS
+1. **Infrastructure**: SurrealDB and Neo4j hosting
+2. **API Costs**: OpenAI embeddings
+3. **Monitoring**: Logfire subscription
+4. **Development**: 320 hours estimated
+5. **Maintenance**: 20 hours/month ongoing
+
+### CONCLUSION
+Ptolemies will serve as the knowledge foundation for the DevQ.AI ecosystem, enabling intelligent documentation retrieval and graph-based knowledge exploration. By combining RAG capabilities with graph relationships, the system will provide unprecedented access to technical documentation for AI agents and developers alike.

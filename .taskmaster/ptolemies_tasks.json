@@ -1,0 +1,492 @@
+{
+  "project": {
+    "name": "Ptolemies Knowledge Base System",
+    "description": "Centralized knowledge base for DevQ.AI ecosystem with RAG and graph capabilities",
+    "organization": "DevQ.AI",
+    "created_at": "2025-06-23T06:37:21.195146",
+    "total_phases": 6,
+    "total_tasks": 6,
+    "total_subtasks": 30,
+    "total_complexity": 42,
+    "estimated_duration_weeks": 8,
+    "technologies": [
+      "FastAPI",
+      "SurrealDB",
+      "Neo4j",
+      "Crawl4AI",
+      "PyTest",
+      "Logfire",
+      "Redis",
+      "OpenAI"
+    ]
+  },
+  "phases": {
+    "phase1": {
+      "name": "Foundation",
+      "week": 1,
+      "focus": "Infrastructure setup and tool verification"
+    },
+    "phase2": {
+      "name": "Neo4j MCP Development",
+      "week": 2,
+      "focus": "Graph database MCP server creation"
+    },
+    "phase3": {
+      "name": "Crawling Infrastructure",
+      "week": "3-4",
+      "focus": "Web crawling and content processing"
+    },
+    "phase4": {
+      "name": "Storage & Retrieval",
+      "week": "5-6",
+      "focus": "Dual-database storage with hybrid queries"
+    },
+    "phase5": {
+      "name": "MCP Service Creation",
+      "week": 7,
+      "focus": "Ptolemies MCP server for ecosystem access"
+    },
+    "phase6": {
+      "name": "Visualization & Analytics",
+      "week": 8,
+      "focus": "Dashboards and monitoring infrastructure"
+    }
+  },
+  "tasks": [
+    {
+      "id": "ptolemies-phase1-foundation-setup-5ea0ad20",
+      "name": "Foundation Setup",
+      "description": "Set up core infrastructure and verify all tools for Ptolemies project",
+      "phase": "phase1",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 7,
+      "dependencies": [],
+      "subtasks": [
+        {
+          "name": "TaskMaster AI Integration",
+          "description": "Set up TaskMaster AI for project management",
+          "complexity": 3,
+          "estimated_hours": 4
+        },
+        {
+          "name": "MCP Tools Verification",
+          "description": "Verify accessibility of all required MCP tools",
+          "complexity": 2,
+          "estimated_hours": 3
+        },
+        {
+          "name": "Database Configuration",
+          "description": "Configure SurrealDB and Neo4j connections",
+          "complexity": 4,
+          "estimated_hours": 6
+        },
+        {
+          "name": "Base FastAPI Application",
+          "description": "Implement core FastAPI application structure with Logfire",
+          "complexity": 3,
+          "estimated_hours": 5
+        },
+        {
+          "name": "PyTest Framework",
+          "description": "Create comprehensive PyTest framework with 90% coverage target",
+          "complexity": 3,
+          "estimated_hours": 4
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195095",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-06-30T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase1"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    },
+    {
+      "id": "ptolemies-phase2-neo4j-mcp-server-development-df2a87f7",
+      "name": "Neo4j MCP Server Development",
+      "description": "Build and deploy Neo4j MCP server for graph operations",
+      "phase": "phase2",
+      "complexity": 7,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 7,
+      "dependencies": [
+        "ptolemies-phase1-foundation-setup-5ea0ad20"
+      ],
+      "subtasks": [
+        {
+          "name": "Neo4j MCP Core Implementation",
+          "description": "Build Neo4j MCP server from existing code base",
+          "complexity": 5,
+          "estimated_hours": 8
+        },
+        {
+          "name": "Comprehensive Test Suite",
+          "description": "Implement full test coverage for Neo4j MCP",
+          "complexity": 4,
+          "estimated_hours": 6
+        },
+        {
+          "name": "Logfire Instrumentation",
+          "description": "Add complete Logfire monitoring to Neo4j MCP",
+          "complexity": 3,
+          "estimated_hours": 4
+        },
+        {
+          "name": "Ecosystem Integration",
+          "description": "Deploy and integrate with DevQ.AI ecosystem",
+          "complexity": 4,
+          "estimated_hours": 5
+        },
+        {
+          "name": "API Documentation",
+          "description": "Document all Neo4j MCP API specifications",
+          "complexity": 2,
+          "estimated_hours": 3
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195110",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-06-30T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase2"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    },
+    {
+      "id": "ptolemies-phase3-crawling-infrastructure-implementation-1663c8cf",
+      "name": "Crawling Infrastructure Implementation",
+      "description": "Build comprehensive web crawling and content processing pipeline",
+      "phase": "phase3",
+      "complexity": 8,
+      "status": "pending",
+      "priority": "medium",
+      "duration_days": 14,
+      "dependencies": [
+        "ptolemies-phase2-neo4j-mcp-server-development-df2a87f7"
+      ],
+      "subtasks": [
+        {
+          "name": "Crawl4AI Integration",
+          "description": "Implement Crawl4AI engine with MCP server reference",
+          "complexity": 5,
+          "estimated_hours": 10
+        },
+        {
+          "name": "Content Processing Pipeline",
+          "description": "Build HTML to Markdown conversion with metadata extraction",
+          "complexity": 4,
+          "estimated_hours": 8
+        },
+        {
+          "name": "Quality Scoring System",
+          "description": "Create relevance scoring and duplicate detection",
+          "complexity": 5,
+          "estimated_hours": 8
+        },
+        {
+          "name": "Incremental Update Logic",
+          "description": "Develop smart incremental crawling with version tracking",
+          "complexity": 6,
+          "estimated_hours": 10
+        },
+        {
+          "name": "Initial Source Testing",
+          "description": "Test with Logfire, SurrealDB, and FastAPI documentation",
+          "complexity": 3,
+          "estimated_hours": 6
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195119",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-07-07T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase3"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    },
+    {
+      "id": "ptolemies-phase4-storage-and-retrieval-system-d1eb1c06",
+      "name": "Storage and Retrieval System",
+      "description": "Implement dual-database storage with hybrid query capabilities",
+      "phase": "phase4",
+      "complexity": 9,
+      "status": "pending",
+      "priority": "medium",
+      "duration_days": 14,
+      "dependencies": [
+        "ptolemies-phase3-crawling-infrastructure-implementation-1663c8cf"
+      ],
+      "subtasks": [
+        {
+          "name": "SurrealDB Vector Storage",
+          "description": "Implement vector storage with OpenAI embeddings",
+          "complexity": 6,
+          "estimated_hours": 12
+        },
+        {
+          "name": "Neo4j Graph Relationships",
+          "description": "Build document structure and concept relationships",
+          "complexity": 5,
+          "estimated_hours": 10
+        },
+        {
+          "name": "Hybrid Query Engine",
+          "description": "Create combined semantic + graph search capabilities",
+          "complexity": 7,
+          "estimated_hours": 14
+        },
+        {
+          "name": "Performance Optimization",
+          "description": "Optimize for sub-100ms query response times",
+          "complexity": 5,
+          "estimated_hours": 8
+        },
+        {
+          "name": "Redis Caching Layer",
+          "description": "Add Redis caching with Upstash integration",
+          "complexity": 4,
+          "estimated_hours": 6
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195126",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-07-07T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase4"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    },
+    {
+      "id": "ptolemies-phase5-ptolemies-mcp-service-454d0ffb",
+      "name": "Ptolemies MCP Service",
+      "description": "Create comprehensive MCP service for knowledge base access",
+      "phase": "phase5",
+      "complexity": 7,
+      "status": "pending",
+      "priority": "medium",
+      "duration_days": 7,
+      "dependencies": [
+        "ptolemies-phase4-storage-and-retrieval-system-d1eb1c06"
+      ],
+      "subtasks": [
+        {
+          "name": "MCP Interface Design",
+          "description": "Design Ptolemies MCP interface and protocols",
+          "complexity": 4,
+          "estimated_hours": 6
+        },
+        {
+          "name": "Core MCP Handlers",
+          "description": "Implement search, retrieve, and graph query handlers",
+          "complexity": 5,
+          "estimated_hours": 10
+        },
+        {
+          "name": "Authentication & Rate Limiting",
+          "description": "Add API key auth and per-client throttling",
+          "complexity": 4,
+          "estimated_hours": 6
+        },
+        {
+          "name": "MCP Documentation",
+          "description": "Create comprehensive MCP usage documentation",
+          "complexity": 3,
+          "estimated_hours": 5
+        },
+        {
+          "name": "Ecosystem Integration Testing",
+          "description": "Test integration with all DevQ.AI agents",
+          "complexity": 4,
+          "estimated_hours": 8
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195133",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-06-30T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase5"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    },
+    {
+      "id": "ptolemies-phase6-visualization-and-analytics-platform-f8682323",
+      "name": "Visualization and Analytics Platform",
+      "description": "Build comprehensive dashboards and monitoring infrastructure",
+      "phase": "phase6",
+      "complexity": 6,
+      "status": "pending",
+      "priority": "medium",
+      "duration_days": 7,
+      "dependencies": [
+        "ptolemies-phase5-ptolemies-mcp-service-454d0ffb"
+      ],
+      "subtasks": [
+        {
+          "name": "SurrealDB Dashboards",
+          "description": "Build vector search and RAG performance dashboards",
+          "complexity": 4,
+          "estimated_hours": 8
+        },
+        {
+          "name": "Neo4j Visualizations",
+          "description": "Create interactive graph visualizations with D3.js",
+          "complexity": 5,
+          "estimated_hours": 10
+        },
+        {
+          "name": "Real-time Metrics",
+          "description": "Implement live metrics tracking with Logfire",
+          "complexity": 4,
+          "estimated_hours": 6
+        },
+        {
+          "name": "Export Capabilities",
+          "description": "Add data export in multiple formats",
+          "complexity": 3,
+          "estimated_hours": 4
+        },
+        {
+          "name": "Monitoring Deployment",
+          "description": "Deploy full monitoring infrastructure",
+          "complexity": 3,
+          "estimated_hours": 5
+        }
+      ],
+      "created_at": "2025-06-23T06:37:21.195140",
+      "estimated_start": "2025-06-23T06:37:21.195079",
+      "estimated_end": "2025-06-30T06:37:21.195079",
+      "tags": [
+        "ptolemies",
+        "knowledge-base",
+        "phase6"
+      ],
+      "assigned_to": "devq-ai-team",
+      "metrics": {
+        "test_coverage_target": 90,
+        "logfire_instrumentation": true,
+        "documentation_required": true
+      }
+    }
+  ],
+  "dependency_graph": {
+    "nodes": [
+      {
+        "id": "ptolemies-phase1-foundation-setup-5ea0ad20",
+        "label": "Foundation Setup",
+        "phase": "phase1",
+        "complexity": 5,
+        "status": "pending"
+      },
+      {
+        "id": "ptolemies-phase2-neo4j-mcp-server-development-df2a87f7",
+        "label": "Neo4j MCP Server Development",
+        "phase": "phase2",
+        "complexity": 7,
+        "status": "pending"
+      },
+      {
+        "id": "ptolemies-phase3-crawling-infrastructure-implementation-1663c8cf",
+        "label": "Crawling Infrastructure Implementation",
+        "phase": "phase3",
+        "complexity": 8,
+        "status": "pending"
+      },
+      {
+        "id": "ptolemies-phase4-storage-and-retrieval-system-d1eb1c06",
+        "label": "Storage and Retrieval System",
+        "phase": "phase4",
+        "complexity": 9,
+        "status": "pending"
+      },
+      {
+        "id": "ptolemies-phase5-ptolemies-mcp-service-454d0ffb",
+        "label": "Ptolemies MCP Service",
+        "phase": "phase5",
+        "complexity": 7,
+        "status": "pending"
+      },
+      {
+        "id": "ptolemies-phase6-visualization-and-analytics-platform-f8682323",
+        "label": "Visualization and Analytics Platform",
+        "phase": "phase6",
+        "complexity": 6,
+        "status": "pending"
+      }
+    ],
+    "edges": [
+      {
+        "from": "ptolemies-phase1-foundation-setup-5ea0ad20",
+        "to": "ptolemies-phase2-neo4j-mcp-server-development-df2a87f7",
+        "type": "depends_on"
+      },
+      {
+        "from": "ptolemies-phase2-neo4j-mcp-server-development-df2a87f7",
+        "to": "ptolemies-phase3-crawling-infrastructure-implementation-1663c8cf",
+        "type": "depends_on"
+      },
+      {
+        "from": "ptolemies-phase3-crawling-infrastructure-implementation-1663c8cf",
+        "to": "ptolemies-phase4-storage-and-retrieval-system-d1eb1c06",
+        "type": "depends_on"
+      },
+      {
+        "from": "ptolemies-phase4-storage-and-retrieval-system-d1eb1c06",
+        "to": "ptolemies-phase5-ptolemies-mcp-service-454d0ffb",
+        "type": "depends_on"
+      },
+      {
+        "from": "ptolemies-phase5-ptolemies-mcp-service-454d0ffb",
+        "to": "ptolemies-phase6-visualization-and-analytics-platform-f8682323",
+        "type": "depends_on"
+      }
+    ],
+    "layout": "hierarchical",
+    "direction": "LR"
+  },
+  "metrics": {
+    "total_estimated_hours": 208,
+    "average_complexity": 7.0,
+    "critical_path_weeks": 8,
+    "documentation_sources": 18,
+    "target_pages": 5000,
+    "test_coverage_target": 90
+  }
+}

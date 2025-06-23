@@ -1,0 +1,434 @@
+# DevQ.ai Development Rules
+
+## Core Architecture
+
+### Required Technology Stack
+
+**Backend (Non-Negotiable)**
+- **FastAPI**: Web framework with automatic API documentation
+- **Logfire**: Observability and monitoring (Pydantic)
+- **PyTest**: Testing framework with async support
+- **TaskMaster AI**: Project management via MCP
+- **SurrealDB**: Multi-model database (graph, document, key-value)
+- **MCP**: Model Context Protocol for AI-powered development
+- **Panel**: Interactive dashboards and data apps
+
+**Frontend**
+- **Next.js**: React framework with App Router
+- **Tailwind CSS**: Utility-first CSS framework
+- **Shadcn UI**: Component library built on Radix UI
+- **Anime.js**: Animation library
+- **Tiptap**: Rich text editor
+
+### Required File Structure
+
+```
+project_root/
+├── .claude/settings.local.json      # Claude permissions and MCP discovery
+├── .git/config                      # Git with DevQ.ai team settings
+├── .logfire/logfire_credentials.json # Logfire observability credentials
+├── .zed/settings.json               # Zed IDE with MCP servers
+├── mcp/mcp-servers.json             # MCP server registry
+├── src/                             # Source code
+├── tests/                           # PyTest test suite
+├── .env                             # Environment variables
+├── requirements.txt                 # Python dependencies
+└── main.py                          # FastAPI application entry point
+```
+
+## Development Workflow
+
+### Daily Process
+
+1. **Session Start**
+   ```bash
+   zed .                    # Start Zed (loads MCP servers automatically)
+   source .zshrc.devqai     # Load DevQ.ai environment
+   ```
+
+2. **Task Management** (Use MCP tools when possible)
+   ```bash
+   # MCP tools (preferred in Zed)
+   get_tasks               # Review current tasks
+   next_task               # Get next task to work on
+   get_task <id>           # View task details
+   
+   # CLI fallback
+   task-master list
+   task-master next
+   task-master show <id>
+   ```
+
+3. **Implementation**
+   - Select tasks based on: dependencies completed → priority → ID order
+   - Implement with Logfire spans for tracking
+   - Write tests as you develop (TDD)
+   - Update task status: `set_task_status` (MCP) or `task-master set-status`
+
+4. **Quality Assurance**
+   ```bash
+   pytest tests/ --cov=src/ --cov-report=html --cov-fail-under=90
+   black src/ tests/
+   ```
+
+### Task-Driven Development
+
+**Task Breakdown**
+- Use `expand_task` (MCP) or `task-master expand --id=<id> --research` for complex tasks (score 8-10)
+- Break tasks into specific, actionable subtasks
+- Maintain dependency relationships
+
+**Progress Tracking**
+- Use `update_subtask` (MCP) to log implementation details
+- Mark tasks complete: `set_task_status --status=done`
+- Commit after each subtask completion (do not push)
+
+## Code Standards
+
+### Python (3.12)
+
+**Formatting**
+- Black formatter (88 character limit)
+- Google-style docstrings
+- Type hints required for all functions
+- Import order: typing → standard → third-party → first-party → local
+
+**FastAPI Application Structure**
+```python
+# main.py - Standard setup
+from fastapi import FastAPI
+import logfire
+from contextlib import asynccontextmanager
+
+# Configure Logfire (required)
+logfire.configure(token='pylf_v1_us_...')
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logfire.info("Application starting up")
+    yield
+    logfire.info("Application shutting down")
+
+app = FastAPI(
+    title="Project Name",
+    description="API built with DevQ.ai stack",
+    version="1.0.0",
+    lifespan=lifespan
+)
+
+# Enable Logfire instrumentation
+logfire.instrument_fastapi(app, capture_headers=True)
+logfire.instrument_sqlite3()
+logfire.instrument_httpx()
+```
+
+**Database Integration**
+```python
+# SurrealDB connection example
+import surrealdb
+import logfire
+
+class SurrealDBManager:
+    def __init__(self, url: str, namespace: str, database: str):
+        self.url = url
+        self.namespace = namespace
+        self.database = database
+        self.client = None
+    
+    async def connect(self):
+        with logfire.span("SurrealDB Connection"):
+            self.client = surrealdb.Surreal()
+            await self.client.connect(self.url)
+            await self.client.use(self.namespace, self.database)
+```
+
+### Testing Requirements
+
+**PyTest Configuration**
+- Minimum 90% test coverage
+- Unit tests for all business logic
+- Integration tests for all API endpoints
+- Use fixtures for database setup/teardown
+- Mock external services with pytest-mock
+
+**Test Structure**
+```python
+# conftest.py
+import pytest
+from fastapi.testclient import TestClient
+from main import app
+
+@pytest.fixture
+def client():
+    with TestClient(app) as test_client:
+        yield test_client
+
+# test_example.py
+def test_endpoint(client):
+    response = client.get("/health")
+    assert response.status_code == 200
+```
+
+### Frontend Standards
+
+**Next.js with TypeScript**
+- Tailwind CSS (100 character line length)
+- Strict TypeScript mode
+- Component documentation with props descriptions
+
+**Animation Integration**
+```typescript
+// Anime.js example
+import anime from 'animejs';
+
+export function AnimatedComponent() {
+  useEffect(() => {
+    anime({
+      targets: '.animate-element',
+      translateY: [-20, 0],
+      opacity: [0, 1],
+      duration: 800,
+      easing: 'easeOutQuart'
+    });
+  }, []);
+}
+```
+
+## Configuration Management
+
+### Required Configuration Files
+
+**1. Claude Settings (`.claude/settings.local.json`)**
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)", "Bash(python3:*)", "PYTHONPATH=src python3:*"
+    ],
+    "deny": []
+  }
+}
+```
+
+**2. Zed Configuration (`.zed/settings.json`)**
+```json
+{
+  "mcpServers": {
+    "taskmaster-ai": {
+      "command": "npx",
+      "args": ["-y", "--package=task-master-ai", "task-master-ai"],
+      "env": {
+        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
+        "MODEL": "claude-3-7-sonnet-20250219"
+      }
+    }
+  }
+}
+```
+
+**3. Environment Variables Template**
+```bash
+# FastAPI
+DEBUG=true
+SECRET_KEY=your-secret-key
+
+# Logfire
+LOGFIRE_TOKEN=pylf_v1_us_...
+LOGFIRE_PROJECT_NAME=project-name
+LOGFIRE_SERVICE_NAME=project-name-api
+
+# TaskMaster AI
+ANTHROPIC_API_KEY=sk-ant-...
+MODEL=claude-3-7-sonnet-20250219
+
+# SurrealDB
+SURREALDB_URL=ws://localhost:8000/rpc
+SURREALDB_USERNAME=root
+SURREALDB_PASSWORD=root
+```
+
+## MCP Integration
+
+### Available MCP Servers
+- **TaskMaster AI**: Project management and task tracking
+- **SurrealDB**: Multi-model database operations
+- **Git**: Version control operations
+- **Filesystem**: File system operations
+- **Fetch**: HTTP requests
+- **Memory**: Context management
+
+### Usage Patterns
+
+**Preferred: MCP Tools in Zed**
+```
+get_tasks              # List all tasks
+add_task               # Create new task
+expand_task            # Break down complex tasks
+set_task_status        # Update task progress
+analyze_project_complexity  # Assess task difficulty
+```
+
+**Fallback: CLI Commands**
+```bash
+task-master list
+task-master add-task --prompt="Description"
+task-master expand --id=1 --research
+task-master set-status --id=1 --status=done
+```
+
+## Error Handling
+
+### API Error Handling
+```python
+from fastapi import HTTPException, Request
+from fastapi.responses import JSONResponse
+import logfire
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    logfire.error(
+        "HTTP Exception",
+        status_code=exc.status_code,
+        detail=exc.detail,
+        path=request.url.path
+    )
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": exc.detail, "status_code": exc.status_code}
+    )
+```
+
+### Database Operations
+- Use connection pooling
+- Handle connection failures with retry logic
+- Validate data before operations
+- Implement proper rollback mechanisms
+
+## Security Standards
+
+### Authentication
+```python
+from passlib.context import CryptContext
+from jose import jwt
+import logfire
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm="HS256")
+    logfire.info("Access token created", user=data.get("sub"))
+    return encoded_jwt
+```
+
+### Data Protection
+- Use environment variables for secrets
+- Encrypt sensitive data
+- Implement proper access controls
+- Regular security audits
+
+## Observability
+
+### Logfire Integration
+```python
+# Performance monitoring
+@app.middleware("http")
+async def performance_monitoring(request: Request, call_next):
+    start_time = time.time()
+    
+    with logfire.span(
+        "HTTP Request",
+        method=request.method,
+        url=str(request.url)
+    ):
+        response = await call_next(request)
+        process_time = time.time() - start_time
+        
+        logfire.info(
+            "Request completed",
+            status_code=response.status_code,
+            process_time=process_time
+        )
+        
+        return response
+```
+
+### Health Checks
+```python
+@app.get("/health")
+async def health_check():
+    with logfire.span("Health check"):
+        return {
+            "status": "healthy",
+            "timestamp": datetime.utcnow().isoformat(),
+            "service": os.getenv("LOGFIRE_SERVICE_NAME")
+        }
+```
+
+## Project Initialization
+
+### Setup Checklist
+1. Create project structure with required directories
+2. Copy four configuration files from DevQ.ai template
+3. Initialize Git with DevQ.ai team settings:
+   - User: "DevQ.ai Team"
+   - Email: "dion@devq.ai"
+4. Set up Python virtual environment
+5. Install standard dependencies
+6. Initialize TaskMaster AI: `npx task-master-ai init`
+7. Create initial FastAPI application
+8. Set up basic test suite
+9. Verify Logfire integration
+
+### Standard Dependencies
+```txt
+# requirements.txt
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+logfire[fastapi]>=0.28.0
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+surrealdb>=0.3.0
+black>=23.9.0
+```
+
+## Backup System
+
+### Verification Commands
+```bash
+# Check cron job
+crontab -l | grep backup_devqai
+
+# Check backup files
+ls -lah /Users/dionedge/backups/devqai_backup_*.tar.gz
+
+# Check logs
+grep "Backup created successfully" /Users/dionedge/backups/backup.log
+```
+
+## Git Workflow
+
+### Commit Standards
+- Commit after each subtask completion
+- Use descriptive commit messages
+- Do not push until feature is complete
+- Never include branding like "Generated with Claude Code"
+
+### Team Configuration
+```bash
+git config user.name "DevQ.ai Team"
+git config user.email "dion@devq.ai"
+```
+
+## Documentation Requirements
+
+### Code Documentation
+- Google-style docstrings for all public Python functions
+- React component props and state descriptions
+- Include code examples for complex functions
+- API endpoint documentation through FastAPI
+
+### Project Documentation
+- README with setup instructions
+- API documentation auto-generated by FastAPI
+- Task documentation through TaskMaster AI

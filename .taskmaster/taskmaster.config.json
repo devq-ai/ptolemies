@@ -1,0 +1,69 @@
+{
+  "project": {
+    "id": "ptolemies-knowledge-base",
+    "name": "Ptolemies Knowledge Base System",
+    "description": "Centralized knowledge base for DevQ.AI ecosystem with RAG capabilities through SurrealDB and graph-based knowledge representation via Neo4j",
+    "organization": "DevQ.AI",
+    "repository": "https://github.com/devqai/ptolemies",
+    "version": "1.0.0"
+  },
+  "settings": {
+    "task_file": "ptolemies_tasks.json",
+    "auto_update": true,
+    "complexity_scoring": {
+      "enabled": true,
+      "scale": "1-10",
+      "factors": [
+        "technical_difficulty",
+        "integration_complexity",
+        "testing_requirements",
+        "documentation_needs"
+      ]
+    },
+    "notifications": {
+      "enabled": true,
+      "channels": ["logfire", "slack"],
+      "events": ["task_completed", "phase_completed", "blocker_detected"]
+    }
+  },
+  "integrations": {
+    "logfire": {
+      "enabled": true,
+      "project_name": "ptolemies",
+      "track_metrics": true
+    },
+    "github": {
+      "enabled": true,
+      "auto_create_issues": true,
+      "label_prefix": "ptolemies-"
+    },
+    "pytest": {
+      "enabled": true,
+      "coverage_threshold": 90,
+      "fail_on_coverage": true
+    }
+  },
+  "phases": {
+    "validation": {
+      "require_tests": true,
+      "require_documentation": true,
+      "require_logfire_instrumentation": true
+    },
+    "progression": {
+      "auto_advance": false,
+      "require_approval": true,
+      "completion_criteria": [
+        "all_subtasks_complete",
+        "tests_passing",
+        "coverage_met",
+        "documentation_updated"
+      ]
+    }
+  },
+  "reporting": {
+    "frequency": "weekly",
+    "include_metrics": true,
+    "formats": ["markdown", "json", "html"],
+    "recipients": ["devq-ai-team"]
+  }
+}
