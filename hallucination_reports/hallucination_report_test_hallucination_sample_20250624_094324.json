@@ -1,0 +1,274 @@
+{
+  "metadata": {
+    "script_path": "test_hallucination_sample.py",
+    "analysis_timestamp": "2025-06-24T09:43:24.984331",
+    "total_items_analyzed": 23,
+    "overall_confidence": 0.5130434782608696,
+    "summary": "Analyzed 23 code elements: 8 valid, 3 invalid, 12 uncertain"
+  },
+  "statistics": {
+    "valid_items": 8,
+    "invalid_items": 3,
+    "uncertain_items": 12,
+    "not_found_items": 0
+  },
+  "categorized_results": {
+    "valid": {
+      "imports": [
+        {
+          "name": "os",
+          "confidence": 1.0,
+          "details": "Standard library module",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "json",
+          "confidence": 1.0,
+          "details": "Standard library module",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "fastapi.FastAPI",
+          "confidence": 0.9,
+          "details": "Known framework in knowledge base",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "pydantic.BaseModel",
+          "confidence": 0.8,
+          "details": "Common third-party library",
+          "suggestions": [],
+          "line_number": null
+        }
+      ],
+      "classes": [],
+      "methods": [
+        {
+          "name": "app.get",
+          "confidence": 0.7,
+          "details": "Common method pattern",
+          "suggestions": [],
+          "line_number": 32
+        }
+      ],
+      "functions": [
+        {
+          "name": "print",
+          "confidence": 1.0,
+          "details": "Built-in Python function",
+          "suggestions": [],
+          "line_number": 41
+        },
+        {
+          "name": "len",
+          "confidence": 1.0,
+          "details": "Built-in Python function",
+          "suggestions": [],
+          "line_number": 42
+        }
+      ],
+      "attributes": [
+        {
+          "name": "os.path",
+          "confidence": 0.7,
+          "details": "Common attribute pattern",
+          "suggestions": [],
+          "line_number": 50
+        }
+      ]
+    },
+    "invalid": {
+      "imports": [],
+      "classes": [
+        {
+          "name": "fastapi.FastAPI",
+          "confidence": 0.1,
+          "details": "Invalid class name format",
+          "suggestions": [
+            "Check class name 'fastapi.FastAPI' for typos"
+          ],
+          "line_number": 21
+        },
+        {
+          "name": "nonexistent_framework.MagicAPI",
+          "confidence": 0.1,
+          "details": "Invalid class name format",
+          "suggestions": [
+            "Check class name 'nonexistent_framework.MagicAPI' for typos"
+          ],
+          "line_number": 28
+        },
+        {
+          "name": "imaginary_lib.FakeClass",
+          "confidence": 0.1,
+          "details": "Invalid class name format",
+          "suggestions": [
+            "Check class name 'imaginary_lib.FakeClass' for typos"
+          ],
+          "line_number": 29
+        }
+      ],
+      "methods": [],
+      "functions": [],
+      "attributes": []
+    },
+    "uncertain": {
+      "imports": [
+        {
+          "name": "nonexistent_framework.MagicAPI",
+          "confidence": 0.3,
+          "details": "Unknown module, may be hallucinated",
+          "suggestions": [
+            "Verify that 'nonexistent_framework.MagicAPI' exists and is correctly named"
+          ],
+          "line_number": null
+        },
+        {
+          "name": "imaginary_lib.FakeClass",
+          "confidence": 0.3,
+          "details": "Unknown module, may be hallucinated",
+          "suggestions": [
+            "Verify that 'imaginary_lib.FakeClass' exists and is correctly named"
+          ],
+          "line_number": null
+        }
+      ],
+      "classes": [],
+      "methods": [
+        {
+          "name": "magic_app.super_method",
+          "confidence": 0.3,
+          "details": "Method not found in knowledge base",
+          "suggestions": [
+            "Verify that method 'super_method' exists on this object"
+          ],
+          "line_number": 37
+        },
+        {
+          "name": "fake_obj.nonexistent_function",
+          "confidence": 0.3,
+          "details": "Method not found in knowledge base",
+          "suggestions": [
+            "Verify that method 'nonexistent_function' exists on this object"
+          ],
+          "line_number": 38
+        }
+      ],
+      "functions": [
+        {
+          "name": "imaginary_function",
+          "confidence": 0.4,
+          "details": "Function not found in knowledge base",
+          "suggestions": [
+            "Verify that function 'imaginary_function' exists and is imported"
+          ],
+          "line_number": 45
+        },
+        {
+          "name": "another_fake_func",
+          "confidence": 0.4,
+          "details": "Function not found in knowledge base",
+          "suggestions": [
+            "Verify that function 'another_fake_func' exists and is imported"
+          ],
+          "line_number": 46
+        }
+      ],
+      "attributes": [
+        {
+          "name": "app.get",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'get' exists on this object"
+          ],
+          "line_number": 32
+        },
+        {
+          "name": "magic_app.super_method",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'super_method' exists on this object"
+          ],
+          "line_number": 37
+        },
+        {
+          "name": "fake_obj.nonexistent_function",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'nonexistent_function' exists on this object"
+          ],
+          "line_number": 38
+        },
+        {
+          "name": "app.title",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'title' exists on this object"
+          ],
+          "line_number": 49
+        },
+        {
+          "name": "magic_app.impossible_attribute",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'impossible_attribute' exists on this object"
+          ],
+          "line_number": 53
+        },
+        {
+          "name": "fake_obj.made_up_property",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'made_up_property' exists on this object"
+          ],
+          "line_number": 54
+        }
+      ]
+    },
+    "not_found": {
+      "imports": [],
+      "classes": [],
+      "methods": [],
+      "functions": [],
+      "attributes": []
+    }
+  },
+  "hallucination_analysis": {
+    "potential_hallucinations": 15,
+    "confidence_distribution": {
+      "high_confidence": 6,
+      "medium_confidence": 2,
+      "low_confidence": 15
+    },
+    "common_issues": [
+      "Found 2 unknown imports that may be hallucinated",
+      "Found 3 invalid class instantiations",
+      "Found 2 unverified method calls",
+      "Found 3 items with very low confidence"
+    ],
+    "risk_assessment": "Critical - Extensive potential hallucinations detected"
+  },
+  "recommendations": [
+    "Verify all imports are correctly spelled and available in your environment",
+    "Verify method names exist on their respective objects using official API documentation",
+    "Consider expanding the knowledge base with more comprehensive framework documentation",
+    "Review and correct items marked as invalid before using this code"
+  ],
+  "library_usage_summary": {
+    "os": 1,
+    "json": 1,
+    "fastapi": 1,
+    "pydantic": 1,
+    "nonexistent_framework": 1,
+    "imaginary_lib": 1
+  }
+}

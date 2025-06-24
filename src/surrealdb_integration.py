@@ -83,13 +83,15 @@ class SurrealDBVectorStore:
                 url = os.getenv("SURREALDB_URL", "ws://localhost:8000/rpc")
                 username = os.getenv("SURREALDB_USERNAME", "root")
                 password = os.getenv("SURREALDB_PASSWORD", "root")
+                namespace = os.getenv("SURREALDB_NAMESPACE", "ptolemies")
+                database = os.getenv("SURREALDB_DATABASE", "knowledge")
                 
-                logfire.info("Connecting to SurrealDB", url=url, username=username)
+                logfire.info("Connecting to SurrealDB", url=url, username=username, namespace=namespace, database=database)
                 
                 self.db = Surreal()
                 await self.db.connect(url)
                 await self.db.signin({"user": username, "pass": password})
-                await self.db.use("ptolemies", "knowledge")
+                await self.db.use(namespace, database)
                 
                 # Initialize schema
                 await self._initialize_schema()

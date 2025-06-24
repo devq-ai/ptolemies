@@ -1,0 +1,169 @@
+{
+  "crawl_id": "crawl_20250624_041000",
+  "crawl_type": "full",
+  "start_time": "2025-06-24T04:10:00.383972+00:00",
+  "status": "completed",
+  "sources": {
+    "FastAPI": {
+      "pages_crawled": 2,
+      "chunks_created": 15,
+      "embeddings_generated": 15,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 10.241531,
+      "status": "completed"
+    },
+    "SurrealDB": {
+      "pages_crawled": 9,
+      "chunks_created": 7,
+      "embeddings_generated": 7,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 20.678067,
+      "status": "completed"
+    },
+    "Pydantic AI": {
+      "pages_crawled": 10,
+      "chunks_created": 9,
+      "embeddings_generated": 9,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 5.114095,
+      "status": "completed"
+    },
+    "Logfire": {
+      "pages_crawled": 11,
+      "chunks_created": 3,
+      "embeddings_generated": 3,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 2.574646,
+      "status": "completed"
+    },
+    "NextJS": {
+      "pages_crawled": 22,
+      "chunks_created": 67,
+      "embeddings_generated": 67,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 46.349995,
+      "status": "completed"
+    },
+    "Claude Code": {
+      "pages_crawled": 28,
+      "chunks_created": 41,
+      "embeddings_generated": 41,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 25.358992,
+      "status": "completed"
+    },
+    "Crawl4AI": {
+      "pages_crawled": 29,
+      "chunks_created": 3,
+      "embeddings_generated": 3,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 2.24359,
+      "status": "completed"
+    },
+    "FastMCP": {
+      "pages_crawled": 30,
+      "chunks_created": 5,
+      "embeddings_generated": 5,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 3.293783,
+      "status": "completed"
+    },
+    "Tailwind": {
+      "pages_crawled": 41,
+      "chunks_created": 57,
+      "embeddings_generated": 57,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 39.440475,
+      "status": "completed"
+    },
+    "AnimeJS": {
+      "pages_crawled": 42,
+      "chunks_created": 1,
+      "embeddings_generated": 1,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 1.446762,
+      "status": "completed"
+    },
+    "Shadcn": {
+      "pages_crawled": 53,
+      "chunks_created": 55,
+      "embeddings_generated": 55,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 41.937366,
+      "status": "completed"
+    },
+    "Panel": {
+      "pages_crawled": 54,
+      "chunks_created": 6,
+      "embeddings_generated": 6,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 3.372567,
+      "status": "completed"
+    },
+    "bokeh": {
+      "pages_crawled": 59,
+      "chunks_created": 15,
+      "embeddings_generated": 15,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 12.978196,
+      "status": "completed"
+    },
+    "PyMC": {
+      "pages_crawled": 59,
+      "chunks_created": 0,
+      "embeddings_generated": 0,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 0.131467,
+      "status": "failed"
+    },
+    "Wildwood": {
+      "pages_crawled": 60,
+      "chunks_created": 3,
+      "embeddings_generated": 3,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 2.83485,
+      "status": "completed"
+    },
+    "PyGAD": {
+      "pages_crawled": 61,
+      "chunks_created": 19,
+      "embeddings_generated": 19,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 11.015656,
+      "status": "completed"
+    },
+    "circom": {
+      "pages_crawled": 62,
+      "chunks_created": 2,
+      "embeddings_generated": 2,
+      "errors": 0,
+      "avg_quality_score": 0.8,
+      "crawl_time_seconds": 1.959718,
+      "status": "completed"
+    }
+  },
+  "end_time": "2025-06-24T04:13:51.791613+00:00",
+  "totals": {
+    "chunks_created": 308,
+    "pages_crawled": 62,
+    "embeddings_generated": 308,
+    "errors": 0,
+    "duration_seconds": 231.407641
+  }
+}

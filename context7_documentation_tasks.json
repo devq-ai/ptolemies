@@ -1,0 +1,303 @@
+[
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "AlertManager",
+      "full_name": "src.realtime_monitor.AlertManager",
+      "module": "src.realtime_monitor",
+      "file": "/Users/dionedge/devqai/ptolemies/src/realtime_monitor.py",
+      "line": 158,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for AlertManager class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "GracefulShutdownHandler",
+      "full_name": "src.recovery_system.GracefulShutdownHandler",
+      "module": "src.recovery_system",
+      "file": "/Users/dionedge/devqai/ptolemies/src/recovery_system.py",
+      "line": 19,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for GracefulShutdownHandler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "EnhancedProductionCrawler",
+      "full_name": "src.recovery_system.EnhancedProductionCrawler",
+      "module": "src.recovery_system",
+      "file": "/Users/dionedge/devqai/ptolemies/src/recovery_system.py",
+      "line": 271,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for EnhancedProductionCrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "SurrealDBDocsCrawler",
+      "full_name": "src.surrealdb_docs_crawler.SurrealDBDocsCrawler",
+      "module": "src.surrealdb_docs_crawler",
+      "file": "/Users/dionedge/devqai/ptolemies/src/surrealdb_docs_crawler.py",
+      "line": 17,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for SurrealDBDocsCrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "IncrementalCrawler",
+      "full_name": "src.incremental_crawler.IncrementalCrawler",
+      "module": "src.incremental_crawler",
+      "file": "/Users/dionedge/devqai/ptolemies/src/incremental_crawler.py",
+      "line": 20,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for IncrementalCrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "ClaudeCodeOptimizedCrawler",
+      "full_name": "src.incremental_crawler.ClaudeCodeOptimizedCrawler",
+      "module": "src.incremental_crawler",
+      "file": "/Users/dionedge/devqai/ptolemies/src/incremental_crawler.py",
+      "line": 178,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for ClaudeCodeOptimizedCrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "HybridQueryEngine",
+      "full_name": "src.hybrid_query_engine.HybridQueryEngine",
+      "module": "src.hybrid_query_engine",
+      "file": "/Users/dionedge/devqai/ptolemies/src/hybrid_query_engine.py",
+      "line": 145,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for HybridQueryEngine class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "SpecializedCrawler",
+      "full_name": "src.specialized_crawlers.SpecializedCrawler",
+      "module": "src.specialized_crawlers",
+      "file": "/Users/dionedge/devqai/ptolemies/src/specialized_crawlers.py",
+      "line": 45,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for SpecializedCrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "PydanticAICrawler",
+      "full_name": "src.specialized_crawlers.PydanticAICrawler",
+      "module": "src.specialized_crawlers",
+      "file": "/Users/dionedge/devqai/ptolemies/src/specialized_crawlers.py",
+      "line": 233,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for PydanticAICrawler class"
+  },
+  {
+    "priority": "high",
+    "type": "generate_class_doc",
+    "element": {
+      "name": "LogfireCrawler",
+      "full_name": "src.specialized_crawlers.LogfireCrawler",
+      "module": "src.specialized_crawlers",
+      "file": "/Users/dionedge/devqai/ptolemies/src/specialized_crawlers.py",
+      "line": 310,
+      "has_docstring": true,
+      "decorators": []
+    },
+    "action": "Generate comprehensive documentation for LogfireCrawler class"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.database_backup.DatabaseBackup.__init__",
+      "class": "DatabaseBackup",
+      "parameters": [
+        "self",
+        "backup_dir: str"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in DatabaseBackup"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.realtime_monitor.AlertManager.__init__",
+      "class": "AlertManager",
+      "parameters": [
+        "self",
+        "config: MonitoringConfig"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in AlertManager"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.realtime_monitor.HealthChecker.__init__",
+      "class": "HealthChecker",
+      "parameters": [
+        "self",
+        "analytics_collector: AnalyticsCollector"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in HealthChecker"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.realtime_monitor.RealTimeMonitor.__init__",
+      "class": "RealTimeMonitor",
+      "parameters": [
+        "self",
+        "analytics_collector: AnalyticsCollector",
+        "dashboard: MetricsDashboard",
+        "performance_visualizer: PerformanceVisualizer",
+        "config: MonitoringConfig"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in RealTimeMonitor"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.recovery_system.GracefulShutdownHandler.__init__",
+      "class": "GracefulShutdownHandler",
+      "parameters": [
+        "self"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in GracefulShutdownHandler"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.recovery_system.RecoveryOrchestrator.__init__",
+      "class": "RecoveryOrchestrator",
+      "parameters": [
+        "self"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in RecoveryOrchestrator"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.recovery_system.ResilienceEnhancer.__init__",
+      "class": "ResilienceEnhancer",
+      "parameters": [
+        "self",
+        "max_retries: int",
+        "retry_delay: float"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in ResilienceEnhancer"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.recovery_system.EnhancedProductionCrawler.__init__",
+      "class": "EnhancedProductionCrawler",
+      "parameters": [
+        "self",
+        "original_crawler"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in EnhancedProductionCrawler"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.surrealdb_integration.SurrealDBVectorStore.__init__",
+      "class": "SurrealDBVectorStore",
+      "parameters": [
+        "self",
+        "config: VectorStoreConfig"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in SurrealDBVectorStore"
+  },
+  {
+    "priority": "medium",
+    "type": "generate_method_doc",
+    "element": {
+      "name": "__init__",
+      "full_name": "src.surrealdb_docs_crawler.SurrealDBDocsCrawler.__init__",
+      "class": "SurrealDBDocsCrawler",
+      "parameters": [
+        "self"
+      ],
+      "return_type": null,
+      "is_async": false
+    },
+    "action": "Document __init__ method in SurrealDBDocsCrawler"
+  }
+]

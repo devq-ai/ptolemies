@@ -1,0 +1,224 @@
+{
+  "metadata": {
+    "script_path": "test_real_framework_usage.py",
+    "analysis_timestamp": "2025-06-24T09:48:30.514785",
+    "total_items_analyzed": 18,
+    "overall_confidence": 0.5444444444444445,
+    "summary": "Analyzed 18 code elements: 8 valid, 2 invalid, 8 uncertain"
+  },
+  "statistics": {
+    "valid_items": 8,
+    "invalid_items": 2,
+    "uncertain_items": 8,
+    "not_found_items": 0
+  },
+  "categorized_results": {
+    "valid": {
+      "imports": [
+        {
+          "name": "fastapi.FastAPI",
+          "confidence": 0.9,
+          "details": "Known framework in knowledge base",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "fastapi.HTTPException",
+          "confidence": 0.9,
+          "details": "Known framework in knowledge base",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "fastapi.Depends",
+          "confidence": 0.9,
+          "details": "Known framework in knowledge base",
+          "suggestions": [],
+          "line_number": null
+        },
+        {
+          "name": "pydantic.BaseModel",
+          "confidence": 0.8,
+          "details": "Common third-party library",
+          "suggestions": [],
+          "line_number": null
+        }
+      ],
+      "classes": [],
+      "methods": [
+        {
+          "name": "app.get",
+          "confidence": 0.7,
+          "details": "Common method pattern",
+          "suggestions": [],
+          "line_number": 20
+        },
+        {
+          "name": "app.get",
+          "confidence": 0.7,
+          "details": "Common method pattern",
+          "suggestions": [],
+          "line_number": 24
+        },
+        {
+          "name": "app.post",
+          "confidence": 0.7,
+          "details": "Common method pattern",
+          "suggestions": [],
+          "line_number": 28
+        }
+      ],
+      "functions": [
+        {
+          "name": "print",
+          "confidence": 1.0,
+          "details": "Built-in Python function",
+          "suggestions": [],
+          "line_number": 43
+        }
+      ],
+      "attributes": []
+    },
+    "invalid": {
+      "imports": [],
+      "classes": [
+        {
+          "name": "fastapi.FastAPI",
+          "confidence": 0.1,
+          "details": "Invalid class name format",
+          "suggestions": [
+            "Check class name 'fastapi.FastAPI' for typos"
+          ],
+          "line_number": 14
+        },
+        {
+          "name": "pydantic_ai.Agent",
+          "confidence": 0.1,
+          "details": "Invalid class name format",
+          "suggestions": [
+            "Check class name 'pydantic_ai.Agent' for typos"
+          ],
+          "line_number": 36
+        }
+      ],
+      "methods": [],
+      "functions": [],
+      "attributes": []
+    },
+    "uncertain": {
+      "imports": [
+        {
+          "name": "pydantic_ai.Agent",
+          "confidence": 0.3,
+          "details": "Unknown module, may be hallucinated",
+          "suggestions": [
+            "Verify that 'pydantic_ai.Agent' exists and is correctly named"
+          ],
+          "line_number": null
+        }
+      ],
+      "classes": [],
+      "methods": [
+        {
+          "name": "app.unknown_method",
+          "confidence": 0.3,
+          "details": "Method not found in knowledge base",
+          "suggestions": [
+            "Verify that method 'unknown_method' exists on this object"
+          ],
+          "line_number": 46
+        }
+      ],
+      "functions": [],
+      "attributes": [
+        {
+          "name": "app.get",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'get' exists on this object"
+          ],
+          "line_number": 20
+        },
+        {
+          "name": "app.get",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'get' exists on this object"
+          ],
+          "line_number": 24
+        },
+        {
+          "name": "app.post",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'post' exists on this object"
+          ],
+          "line_number": 28
+        },
+        {
+          "name": "agent.system_prompt",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'system_prompt' exists on this object"
+          ],
+          "line_number": 38
+        },
+        {
+          "name": "app.unknown_method",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'unknown_method' exists on this object"
+          ],
+          "line_number": 46
+        },
+        {
+          "name": "user.fake_attribute",
+          "confidence": 0.4,
+          "details": "Attribute not verified",
+          "suggestions": [
+            "Verify that attribute 'fake_attribute' exists on this object"
+          ],
+          "line_number": 47
+        }
+      ]
+    },
+    "not_found": {
+      "imports": [],
+      "classes": [],
+      "methods": [],
+      "functions": [],
+      "attributes": []
+    }
+  },
+  "hallucination_analysis": {
+    "potential_hallucinations": 10,
+    "confidence_distribution": {
+      "high_confidence": 5,
+      "medium_confidence": 3,
+      "low_confidence": 10
+    },
+    "common_issues": [
+      "Found 1 unknown imports that may be hallucinated",
+      "Found 2 invalid class instantiations",
+      "Found 1 unverified method calls",
+      "Found 2 items with very low confidence"
+    ],
+    "risk_assessment": "Critical - Extensive potential hallucinations detected"
+  },
+  "recommendations": [
+    "Verify all imports are correctly spelled and available in your environment",
+    "Verify method names exist on their respective objects using official API documentation",
+    "Consider expanding the knowledge base with more comprehensive framework documentation",
+    "Review and correct items marked as invalid before using this code"
+  ],
+  "library_usage_summary": {
+    "fastapi": 3,
+    "pydantic": 1,
+    "pydantic_ai": 1
+  }
+}

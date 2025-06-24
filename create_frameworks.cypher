@@ -1,0 +1,17 @@
+MERGE (fastapi:Framework {name: "FastAPI", type: "backend", language: "Python"});
+MERGE (nextjs:Framework {name: "NextJS", type: "fullstack", language: "JavaScript"});
+MERGE (surrealdb:Framework {name: "SurrealDB", type: "database", language: "Rust"});
+MERGE (tailwind:Framework {name: "Tailwind CSS", type: "frontend", language: "CSS"});
+MERGE (shadcn:Framework {name: "Shadcn/UI", type: "frontend", language: "TypeScript"});
+MERGE (pydantic:Framework {name: "Pydantic AI", type: "backend", language: "Python"});
+MERGE (logfire:Framework {name: "Logfire", type: "backend", language: "Python"});
+MERGE (pygad:Framework {name: "PyGAD", type: "backend", language: "Python"});
+MERGE (bokeh:Framework {name: "bokeh", type: "backend", language: "Python"});
+MERGE (panel:Framework {name: "Panel", type: "backend", language: "Python"});
+MERGE (wildwood:Framework {name: "Wildwood", type: "tool", language: "Various"});
+MERGE (crawl4ai:Framework {name: "Crawl4AI", type: "tool", language: "Python"});
+MERGE (fastmcp:Framework {name: "FastMCP", type: "tool", language: "Python"});
+MERGE (animejs:Framework {name: "AnimeJS", type: "frontend", language: "JavaScript"});
+MERGE (pymc:Framework {name: "PyMC", type: "backend", language: "Python"});
+MERGE (circom:Framework {name: "circom", type: "tool", language: "Various"});
+MERGE (claudecode:Framework {name: "Claude Code", type: "tool", language: "Various"});

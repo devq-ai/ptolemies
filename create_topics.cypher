@@ -1,0 +1,17 @@
+MERGE (api:Topic {name: "API", category: "concept"});
+MERGE (auth:Topic {name: "authentication", category: "concept"});
+MERGE (db:Topic {name: "database", category: "concept"});
+MERGE (ui:Topic {name: "user interface", category: "concept"});
+MERGE (testing:Topic {name: "testing", category: "concept"});
+MERGE (deployment:Topic {name: "deployment", category: "concept"});
+MERGE (async:Topic {name: "async", category: "concept"});
+MERGE (ml:Topic {name: "machine learning", category: "concept"});
+MERGE (monitoring:Topic {name: "monitoring", category: "concept"});
+MERGE (animation:Topic {name: "animation", category: "concept"});
+MERGE (frontend:Topic {name: "frontend", category: "concept"});
+MERGE (backend:Topic {name: "backend", category: "concept"});
+MERGE (python:Topic {name: "Python", category: "language"});
+MERGE (javascript:Topic {name: "JavaScript", category: "language"});
+MERGE (typescript:Topic {name: "TypeScript", category: "language"});
+MERGE (css:Topic {name: "CSS", category: "language"});
+MERGE (rust:Topic {name: "Rust", category: "language"});

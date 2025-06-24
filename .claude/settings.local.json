@@ -32,7 +32,10 @@
       "Bash(python -m pytest tests/test_mcp_tool_registry.py::TestMCPToolRegistry::test_get_tool_specs_inactive_excluded -v)",
       "Bash(true)",
       "Bash(python -m pytest tests/test_mcp_tool_registry.py tests/test_ptolemies_mcp_server.py -v)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(true)",
+      "Bash(open http://localhost:7474)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": []
   }

@@ -1,0 +1,155 @@
+{
+  "FastAPI": {
+    "total_crawls": 1,
+    "total_chunks": 15,
+    "total_pages": 2,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 15.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "SurrealDB": {
+    "total_crawls": 1,
+    "total_chunks": 7,
+    "total_pages": 9,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 7.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Pydantic AI": {
+    "total_crawls": 1,
+    "total_chunks": 9,
+    "total_pages": 10,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 9.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Logfire": {
+    "total_crawls": 1,
+    "total_chunks": 3,
+    "total_pages": 11,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 3.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "NextJS": {
+    "total_crawls": 1,
+    "total_chunks": 67,
+    "total_pages": 22,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 67.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Claude Code": {
+    "total_crawls": 1,
+    "total_chunks": 41,
+    "total_pages": 28,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 41.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Crawl4AI": {
+    "total_crawls": 1,
+    "total_chunks": 3,
+    "total_pages": 29,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 3.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "FastMCP": {
+    "total_crawls": 1,
+    "total_chunks": 5,
+    "total_pages": 30,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 5.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Tailwind": {
+    "total_crawls": 1,
+    "total_chunks": 57,
+    "total_pages": 41,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 57.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "AnimeJS": {
+    "total_crawls": 1,
+    "total_chunks": 1,
+    "total_pages": 42,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 1.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Shadcn": {
+    "total_crawls": 1,
+    "total_chunks": 55,
+    "total_pages": 53,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 55.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Panel": {
+    "total_crawls": 1,
+    "total_chunks": 6,
+    "total_pages": 54,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 6.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "bokeh": {
+    "total_crawls": 1,
+    "total_chunks": 15,
+    "total_pages": 59,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 15.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "PyMC": {
+    "total_crawls": 1,
+    "total_chunks": 0,
+    "total_pages": 59,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 0.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "Wildwood": {
+    "total_crawls": 1,
+    "total_chunks": 3,
+    "total_pages": 60,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 3.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "PyGAD": {
+    "total_crawls": 1,
+    "total_chunks": 19,
+    "total_pages": 61,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 19.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  },
+  "circom": {
+    "total_crawls": 1,
+    "total_chunks": 2,
+    "total_pages": 62,
+    "total_errors": 0,
+    "avg_chunks_per_crawl": 2.0,
+    "avg_quality_score": 0.8,
+    "last_crawl": "2025-06-24T04:13:51.791613+00:00"
+  }
+}

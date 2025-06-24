@@ -1,0 +1,389 @@
+MATCH (f:Framework)
+RETURN f.name as name, f.type as type, f.language as language
+ORDER BY f.type, f.name;
+
+Server version	Neo4j/5.26.7
+Server address	localhost:7687
+Query	MATCH (f:Framework) RETURN f.name as name, f.type as type, f.language as language ORDER BY f.type, f.name;
+Summary	
+{
+  "query": {
+    "text": "MATCH (f:Framework)\n  RETURN f.name as name, f.type as type, f.language as language\n  ORDER BY f.type, f.name;",
+    "parameters": {}
+  },
+  "queryType": "r",
+  "counters": {
+    "_stats": {
+      "nodesCreated": 0,
+      "nodesDeleted": 0,
+      "relationshipsCreated": 0,
+      "relationshipsDeleted": 0,
+      "propertiesSet": 0,
+      "labelsAdded": 0,
+      "labelsRemoved": 0,
+      "indexesAdded": 0,
+      "indexesRemoved": 0,
+      "constraintsAdded": 0,
+      "constraintsRemoved": 0
+    },
+    "_systemUpdates": 0
+  },
+  "updateStatistics": {
+    "_stats": {
+      "nodesCreated": 0,
+      "nodesDeleted": 0,
+      "relationshipsCreated": 0,
+      "relationshipsDeleted": 0,
+      "propertiesSet": 0,
+      "labelsAdded": 0,
+      "labelsRemoved": 0,
+      "indexesAdded": 0,
+      "indexesRemoved": 0,
+      "constraintsAdded": 0,
+      "constraintsRemoved": 0
+    },
+    "_systemUpdates": 0
+  },
+  "plan": false,
+  "profile": false,
+  "notifications": [],
+  "gqlStatusObjects": [
+    {
+      "gqlStatus": "00000",
+      "statusDescription": "note: successful completion",
+      "diagnosticRecord": {
+        "OPERATION": "",
+        "OPERATION_CODE": "0",
+        "CURRENT_SCHEMA": "/"
+      },
+      "severity": "UNKNOWN",
+      "classification": "UNKNOWN",
+      "isNotification": false
+    }
+  ],
+  "server": {
+    "address": "localhost:7687",
+    "agent": "Neo4j/5.26.7",
+    "protocolVersion": 5.7
+  },
+  "resultConsumedAfter": {
+    "low": 2,
+    "high": 0
+  },
+  "resultAvailableAfter": {
+    "low": 17,
+    "high": 0
+  },
+  "database": {
+    "name": "neo4j"
+  }
+}
+Response	
+[
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "FastAPI",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Logfire",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Panel",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "PyGAD",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "PyMC",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Pydantic AI",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "bokeh",
+      "backend",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "SurrealDB",
+      "database",
+      "Rust"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "AnimeJS",
+      "frontend",
+      "JavaScript"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Shadcn/UI",
+      "frontend",
+      "TypeScript"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Tailwind CSS",
+      "frontend",
+      "CSS"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "NextJS",
+      "fullstack",
+      "JavaScript"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Claude Code",
+      "tool",
+      "Various"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Crawl4AI",
+      "tool",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "FastMCP",
+      "tool",
+      "Python"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "Wildwood",
+      "tool",
+      "Various"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  },
+  {
+    "keys": [
+      "name",
+      "type",
+      "language"
+    ],
+    "length": 3,
+    "_fields": [
+      "circom",
+      "tool",
+      "Various"
+    ],
+    "_fieldLookup": {
+      "name": 0,
+      "type": 1,
+      "language": 2
+    }
+  }
+]
