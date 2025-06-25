@@ -4,6 +4,7 @@
 	import System from '$lib/components/System.svelte';
 	import PtolemiesStats from '$lib/components/PtolemiesStats.svelte';
 	import Neo4jStats from '$lib/components/Neo4jStats.svelte';
+	import DehallucinatorStats from '$lib/components/DehallucinatorStats.svelte';
 
 	import type { PageData } from './$types';
 
@@ -22,6 +23,9 @@
 
 		<!-- Neo4j Knowledge Graph Statistics -->
 		<Neo4jStats />
+
+		<!-- Dehallucinator AI Detection Service -->
+		<DehallucinatorStats />
 
 		<!-- Original Status Monitoring -->
 		<div class="max-w-3xl mx-auto">
