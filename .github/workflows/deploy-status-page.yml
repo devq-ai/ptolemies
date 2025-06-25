@@ -1,0 +1,52 @@
+name: Deploy Status Page to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'status-page/**'
+  schedule:
+    - cron: '0 */2 * * *'  # Every 2 hours for status updates
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'status-page/package-lock.json'
+        
+    - name: Install dependencies
+      working-directory: ./status-page
+      run: npm ci
+      
+    - name: Build SvelteKit app
+      working-directory: ./status-page
+      env:
+        NODE_ENV: production
+      run: npm run build
+      
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './status-page/build'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
