@@ -1,0 +1,787 @@
+{
+  "project": {
+    "name": "Ptolemies Production Refinement",
+    "description": "Production-ready knowledge management system with MCP integration, status dashboard, and service verification",
+    "organization": "DevQ.AI",
+    "created_at": "2024-06-24T20:07:00.000Z",
+    "total_phases": 7,
+    "total_tasks": 28,
+    "total_subtasks": 84,
+    "total_complexity": 156,
+    "estimated_duration_weeks": 6,
+    "technologies": [
+      "FastAPI",
+      "SurrealDB",
+      "Neo4j",
+      "Crawl4AI",
+      "PyTest",
+      "Logfire",
+      "Redis",
+      "MCP",
+      "GitHub Pages"
+    ],
+    "production_requirements": {
+      "test_coverage_minimum": "90%",
+      "performance_target": "sub-100ms",
+      "availability_target": "99.9%",
+      "documentation_coverage": "100%"
+    }
+  },
+  "phases": {
+    "phase1": {
+      "name": "Infrastructure Cleanup",
+      "week": 1,
+      "focus": "Directory cleanup and environment validation"
+    },
+    "phase2": {
+      "name": "MCP Server Integration",
+      "week": "1-2",
+      "focus": "Complete MCP server configuration and testing"
+    },
+    "phase3": {
+      "name": "Service Verification",
+      "week": "2-3",
+      "focus": "Production verification of all five primary services"
+    },
+    "phase4": {
+      "name": "Ptolemies MCP Development",
+      "week": "3-4",
+      "focus": "Complete ptolemies-mcp server implementation"
+    },
+    "phase5": {
+      "name": "Status Dashboard",
+      "week": "4-5",
+      "focus": "GitHub Pages status dashboard implementation"
+    },
+    "phase6": {
+      "name": "Documentation & Testing",
+      "week": "5-6",
+      "focus": "Complete documentation and 90% test coverage"
+    },
+    "phase7": {
+      "name": "Production Deployment",
+      "week": 6,
+      "focus": "Final production validation and deployment"
+    }
+  },
+  "tasks": [
+    {
+      "id": "1",
+      "name": "Infrastructure Cleanup & Validation",
+      "description": "Clean up directory structure and validate production environment",
+      "phase": "phase1",
+      "complexity": 3,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 2,
+      "dependencies": [],
+      "deliverable": "Clean repository structure with validated environment configuration",
+      "test_requirements": "All environment validation tests pass",
+      "subtasks": [
+        {
+          "id": "1.1",
+          "name": "Evaluate and Remove Coverage Directory",
+          "description": "Remove ./coverage/ directory containing unrelated project coverage (1% Agentical coverage)",
+          "complexity": 1,
+          "estimated_hours": 1,
+          "deliverable": "Coverage directory removed, .gitignore updated",
+          "test_command": "ls -la ptolemies/ | grep -v coverage",
+          "validation": "Directory ./coverage/ no longer exists"
+        },
+        {
+          "id": "1.2",
+          "name": "Validate HTML Coverage Directory",
+          "description": "Verify ./htmlcov/ serves PyTest coverage reporting (currently 7%)",
+          "complexity": 1,
+          "estimated_hours": 1,
+          "deliverable": "Documentation confirming htmlcov purpose and integration with pytest",
+          "test_command": "pytest tests/ --cov=src/ --cov-report=html",
+          "validation": "HTML coverage reports generate correctly in ./htmlcov/"
+        },
+        {
+          "id": "1.3",
+          "name": "Environment Configuration Review",
+          "description": "Thoroughly review and validate .env, .rules, CLAUDE.md, CONFIG.md",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Environment configuration validation report",
+          "test_command": "python scripts/verify_db_config.py",
+          "validation": "All configuration files validated and documented"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Context7 MCP Server Integration",
+      "description": "Implement and configure Context7 MCP server for Redis-backed contextual reasoning",
+      "phase": "phase2",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 3,
+      "dependencies": ["1"],
+      "deliverable": "Fully functional Context7 MCP server with documentation",
+      "test_requirements": "MCP server tests pass with 90%+ coverage",
+      "subtasks": [
+        {
+          "id": "2.1",
+          "name": "Clone and Setup Context7 MCP",
+          "description": "Clone context7-mcp from https://github.com/upstash/context7 into ./mcp/mcp-servers/context7/",
+          "complexity": 2,
+          "estimated_hours": 2,
+          "deliverable": "Context7 codebase cloned and configured",
+          "test_command": "cd mcp/mcp-servers/context7 && npm test",
+          "validation": "Context7 MCP server initializes without errors"
+        },
+        {
+          "id": "2.2",
+          "name": "Context7 Integration Testing",
+          "description": "Test Context7 MCP server with Ptolemies ecosystem integration",
+          "complexity": 3,
+          "estimated_hours": 4,
+          "deliverable": "Integration tests passing for Context7 functionality",
+          "test_command": "python tests/test_context7.py -v",
+          "validation": "All Context7 integration tests pass"
+        },
+        {
+          "id": "2.3",
+          "name": "Context7 Documentation",
+          "description": "Create comprehensive README.md for Context7 MCP integration",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete Context7 README with setup and usage instructions",
+          "test_command": "markdown-lint mcp/mcp-servers/context7/README.md",
+          "validation": "README.md follows DevQ.ai documentation standards"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Crawl4AI MCP Server Integration",
+      "description": "Implement and configure Crawl4AI MCP server for web crawling and RAG",
+      "phase": "phase2",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 3,
+      "dependencies": ["1"],
+      "deliverable": "Fully functional Crawl4AI MCP server with documentation",
+      "test_requirements": "MCP server tests pass with 90%+ coverage",
+      "subtasks": [
+        {
+          "id": "3.1",
+          "name": "Clone and Setup Crawl4AI MCP",
+          "description": "Clone crawl4ai-mcp from https://github.com/coleam00/mcp-crawl4ai-rag/ into ./mcp/mcp-servers/crawl4ai/",
+          "complexity": 2,
+          "estimated_hours": 2,
+          "deliverable": "Crawl4AI codebase cloned and configured",
+          "test_command": "cd mcp/mcp-servers/crawl4ai && python -m pytest",
+          "validation": "Crawl4AI MCP server initializes without errors"
+        },
+        {
+          "id": "3.2",
+          "name": "Crawl4AI Integration Testing",
+          "description": "Test Crawl4AI MCP server with existing crawler infrastructure",
+          "complexity": 3,
+          "estimated_hours": 4,
+          "deliverable": "Integration tests passing for Crawl4AI functionality",
+          "test_command": "python tests/test_crawl4ai_integration.py -v",
+          "validation": "All Crawl4AI integration tests pass"
+        },
+        {
+          "id": "3.3",
+          "name": "Crawl4AI Documentation",
+          "description": "Create comprehensive README.md for Crawl4AI MCP integration",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete Crawl4AI README with setup and usage instructions",
+          "test_command": "markdown-lint mcp/mcp-servers/crawl4ai/README.md",
+          "validation": "README.md follows DevQ.ai documentation standards"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "4",
+      "name": "Neo4j MCP Server Integration",
+      "description": "Implement and configure Neo4j MCP server for graph database operations",
+      "phase": "phase2",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 3,
+      "dependencies": ["1"],
+      "deliverable": "Fully functional Neo4j MCP server with documentation",
+      "test_requirements": "MCP server tests pass with 90%+ coverage",
+      "subtasks": [
+        {
+          "id": "4.1",
+          "name": "Clone and Setup Neo4j MCP",
+          "description": "Clone neo4j-mcp from https://github.com/neo4j-contrib/mcp-neo4j into ./mcp/mcp-servers/neo4j/",
+          "complexity": 2,
+          "estimated_hours": 2,
+          "deliverable": "Neo4j MCP codebase cloned and configured",
+          "test_command": "cd mcp/mcp-servers/neo4j && npm test",
+          "validation": "Neo4j MCP server initializes without errors"
+        },
+        {
+          "id": "4.2",
+          "name": "Neo4j Integration Testing",
+          "description": "Test Neo4j MCP server with existing graph database infrastructure",
+          "complexity": 3,
+          "estimated_hours": 4,
+          "deliverable": "Integration tests passing for Neo4j MCP functionality",
+          "test_command": "python tests/test_neo4j_mcp_server.py -v",
+          "validation": "All Neo4j MCP integration tests pass"
+        },
+        {
+          "id": "4.3",
+          "name": "Neo4j Documentation",
+          "description": "Create comprehensive README.md for Neo4j MCP integration",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete Neo4j README with setup and usage instructions",
+          "test_command": "markdown-lint mcp/mcp-servers/neo4j/README.md",
+          "validation": "README.md follows DevQ.ai documentation standards"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "5",
+      "name": "SurrealDB MCP Server Integration",
+      "description": "Implement and configure SurrealDB MCP server for vector database operations",
+      "phase": "phase2",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 3,
+      "dependencies": ["1"],
+      "deliverable": "Fully functional SurrealDB MCP server with documentation",
+      "test_requirements": "MCP server tests pass with 90%+ coverage",
+      "subtasks": [
+        {
+          "id": "5.1",
+          "name": "Clone and Setup SurrealDB MCP",
+          "description": "Clone surrealdb-mcp from https://github.com/nsxdavid/surrealdb-mcp-server into ./mcp/mcp-servers/surrealdb/",
+          "complexity": 2,
+          "estimated_hours": 2,
+          "deliverable": "SurrealDB MCP codebase cloned and configured",
+          "test_command": "cd mcp/mcp-servers/surrealdb && python -m pytest",
+          "validation": "SurrealDB MCP server initializes without errors"
+        },
+        {
+          "id": "5.2",
+          "name": "SurrealDB Integration Testing",
+          "description": "Test SurrealDB MCP server with existing vector database infrastructure",
+          "complexity": 3,
+          "estimated_hours": 4,
+          "deliverable": "Integration tests passing for SurrealDB MCP functionality",
+          "test_command": "python tests/test_surrealdb_integration.py -v",
+          "validation": "All SurrealDB MCP integration tests pass"
+        },
+        {
+          "id": "5.3",
+          "name": "SurrealDB Documentation",
+          "description": "Create comprehensive README.md for SurrealDB MCP integration",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete SurrealDB README with setup and usage instructions",
+          "test_command": "markdown-lint mcp/mcp-servers/surrealdb/README.md",
+          "validation": "README.md follows DevQ.ai documentation standards"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "6",
+      "name": "Crawler Service Verification",
+      "description": "Verify and document production-ready crawler service (formerly crawling-tools)",
+      "phase": "phase3",
+      "complexity": 4,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 2,
+      "dependencies": ["2", "3"],
+      "deliverable": "Production-verified crawler with comprehensive documentation",
+      "test_requirements": "All crawler tests pass with production data",
+      "subtasks": [
+        {
+          "id": "6.1",
+          "name": "Crawler Production Testing",
+          "description": "Test crawler service with live documentation sources (depth=4, pages=500)",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Crawler production test results with performance metrics",
+          "test_command": "python src/crawl4ai_integration.py --source https://neo4j.com/docs/ --max-depth 4 --max-pages 500",
+          "validation": "Crawler successfully processes 500+ pages with sub-100ms performance"
+        },
+        {
+          "id": "6.2",
+          "name": "Crawler Service Documentation",
+          "description": "Create comprehensive README for crawler service",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete crawler README with API documentation and usage examples",
+          "test_command": "markdown-lint crawler/README.md",
+          "validation": "Crawler documentation meets DevQ.ai standards"
+        },
+        {
+          "id": "6.3",
+          "name": "Crawler Test Suite Verification",
+          "description": "Verify all crawler tests pass with 90%+ coverage",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Crawler test suite with 90%+ coverage",
+          "test_command": "pytest tests/test_crawl4ai_integration.py --cov=src/crawl4ai_integration.py --cov-fail-under=90",
+          "validation": "Crawler achieves 90%+ test coverage"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "7",
+      "name": "Dehallucinator Service Verification",
+      "description": "Verify and document production-ready AI hallucination detector (formerly ai_detector)",
+      "phase": "phase3",
+      "complexity": 4,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 2,
+      "dependencies": ["1"],
+      "deliverable": "Production-verified dehallucinator with comprehensive documentation",
+      "test_requirements": "All dehallucinator tests pass with production accuracy",
+      "subtasks": [
+        {
+          "id": "7.1",
+          "name": "Dehallucinator Production Testing",
+          "description": "Test dehallucinator service with real AI-generated code samples",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Dehallucinator production test results with accuracy metrics",
+          "test_command": "python dehallucinator/ai_hallucination_detector.py tests/test_samples/",
+          "validation": "Dehallucinator achieves >95% accuracy on test samples"
+        },
+        {
+          "id": "7.2",
+          "name": "Dehallucinator Service Documentation",
+          "description": "Create comprehensive README for dehallucinator service",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete dehallucinator README with API documentation and examples",
+          "test_command": "markdown-lint dehallucinator/README.md",
+          "validation": "Dehallucinator documentation meets DevQ.ai standards"
+        },
+        {
+          "id": "7.3",
+          "name": "Dehallucinator Test Suite Verification",
+          "description": "Verify all dehallucinator tests pass with 90%+ coverage",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Dehallucinator test suite with 90%+ coverage",
+          "test_command": "pytest tests/test_hallucination_sample.py tests/test_real_framework_usage.py --cov=dehallucinator/ --cov-fail-under=90",
+          "validation": "Dehallucinator achieves 90%+ test coverage"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "8",
+      "name": "Neo4j Service Verification",
+      "description": "Verify and document production-ready Neo4j graph database service",
+      "phase": "phase3",
+      "complexity": 4,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 2,
+      "dependencies": ["4"],
+      "deliverable": "Production-verified Neo4j service with live test results",
+      "test_requirements": "Neo4j service passes all tests with live data",
+      "subtasks": [
+        {
+          "id": "8.1",
+          "name": "Neo4j Live Testing",
+          "description": "Test Neo4j service with live crawl of https://neo4j.com/docs/ (depth=4, pages=500)",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Neo4j live test results with graph relationship metrics",
+          "test_command": "python neo4j/complete_neo4j_population.py --source https://neo4j.com/docs/ --update-comprehensive-report",
+          "validation": "Neo4j successfully processes and graphs 500+ documentation pages"
+        },
+        {
+          "id": "8.2",
+          "name": "Neo4j Service Documentation",
+          "description": "Create comprehensive README for Neo4j service",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete Neo4j README with graph schema and query examples",
+          "test_command": "markdown-lint neo4j/README.md",
+          "validation": "Neo4j documentation meets DevQ.ai standards"
+        },
+        {
+          "id": "8.3",
+          "name": "Update Comprehensive Chunk Report",
+          "description": "Update ./docs/COMPREHENSIVE_CHUNK_REPORT.md with Neo4j live test results",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Updated comprehensive chunk report with current statistics",
+          "test_command": "grep -E 'neo4j|pages|chunks' docs/COMPREHENSIVE_CHUNK_REPORT.md",
+          "validation": "Report reflects current Neo4j service capabilities and statistics"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "9",
+      "name": "SurrealDB Service Verification",
+      "description": "Verify and document production-ready SurrealDB RAG database service",
+      "phase": "phase3",
+      "complexity": 4,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 2,
+      "dependencies": ["5"],
+      "deliverable": "Production-verified SurrealDB service with performance metrics",
+      "test_requirements": "SurrealDB service passes all tests with production performance",
+      "subtasks": [
+        {
+          "id": "9.1",
+          "name": "SurrealDB Production Testing",
+          "description": "Test SurrealDB service with production data and queries",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "SurrealDB production test results with query performance metrics",
+          "test_command": "python tests/test_surrealdb_integration.py --production-data",
+          "validation": "SurrealDB achieves sub-100ms query performance on production dataset"
+        },
+        {
+          "id": "9.2",
+          "name": "SurrealDB Service Documentation",
+          "description": "Create comprehensive README for SurrealDB service",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Complete SurrealDB README with schema and query examples",
+          "test_command": "markdown-lint surrealdb/README.md",
+          "validation": "SurrealDB documentation meets DevQ.ai standards"
+        },
+        {
+          "id": "9.3",
+          "name": "SurrealDB Performance Verification",
+          "description": "Verify SurrealDB maintains sub-100ms performance under load",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "SurrealDB performance benchmark results",
+          "test_command": "python scripts/verify_performance_visualizer.py --database surrealdb",
+          "validation": "SurrealDB maintains sub-100ms performance under production load"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "10",
+      "name": "Ptolemies MCP Server Development",
+      "description": "Complete development of ptolemies-mcp server for DevQ.ai ecosystem integration",
+      "phase": "phase4",
+      "complexity": 8,
+      "status": "pending",
+      "priority": "critical",
+      "duration_days": 5,
+      "dependencies": ["2", "3", "4", "5"],
+      "deliverable": "Complete ptolemies-mcp server with full ecosystem integration",
+      "test_requirements": "Ptolemies MCP server tests pass with 90%+ coverage",
+      "subtasks": [
+        {
+          "id": "10.1",
+          "name": "Ptolemies MCP Server Architecture",
+          "description": "Design and implement core architecture for ptolemies-mcp server",
+          "complexity": 3,
+          "estimated_hours": 6,
+          "deliverable": "Core MCP server architecture with service registry",
+          "test_command": "python tests/test_ptolemies_mcp_server.py::TestPtolemiesMCPServer -v",
+          "validation": "MCP server initializes and registers all core services"
+        },
+        {
+          "id": "10.2",
+          "name": "Knowledge Base Integration",
+          "description": "Integrate SurrealDB and Neo4j for comprehensive knowledge access",
+          "complexity": 3,
+          "estimated_hours": 6,
+          "deliverable": "Unified knowledge base access through MCP interface",
+          "test_command": "python tests/test_ptolemies_mcp_server.py::TestMCPToolHandlers -v",
+          "validation": "MCP server provides unified access to both databases"
+        },
+        {
+          "id": "10.3",
+          "name": "Service Discovery Implementation",
+          "description": "Implement automatic service discovery for all Ptolemies services",
+          "complexity": 2,
+          "estimated_hours": 4,
+          "deliverable": "Automatic service discovery and health monitoring",
+          "test_command": "python tests/test_mcp_tool_registry.py -v",
+          "validation": "MCP server automatically discovers and monitors all services"
+        },
+        {
+          "id": "10.4",
+          "name": "Ptolemies MCP Documentation",
+          "description": "Create comprehensive documentation for ptolemies-mcp server",
+          "complexity": 1,
+          "estimated_hours": 3,
+          "deliverable": "Complete ptolemies-mcp README with API documentation",
+          "test_command": "markdown-lint mcp/ptolemies/README.md",
+          "validation": "Documentation meets DevQ.ai standards with full API reference"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "11",
+      "name": "GitHub Pages Status Dashboard",
+      "description": "Create comprehensive status dashboard on GitHub Pages for system monitoring",
+      "phase": "phase5",
+      "complexity": 6,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 4,
+      "dependencies": ["6", "7", "8", "9", "10"],
+      "deliverable": "Live status dashboard accessible via GitHub Pages",
+      "test_requirements": "Status dashboard accurately reflects all service states",
+      "subtasks": [
+        {
+          "id": "11.1",
+          "name": "Status Branch Setup",
+          "description": "Create and configure 'status' branch for GitHub Pages deployment",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "GitHub Pages branch configured and accessible",
+          "test_command": "curl -I https://devq-ai.github.io/ptolemies/",
+          "validation": "Status page accessible via GitHub Pages URL"
+        },
+        {
+          "id": "11.2",
+          "name": "Comprehensive Chunk Report Integration",
+          "description": "Integrate stats from ./docs/COMPREHENSIVE_CHUNK_REPORT.md into status dashboard",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Live chunk statistics display on status dashboard",
+          "test_command": "grep -E 'chunks|pages|sources' status page source",
+          "validation": "Dashboard displays current chunk statistics with auto-refresh"
+        },
+        {
+          "id": "11.3",
+          "name": "Neo4j Status Integration",
+          "description": "Add Neo4j graph database status with UI link to status dashboard",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Neo4j status display with direct UI access link",
+          "test_command": "curl status dashboard Neo4j endpoint",
+          "validation": "Dashboard shows Neo4j status with working UI link"
+        },
+        {
+          "id": "11.4",
+          "name": "SurrealDB Status Integration",
+          "description": "Add SurrealDB RAG database status with UI link to status dashboard",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "SurrealDB status display with direct UI access link",
+          "test_command": "curl status dashboard SurrealDB endpoint",
+          "validation": "Dashboard shows SurrealDB status with working UI link"
+        },
+        {
+          "id": "11.5",
+          "name": "Ptolemies MCP Status Integration",
+          "description": "Add ptolemies-mcp status with GitHub repository link",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Ptolemies MCP status display with repository link",
+          "test_command": "grep ptolemies-mcp status page source",
+          "validation": "Dashboard shows ptolemies-mcp status with GitHub link"
+        },
+        {
+          "id": "11.6",
+          "name": "Dehallucinator Status Integration",
+          "description": "Add dehallucinator service status with GitHub repository link",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Dehallucinator status display with repository link",
+          "test_command": "grep dehallucinator status page source",
+          "validation": "Dashboard shows dehallucinator status with GitHub link"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "12",
+      "name": "Service Documentation Completion",
+      "description": "Complete comprehensive documentation for all services meeting DevQ.ai standards",
+      "phase": "phase6",
+      "complexity": 5,
+      "status": "pending",
+      "priority": "high",
+      "duration_days": 3,
+      "dependencies": ["6", "7", "8", "9", "10"],
+      "deliverable": "Complete documentation suite for all services",
+      "test_requirements": "All documentation passes quality checks",
+      "subtasks": [
+        {
+          "id": "12.1",
+          "name": "Master README Update",
+          "description": "Update main ptolemies/README.md with current system status and architecture",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Updated master README reflecting current production state",
+          "test_command": "markdown-lint README.md && grep -E 'MCP|status|784 pages' README.md",
+          "validation": "README accurately describes current system with all services documented"
+        },
+        {
+          "id": "12.2",
+          "name": "API Documentation Generation",
+          "description": "Generate comprehensive API documentation for all services",
+          "complexity": 2,
+          "estimated_hours": 4,
+          "deliverable": "Complete API documentation with OpenAPI specs",
+          "test_command": "python -c 'from src.main import app; print(app.openapi())'",
+          "validation": "All APIs documented with working OpenAPI specifications"
+        },
+        {
+          "id": "12.3",
+          "name": "Quick Start Guide Update",
+          "description": "Update ./docs/QUICK_START.md with current system capabilities",
+          "complexity": 1,
+          "estimated_hours": 2,
+          "deliverable": "Updated quick start guide with MCP integration steps",
+          "test_command": "markdown-lint docs/QUICK_START.md",
+          "validation": "Quick start guide enables new users to set up system in under 10 minutes"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "13",
+      "name": "90% Test Coverage Achievement",
+      "description": "Achieve and maintain 90% test coverage across entire codebase",
+      "phase": "phase6",
+      "complexity": 7,
+      "status": "pending",
+      "priority": "critical",
+      "duration_days": 4,
+      "dependencies": ["10", "11"],
+      "deliverable": "90%+ test coverage across all modules with comprehensive test suite",
+      "test_requirements": "All tests pass with 90%+ coverage maintained",
+      "subtasks": [
+        {
+          "id": "13.1",
+          "name": "Current Coverage Analysis",
+          "description": "Analyze current test coverage (7% in htmlcov) and identify gaps",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Complete coverage gap analysis with remediation plan",
+          "test_command": "pytest tests/ --cov=src/ --cov-report=html --cov-report=term",
+          "validation": "Coverage gaps identified with specific remediation steps for each uncovered module"
+        },
+        {
+          "id": "13.2",
+          "name": "Core Module Test Development",
+          "description": "Develop comprehensive tests for core modules (crawler, analytics, performance)",
+          "complexity": 3,
+          "estimated_hours": 8,
+          "deliverable": "Test suites for all core modules achieving 90%+ coverage",
+          "test_command": "pytest tests/test_analytics_collector.py tests/test_crawl4ai_integration.py tests/test_performance_visualizer.py --cov-fail-under=90",
+          "validation": "Core modules achieve 90%+ individual test coverage"
+        },
+        {
+          "id": "13.3",
+          "name": "MCP Server Test Completion",
+          "description": "Complete test coverage for all MCP servers and integration points",
+          "complexity": 3,
+          "estimated_hours": 6,
+          "deliverable": "Complete MCP server test suite with integration testing",
+          "test_command": "pytest tests/test_ptolemies_mcp_server.py tests/test_neo4j_mcp_server.py tests/test_mcp_tool_registry.py --cov-fail-under=90",
+          "validation": "All MCP servers achieve 90%+ test coverage"
+        },
+        {
+          "id": "13.4",
+          "name": "System Integration Test Suite",
+          "description": "Develop end-to-end integration tests for complete system functionality",
+          "complexity": 2,
+          "estimated_hours": 5,
+          "deliverable": "Complete integration test suite covering all service interactions",
+          "test_command": "pytest tests/test_production_system.py --cov=src/ --cov-fail-under=90",
+          "validation": "System integration tests pass with 90%+ overall coverage"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    },
+    {
+      "id": "14",
+      "name": "Production Deployment Validation",
+      "description": "Final production deployment validation and performance verification",
+      "phase": "phase7",
+      "complexity": 6,
+      "status": "pending",
+      "priority": "critical",
+      "duration_days": 3,
+      "dependencies": ["12", "13"],
+      "deliverable": "Production-ready system with full validation and monitoring",
+      "test_requirements": "All production validation tests pass with performance targets met",
+      "subtasks": [
+        {
+          "id": "14.1",
+          "name": "Performance Benchmark Validation",
+          "description": "Validate system meets sub-100ms performance targets under production load",
+          "complexity": 2,
+          "estimated_hours": 4,
+          "deliverable": "Performance benchmark results meeting all targets",
+          "test_command": "python scripts/verify_performance_visualizer.py --production-load",
+          "validation": "System maintains sub-100ms query performance under production load"
+        },
+        {
+          "id": "14.2",
+          "name": "Service Health Monitoring",
+          "description": "Implement and validate comprehensive service health monitoring",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Complete service health monitoring with alerting",
+          "test_command": "python scripts/verify_realtime_monitor.py --all-services",
+          "validation": "All services report healthy status with working alert mechanisms"
+        },
+        {
+          "id": "14.3",
+          "name": "Production Readiness Checklist",
+          "description": "Complete final production readiness validation checklist",
+          "complexity": 2,
+          "estimated_hours": 3,
+          "deliverable": "Completed production readiness checklist with sign-off",
+          "test_command": "python scripts/final_verification.py --production-checklist",
+          "validation": "All production readiness criteria met and documented"
+        }
+      ],
+      "created_at": "2024-06-24T20:07:00.000Z"
+    }
+  ],
+  "validation_requirements": {
+    "test_coverage": "90% minimum across all modules",
+    "performance": "Sub-100ms query response times",
+    "documentation": "Complete API documentation and user guides",
+    "monitoring": "Real-time service health monitoring",
+    "integration": "All MCP servers functional and tested"
+  },
+  "deliverable_checklist": {
+    "infrastructure": "Clean repository structure with validated environment",
+    "mcp_servers": "Four external MCP servers fully integrated and documented",
+    "services": "Five primary services verified and documented",
+    "ptolemies_mcp": "Complete ptolemies-mcp server for ecosystem integration",
+    "status_dashboard": "Live GitHub Pages status dashboard",
+    "documentation": "Complete documentation meeting DevQ.ai standards",
+    "testing": "90%+ test coverage with comprehensive test suites",
+    "production": "Production-ready deployment with monitoring"
+  },
+  "quality_gates": {
+    "phase_completion": "90% pass rate on all subtask tests required for phase progression",
+    "production_deployment": "All validation requirements met",
+    "performance_targets": "Sub-100ms query performance maintained",
+    "test_coverage": "90% minimum coverage maintained throughout",
+    "documentation_standard": "All documentation meets DevQ.ai requirements"
+  }
+}

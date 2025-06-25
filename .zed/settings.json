@@ -266,42 +266,68 @@
       }
     },
     "context7": {
-      "command": "python",
+      "command": "node",
       "args": [
-        "-m",
-        "context7_mcp.server"
+        "dist/index.js"
       ],
-      "cwd": "/Users/dionedge/devqai/mcp/mcp-servers/context7-mcp",
+      "cwd": "/Users/dionedge/devqai/ptolemies/mcp/mcp-servers/context7",
       "env": {
         "UPSTASH_REDIS_REST_URL": "${UPSTASH_REDIS_REST_URL}",
-        "UPSTASH_REDIS_REST_TOKEN": "${UPSTASH_REDIS_REST_TOKEN}",
-        "PYTHONPATH": "/Users/dionedge/devqai:$PYTHONPATH"
+        "UPSTASH_REDIS_REST_TOKEN": "${UPSTASH_REDIS_REST_TOKEN}"
       }
     },
-     "surrealdb": {
-      "command": "python",
+    "surrealdb": {
+      "command": "node",
       "args": [
-        "-m",
-        "surrealdb_mcp.server"
+        "build/index.js"
       ],
-      "cwd": "/Users/dionedge/devqai/mcp/mcp-servers/surrealdb-mcp",
+      "cwd": "/Users/dionedge/devqai/ptolemies/mcp/mcp-servers/surrealdb",
       "env": {
         "SURREALDB_URL": "ws://localhost:8000/rpc",
-        "SURREALDB_USERNAME": "root",
-        "SURREALDB_PASSWORD": "root",
-        "PYTHONPATH": "/Users/dionedge/devqai:$PYTHONPATH"
+        "SURREALDB_NS": "ptolemies",
+        "SURREALDB_DB": "knowledge",
+        "SURREALDB_USER": "root",
+        "SURREALDB_PASS": "root"
       }
     },
     "crawl4ai": {
       "command": "python",
       "args": [
-        "-m",
-        "crawl4ai_mcp.server"
+        "src/crawl4ai_mcp.py"
       ],
-      "cwd": "/Users/dionedge/devqai/mcp/mcp-servers/crawl4ai-mcp",
+      "cwd": "/Users/dionedge/devqai/ptolemies/mcp/mcp-servers/crawl4ai",
       "env": {
-        "PYTHONPATH": "/Users/dionedge/devqai:$PYTHONPATH"
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "PYTHONPATH": "/Users/dionedge/devqai/ptolemies/src:$PYTHONPATH"
       }
     },
+    "neo4j": {
+      "command": "mcp-neo4j-cypher",
+      "args": [],
+      "cwd": "/Users/dionedge/devqai/ptolemies/mcp/mcp-servers/neo4j/servers/mcp-neo4j-cypher",
+      "env": {
+        "NEO4J_URI": "bolt://localhost:7687",
+        "NEO4J_USERNAME": "neo4j",
+        "NEO4J_PASSWORD": "ptolemies",
+        "NEO4J_DATABASE": "ptolemies"
+      }
+    },
+    "ptolemies": {
+      "command": "python",
+      "args": [
+        "src/ptolemies_mcp_server.py"
+      ],
+      "cwd": "/Users/dionedge/devqai/ptolemies",
+      "env": {
+        "SURREALDB_URL": "ws://localhost:8000/rpc",
+        "SURREALDB_NAMESPACE": "ptolemies",
+        "SURREALDB_DATABASE": "knowledge",
+        "NEO4J_URI": "bolt://localhost:7687",
+        "NEO4J_USERNAME": "neo4j",
+        "NEO4J_PASSWORD": "ptolemies",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "PYTHONPATH": "/Users/dionedge/devqai/ptolemies/src:$PYTHONPATH"
+      }
+    }
   }
 }
