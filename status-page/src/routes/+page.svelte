@@ -3,6 +3,7 @@
 	import Status from '$lib/components/Status.svelte';
 	import System from '$lib/components/System.svelte';
 	import PtolemiesStats from '$lib/components/PtolemiesStats.svelte';
+	import Neo4jStats from '$lib/components/Neo4jStats.svelte';
 
 	import type { PageData } from './$types';
 
@@ -18,6 +19,9 @@
 	<div class="max-w-6xl mx-auto">
 		<!-- Ptolemies Knowledge Base Statistics -->
 		<PtolemiesStats />
+
+		<!-- Neo4j Knowledge Graph Statistics -->
+		<Neo4jStats />
 
 		<!-- Original Status Monitoring -->
 		<div class="max-w-3xl mx-auto">
