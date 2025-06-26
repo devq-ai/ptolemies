@@ -1,0 +1,183 @@
+#!/usr/bin/env python3
+"""
+Ptolemies Quick Status Query Script
+Provides easy access to specific status information
+"""
+
+import json
+import sys
+import os
+from pathlib import Path
+
+def load_status():
+    """Load status from JSON file or generate it."""
+    status_file = Path("ptolemies_status.json")
+
+    if status_file.exists():
+        with open(status_file, 'r') as f:
+            return json.load(f)
+    else:
+        # Generate fresh status
+        os.system("python get_status.py --save")
+        with open(status_file, 'r') as f:
+            return json.load(f)
+
+def show_system():
+    """Show system information."""
+    status = load_status()
+    system = status['system']
+    print(f"🏛️  {system['name']}")
+    print(f"📦 Version: {system['version']}")
+    print(f"✅ Status: {system['status']}")
+    print(f"🐍 Python: {system['python_version']}")
+    print(f"📊 Coverage: {system['test_coverage']}")
+    print(f"🌍 Docs: {system['documentation_url']}")
+
+def show_services():
+    """Show services status."""
+    status = load_status()
+    services = status['services']
+    print("🔧 Services Status:")
+    for name, info in services.items():
+        status_icon = "🟢" if info['status'] in ['running', 'available', 'configured'] else "🔴"
+        print(f"  {status_icon} {name.replace('_', ' ').title()}: {info['status']}")
+
+def show_knowledge():
+    """Show knowledge base stats."""
+    status = load_status()
+    kb = status['knowledge_base']
+    print(f"📚 Knowledge Base:")
+    print(f"  📄 Total Chunks: {kb['total_chunks']}")
+    print(f"  📂 Sources: {kb['active_sources']}")
+    print(f"  ⭐ Quality: {kb['average_quality_score']}")
+    print(f"  🎯 Coverage: {kb['coverage']}")
+    print(f"  📅 Updated: {kb['last_updated']}")
+
+def show_ai():
+    """Show AI detection stats."""
+    status = load_status()
+    ai = status['ai_detection']
+    print(f"🤖 {ai['service_name']}:")
+    print(f"  🎯 Accuracy: {ai['accuracy_rate']}")
+    print(f"  ⚡ Speed: {ai['analysis_speed']}")
+    print(f"  🔍 Patterns: {ai['pattern_database_size']}")
+    print(f"  📋 Frameworks: {ai['frameworks_supported']}")
+
+def show_neo4j():
+    """Show Neo4j graph stats."""
+    status = load_status()
+    neo = status['neo4j_graph']
+    print(f"🕸️  Neo4j Graph Database:")
+    print(f"  🔗 Nodes: {neo['total_nodes']}")
+    print(f"  📊 Relationships: {neo['total_relationships']}")
+    print(f"  🌐 Browser: {neo['browser_access']}")
+    print(f"  ⚡ Performance: {neo['query_performance']}")
+
+def show_performance():
+    """Show performance metrics."""
+    status = load_status()
+    perf = status['performance']
+    print(f"⚡ Performance Metrics:")
+    print(f"  🚀 API Response: {perf['api_response_time']}")
+    print(f"  🔍 Search: {perf['search_query_performance']}")
+    print(f"  💾 Memory: {perf['memory_usage']}")
+    print(f"  📈 Uptime: {perf['uptime']}")
+
+def show_all():
+    """Show complete status overview."""
+    show_system()
+    print()
+    show_services()
+    print()
+    show_knowledge()
+    print()
+    show_ai()
+    print()
+    show_neo4j()
+    print()
+    show_performance()
+
+def show_quick():
+    """Show quick summary."""
+    status = load_status()
+    system = status['system']
+    kb = status['knowledge_base']
+    ai = status['ai_detection']
+    neo = status['neo4j_graph']
+
+    print(f"🏛️  Ptolemies v{system['version']} - {system['status']}")
+    print(f"📚 KB: {kb['total_chunks']} chunks | 🤖 AI: {ai['accuracy_rate']} | 🕸️  Graph: {neo['total_nodes']} nodes")
+    print(f"🌍 Dashboard: https://devq-ai.github.io/ptolemies/")
+    print(f"🔗 Neo4j: http://localhost:7475")
+
+def show_urls():
+    """Show important URLs."""
+    status = load_status()
+    print("🔗 Important URLs:")
+    print(f"  📊 Dashboard: {status['infrastructure']['deployment']['status_dashboard']}")
+    print(f"  🕸️  Neo4j Browser: {status['neo4j_graph']['browser_access']}")
+    print(f"  🐙 GitHub: {status['system']['github_repo']}")
+    print(f"  📚 Docs: {status['system']['documentation_url']}")
+
+def refresh():
+    """Refresh status data."""
+    print("🔄 Refreshing status data...")
+    os.system("python get_status.py --save")
+    print("✅ Status refreshed!")
+
+def show_help():
+    """Show help information."""
+    print("Ptolemies Status Query Tool")
+    print("")
+    print("Usage: python status [command]")
+    print("")
+    print("Commands:")
+    print("  system      - Show system information")
+    print("  services    - Show services status")
+    print("  knowledge   - Show knowledge base stats")
+    print("  ai          - Show AI detection stats")
+    print("  neo4j       - Show Neo4j graph stats")
+    print("  performance - Show performance metrics")
+    print("  urls        - Show important URLs")
+    print("  quick       - Show quick summary (default)")
+    print("  all         - Show complete status")
+    print("  refresh     - Refresh status data")
+    print("  help        - Show this help")
+    print("")
+    print("Examples:")
+    print("  python status               # Quick summary")
+    print("  python status knowledge     # Knowledge base details")
+    print("  python status refresh       # Update status data")
+
+def main():
+    """Main function."""
+    if len(sys.argv) < 2:
+        show_quick()
+        return
+
+    command = sys.argv[1].lower()
+
+    commands = {
+        'system': show_system,
+        'services': show_services,
+        'knowledge': show_knowledge,
+        'ai': show_ai,
+        'neo4j': show_neo4j,
+        'performance': show_performance,
+        'urls': show_urls,
+        'quick': show_quick,
+        'all': show_all,
+        'refresh': refresh,
+        'help': show_help,
+        '-h': show_help,
+        '--help': show_help
+    }
+
+    if command in commands:
+        commands[command]()
+    else:
+        print(f"❌ Unknown command: {command}")
+        print("Use 'python status help' for available commands")
+
+if __name__ == "__main__":
+    main()
