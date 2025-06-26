@@ -12,8 +12,14 @@
 	</aside>
 </footer>
 
-<style lang="postcss">
+<style>
 	a {
-		@apply text-primary underline hover:text-secondary transition-colors;
+		color: #1B03A3;
+		text-decoration: underline;
+		transition: color 0.3s ease;
+	}
+
+	a:hover {
+		color: #9D00FF;
 	}
 </style>

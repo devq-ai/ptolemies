@@ -54,7 +54,7 @@
 	};
 
 	let isLoading = true;
-	let refreshInterval: number;
+	let refreshInterval: ReturnType<typeof setInterval>;
 
 	// Performance metrics
 	$: analysisPerformance = {
@@ -108,8 +108,8 @@
 		{ name: 'Others', patterns: 1427, violations: 698 }
 	];
 
-	onMount(async () => {
-		await loadStats();
+	onMount(() => {
+		loadStats();
 
 		// Refresh stats every 60 seconds
 		refreshInterval = setInterval(loadStats, 60000);
@@ -148,6 +148,7 @@
 	async function refreshStats() {
 		isLoading = true;
 		await loadStats();
+		isLoading = false;
 	}
 
 	function openGitHubRepository() {

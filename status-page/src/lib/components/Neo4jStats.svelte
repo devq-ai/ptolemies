@@ -30,11 +30,11 @@
 	};
 
 	let isLoading = true;
-	let refreshInterval: number;
+	let refreshInterval: ReturnType<typeof setInterval>;
 
 	// Load stats on component mount
-	onMount(async () => {
-		await loadStats();
+	onMount(() => {
+		loadStats();
 
 		// Refresh stats every 30 seconds
 		refreshInterval = setInterval(loadStats, 30000);

@@ -6,13 +6,22 @@ Provides shared fixtures and test configuration
 import pytest
 import asyncio
 import os
+import sys
 import tempfile
+from pathlib import Path
 from unittest.mock import Mock, AsyncMock
 from typing import Dict, List, Any
+
+# Add src directory to Python path for imports
+project_root = Path(__file__).parent.parent
+src_path = project_root / "src"
+if str(src_path) not in sys.path:
+    sys.path.insert(0, str(src_path))
 
 # Configure test environment
 os.environ["TESTING"] = "true"
 os.environ["LOGFIRE_SEND_TO_LOGFIRE"] = "false"
+os.environ["LOGFIRE_IGNORE_NO_CONFIG"] = "1"
 
 @pytest.fixture(scope="session")
 def event_loop():
@@ -51,20 +60,20 @@ def mock_surrealdb_failure():
 def mock_openai_client():
     """Mock OpenAI client for testing."""
     client = AsyncMock()
-    
+
     # Mock embedding response
     mock_embedding = [0.1] * 1536  # Standard embedding size
     mock_response = Mock()
     mock_response.data = [Mock(embedding=mock_embedding)]
     client.embeddings.create.return_value = mock_response
-    
+
     return client
 
 @pytest.fixture
 def mock_http_client():
     """Mock HTTP client for testing."""
     client = AsyncMock()
-    
+
     # Mock successful response
     mock_response = Mock()
     mock_response.status_code = 200
@@ -80,7 +89,7 @@ def mock_http_client():
         </body>
     </html>
     """
-    
+
     client.get.return_value = mock_response
     return client
 
@@ -101,7 +110,7 @@ def sample_document_chunks():
             "created_at": "2025-01-01T00:00:00Z"
         },
         {
-            "source_name": "SurrealDB", 
+            "source_name": "SurrealDB",
             "source_url": "https://surrealdb.com/docs/",
             "title": "SurrealDB Documentation",
             "content": "SurrealDB is a multi-model database with vector search capabilities.",
@@ -135,6 +144,6 @@ def mock_logfire():
         mock_logfire.debug = Mock()
         mock_logfire.instrument = lambda *args, **kwargs: lambda func: func
         mock_logfire.span = Mock()
-        
+
         m.setattr("logfire", mock_logfire)
         yield mock_logfire

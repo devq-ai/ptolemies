@@ -5,37 +5,59 @@
 	import PtolemiesStats from '$lib/components/PtolemiesStats.svelte';
 	import Neo4jStats from '$lib/components/Neo4jStats.svelte';
 	import DehallucinatorStats from '$lib/components/DehallucinatorStats.svelte';
+	import ExecutiveDashboard from '$lib/components/ExecutiveDashboard.svelte';
+	import ServiceStatusGrid from '$lib/components/ServiceStatusGrid.svelte';
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
-<div class="w-full bg-accent header min-h-[20vh] lg:min-h-[25vh] flex items-end justify-center">
-	<div class="h-full w-full mx-2 md:mx-12">
-		<System systems={data.statusLog} />
-	</div>
-</div>
+<!-- Executive Dashboard - Overall System Health -->
+<ExecutiveDashboard />
+
 <main class="text-center mx-4 md:mx-12 py-4">
 	<div class="max-w-6xl mx-auto">
+		<!-- Service Status Grid - Individual Service Monitoring -->
+		<ServiceStatusGrid />
+
 		<!-- Ptolemies Knowledge Base Statistics -->
-		<PtolemiesStats />
+		<section id="knowledge-base">
+			<PtolemiesStats />
+		</section>
 
 		<!-- Neo4j Knowledge Graph Statistics -->
-		<Neo4jStats />
+		<section id="neo4j-graph">
+			<Neo4jStats />
+		</section>
 
 		<!-- Dehallucinator AI Detection Service -->
-		<DehallucinatorStats />
+		<section id="ai-detection">
+			<DehallucinatorStats />
+		</section>
 
-		<!-- Original Status Monitoring -->
-		<div class="max-w-3xl mx-auto">
-			{#each data.statusLog as [name, siteStatus]}
-				<Status {name} statuses={siteStatus} />
-			{/each}
-			{#if data.incidents?.length > 0}
-				<div class="divider" />
-				<Incidents incidents={data.incidents} />
-			{/if}
+		<!-- Legacy Status Monitoring -->
+		<div class="max-w-3xl mx-auto mt-8">
+			<div class="card bg-base-300 shadow-xl">
+				<div class="card-body">
+					<h2 class="card-title text-neutral flex items-center gap-2 mb-4">
+						<span class="text-2xl">📊</span>
+						Legacy Status Reports
+					</h2>
+					<div class="w-full bg-accent header min-h-[10vh] flex items-end justify-center rounded-lg mb-4">
+						<div class="h-full w-full mx-2">
+							<System systems={data.statusLog} />
+						</div>
+					</div>
+					{#each data.statusLog as [name, siteStatus]}
+						<Status {name} statuses={siteStatus} />
+					{/each}
+					{#if data.incidents?.length > 0}
+						<div class="divider" />
+						<Incidents incidents={data.incidents} />
+					{/if}
+				</div>
+			</div>
 		</div>
 	</div>
 </main>

@@ -1,14 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="ptolemies">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<title>System Status</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>Ptolemies Status Dashboard - DevQ.ai</title>
+
+		<!-- SEO Meta Tags -->
+		<meta name="description" content="Ptolemies Status Dashboard - Real-time monitoring of knowledge management services, Neo4j graph database, AI detection systems, and infrastructure health." />
+		<meta name="keywords" content="status dashboard, monitoring, Neo4j, AI detection, knowledge base, system health" />
+		<meta name="author" content="DevQ.ai Team" />
+
+		<!-- Open Graph Meta Tags -->
+		<meta property="og:title" content="Ptolemies Status Dashboard" />
+		<meta property="og:description" content="Real-time system monitoring and service health dashboard" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Ptolemies" />
+
+		<!-- Twitter Card Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Ptolemies Status Dashboard" />
+		<meta name="twitter:description" content="Real-time system monitoring and service health dashboard" />
+
+		<!-- Accessibility Meta Tags -->
+		<meta name="color-scheme" content="dark" />
+		<meta name="theme-color" content="#010B13" />
+
+		<!-- Performance Hints -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="dns-prefetch" href="https://api.ptolemies.devq.ai" />
+
 		%sveltekit.head%
 	</head>
-
-	<body data-sveltekit-preload-data="hover">
+	<body data-sveltekit-preload-data="hover" data-theme="ptolemies" class="bg-bg-primary text-fg-primary">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

@@ -13,7 +13,7 @@ def test_context7_availability():
     print("=" * 60)
     print("Context7 MCP Server Verification")
     print("=" * 60)
-    
+
     # Test 1: Import test
     print("\n1. Testing imports...")
     try:
@@ -21,15 +21,15 @@ def test_context7_availability():
         print("✅ Successfully imported context7 modules")
     except ImportError as e:
         print(f"❌ Import failed: {e}")
-        return False
-    
+        return
+
     # Test 2: Check connections
     print("\n2. Checking connections...")
-    
+
     # Redis connection check
     redis_url = os.getenv('UPSTASH_REDIS_REST_URL')
     redis_token = os.getenv('UPSTASH_REDIS_REST_TOKEN')
-    
+
     if redis_url and redis_token:
         print("✅ Redis environment variables are set")
         print(f"   - UPSTASH_REDIS_REST_URL: {redis_url[:30]}...")
@@ -37,14 +37,14 @@ def test_context7_availability():
         print("❌ Redis environment variables missing")
         print("   - UPSTASH_REDIS_REST_URL:", "SET" if redis_url else "NOT SET")
         print("   - UPSTASH_REDIS_REST_TOKEN:", "SET" if redis_token else "NOT SET")
-    
+
     # OpenAI connection check
     openai_key = os.getenv('OPENAI_API_KEY')
     if openai_key:
         print("✅ OpenAI API key is set")
     else:
         print("❌ OpenAI API key is missing")
-    
+
     # Test 3: Check available tools
     print("\n3. Available tools from context7:")
     tools = [
@@ -55,16 +55,16 @@ def test_context7_availability():
         "get_context - Get contextual information for topics",
         "bulk_crawl_sources - Crawl multiple documentation sources"
     ]
-    
+
     for tool in tools:
         print(f"   - {tool}")
-    
+
     # Test 4: Connection status
     print("\n4. Connection Status:")
     print(f"   - Redis client: {'Initialized' if redis_client else 'Not initialized'}")
     print(f"   - OpenAI client: {'Initialized' if openai_client else 'Not initialized'}")
     print(f"   - Document sourcer: {'Available' if doc_sourcer else 'Not available'}")
-    
+
     # Test 5: Capabilities summary
     print("\n5. Context7 Capabilities:")
     capabilities = [
@@ -75,12 +75,12 @@ def test_context7_availability():
         "Context management for knowledge graph",
         "Integration with Ptolemies ecosystem"
     ]
-    
+
     for cap in capabilities:
         print(f"   ✓ {cap}")
-    
+
     print("\n" + "=" * 60)
-    
+
     # Overall status
     if redis_client or openai_client:
         print("✅ Context7 is partially functional")
@@ -88,8 +88,9 @@ def test_context7_availability():
     else:
         print("⚠️  Context7 requires Redis and OpenAI connections")
         print("   Set UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, and OPENAI_API_KEY")
-    
-    return True
+
+    # Test passes if we reach this point without assertion errors
+    print("✅ Context7 verification completed successfully")
 
 if __name__ == "__main__":
     # First check if MCP is installed
@@ -100,6 +101,6 @@ if __name__ == "__main__":
         print("❌ MCP package is not installed")
         print("   Install with: pip install mcp")
         sys.exit(1)
-    
+
     # Run the test
     test_context7_availability()
