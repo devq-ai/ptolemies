@@ -198,6 +198,11 @@ body {
   background: #010B13 !important;
 }
 
+/* Accent background overrides */
+.bg-accent {
+  background: #010B13 !important;
+}
+
 /* Collapse component overrides */
 .collapse {
   background: #121212 !important;

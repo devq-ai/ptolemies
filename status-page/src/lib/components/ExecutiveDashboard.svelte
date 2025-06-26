@@ -127,7 +127,7 @@
 	$: hasIncidents = systemHealth.active_incidents > 0;
 </script>
 
-<div class="hero bg-gradient-to-br from-[#010B13] to-secondary text-primary-content mb-8" data-theme="ptolemies">
+<div class="hero text-primary-content mb-8" data-theme="ptolemies" style="background: #010B13 !important;">
 	<div class="hero-content text-center w-full max-w-6xl py-8">
 		<div class="w-full">
 			<!-- Main Status Header -->
@@ -334,7 +334,7 @@
 
 <style lang="postcss">
 	.hero {
-		background: linear-gradient(135deg, #010B13 0%, #9D00FF 100%);
+		background: #010B13 !important;
 		position: relative;
 		overflow: hidden;
 	}
