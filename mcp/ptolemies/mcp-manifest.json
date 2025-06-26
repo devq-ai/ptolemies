@@ -1,0 +1,475 @@
+{
+  "manifestVersion": "1.0.0",
+  "server": {
+    "name": "ptolemies",
+    "displayName": "Ptolemies Knowledge Server",
+    "description": "Unified semantic access to DevQ.AI knowledge ecosystem with SurrealDB, Neo4j, and AI validation services",
+    "version": "1.0.0",
+    "author": "DevQ.AI Engineering Team",
+    "license": "MIT",
+    "homepage": "https://docs.devq.ai/ptolemies-mcp",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/devq-ai/ptolemies.git",
+      "directory": "mcp/ptolemies"
+    },
+    "bugs": {
+      "url": "https://github.com/devq-ai/ptolemies/issues"
+    },
+    "keywords": [
+      "knowledge-graph",
+      "vector-search",
+      "code-validation",
+      "semantic-search",
+      "framework-analysis",
+      "ai-assistant",
+      "devq-ai",
+      "fastapi",
+      "neo4j",
+      "surrealdb"
+    ],
+    "categories": [
+      "knowledge-management",
+      "code-analysis",
+      "ai-validation",
+      "semantic-search",
+      "framework-analysis",
+      "development-tools"
+    ]
+  },
+  "installation": {
+    "type": "npm",
+    "package": "@devq-ai/ptolemies-mcp",
+    "command": "npx",
+    "args": ["-y", "@devq-ai/ptolemies-mcp"],
+    "globalInstall": {
+      "command": "npm",
+      "args": ["install", "-g", "@devq-ai/ptolemies-mcp"]
+    }
+  },
+  "configuration": {
+    "schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "neo4jUri": {
+          "type": "string",
+          "default": "bolt://localhost:7687",
+          "description": "Neo4j connection URI for knowledge graph access",
+          "examples": ["bolt://localhost:7687", "bolt://remote-server:7687"]
+        },
+        "neo4jUsername": {
+          "type": "string",
+          "default": "neo4j",
+          "description": "Neo4j authentication username"
+        },
+        "neo4jPassword": {
+          "type": "string",
+          "default": "ptolemies",
+          "description": "Neo4j authentication password",
+          "sensitive": true
+        },
+        "neo4jDatabase": {
+          "type": "string",
+          "default": "ptolemies",
+          "description": "Neo4j database name containing knowledge graph"
+        },
+        "surrealdbUrl": {
+          "type": "string",
+          "default": "ws://localhost:8000/rpc",
+          "description": "SurrealDB connection URL for vector store access",
+          "examples": ["ws://localhost:8000/rpc", "wss://remote-server:8000/rpc"]
+        },
+        "surrealdbNamespace": {
+          "type": "string",
+          "default": "ptolemies",
+          "description": "SurrealDB namespace for data isolation"
+        },
+        "surrealdbDatabase": {
+          "type": "string",
+          "default": "knowledge",
+          "description": "SurrealDB database containing document chunks"
+        },
+        "openaiApiKey": {
+          "type": "string",
+          "description": "OpenAI API key for embedding generation (optional)",
+          "sensitive": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "required": false,
+    "documentation": "https://docs.devq.ai/ptolemies-mcp/configuration"
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "hybrid-knowledge-search",
+        "description": "Combines Neo4j graph traversal with SurrealDB vector search for comprehensive knowledge retrieval",
+        "category": "search",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search query for knowledge discovery"
+            },
+            "frameworks": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Optional list of frameworks to filter results"
+            },
+            "max_results": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Maximum number of results to return"
+            },
+            "similarity_threshold": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.7,
+              "description": "Minimum similarity score for vector search results"
+            }
+          },
+          "required": ["query"]
+        }
+      },
+      {
+        "name": "framework-knowledge-query",
+        "description": "Query specific framework knowledge with relationship context from Neo4j and documentation from SurrealDB",
+        "category": "analysis",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "framework": {
+              "type": "string",
+              "description": "Framework name to query"
+            },
+            "topic": {
+              "type": "string",
+              "description": "Specific topic within the framework"
+            },
+            "depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "default": 2,
+              "description": "Relationship traversal depth in the knowledge graph"
+            }
+          },
+          "required": ["framework", "topic"]
+        }
+      },
+      {
+        "name": "learning-path-discovery",
+        "description": "Discover intelligent learning progression paths between frameworks using Neo4j relationship analysis",
+        "category": "education",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "start_framework": {
+              "type": "string",
+              "description": "Starting framework for the learning path"
+            },
+            "end_framework": {
+              "type": "string",
+              "description": "Target framework for the learning path"
+            },
+            "difficulty_preference": {
+              "type": "string",
+              "enum": ["beginner", "intermediate", "advanced", "any"],
+              "default": "any",
+              "description": "Preferred difficulty level for the learning path"
+            }
+          },
+          "required": ["start_framework", "end_framework"]
+        }
+      },
+      {
+        "name": "validate-code-snippet",
+        "description": "Validate code snippet for AI hallucinations using the dehallucinator service with knowledge graph validation",
+        "category": "validation",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Code snippet to validate for hallucinations"
+            },
+            "framework": {
+              "type": "string",
+              "description": "Expected framework context for validation"
+            },
+            "confidence_threshold": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.75,
+              "description": "Minimum confidence threshold for flagging issues"
+            }
+          },
+          "required": ["code"]
+        }
+      },
+      {
+        "name": "analyze-framework-usage",
+        "description": "Analyze code for framework usage patterns and provide suggestions based on validated knowledge",
+        "category": "analysis",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Code snippet to analyze for framework usage patterns"
+            },
+            "detect_patterns": {
+              "type": "boolean",
+              "default": true,
+              "description": "Detect common usage patterns in the code"
+            }
+          },
+          "required": ["code"]
+        }
+      },
+      {
+        "name": "framework-dependencies",
+        "description": "Analyze framework dependencies and relationships from the Neo4j knowledge graph",
+        "category": "analysis",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "framework": {
+              "type": "string",
+              "description": "Framework to analyze for dependencies"
+            },
+            "include_transitive": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include transitive (indirect) dependencies"
+            },
+            "max_depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3,
+              "description": "Maximum traversal depth for dependency analysis"
+            }
+          },
+          "required": ["framework"]
+        }
+      },
+      {
+        "name": "topic-relationships",
+        "description": "Discover topic relationships and related concepts across the knowledge graph",
+        "category": "analysis",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "topic": {
+              "type": "string",
+              "description": "Topic to analyze for relationships"
+            },
+            "max_results": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "description": "Maximum number of relationships to return"
+            }
+          },
+          "required": ["topic"]
+        }
+      },
+      {
+        "name": "knowledge-coverage-analysis",
+        "description": "Analyze documentation coverage and knowledge gaps for a specific framework across all data sources",
+        "category": "analysis",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "framework": {
+              "type": "string",
+              "description": "Framework to analyze for knowledge coverage"
+            }
+          },
+          "required": ["framework"]
+        }
+      },
+      {
+        "name": "ecosystem-overview",
+        "description": "Provide comprehensive overview of the DevQ.AI ecosystem including frameworks, relationships, and capabilities",
+        "category": "overview",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": ["backend", "frontend", "database", "tool", "library", "all"],
+              "default": "all",
+              "description": "Framework category to focus on for the overview"
+            }
+          }
+        }
+      },
+      {
+        "name": "system-health-check",
+        "description": "Check the health status of all integrated services (Neo4j, SurrealDB, Dehallucinator)",
+        "category": "monitoring",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      }
+    ],
+    "resources": [
+      {
+        "uri": "ptolemies://health",
+        "name": "System Health",
+        "description": "Current health status of all integrated services",
+        "mimeType": "application/json"
+      },
+      {
+        "uri": "ptolemies://stats",
+        "name": "System Statistics",
+        "description": "Usage statistics and performance metrics",
+        "mimeType": "application/json"
+      }
+    ]
+  },
+  "requirements": {
+    "runtime": {
+      "node": ">=18.0.0",
+      "python": ">=3.12.0"
+    },
+    "services": {
+      "neo4j": {
+        "version": ">=5.14.0",
+        "required": false,
+        "description": "Knowledge graph with framework relationships (77 nodes, 156 relationships)"
+      },
+      "surrealdb": {
+        "version": ">=0.3.0",
+        "required": false,
+        "description": "Vector store with document chunks and semantic embeddings"
+      },
+      "dehallucinator": {
+        "version": ">=2.1.0",
+        "required": false,
+        "description": "AI code validation service with 97.3% accuracy"
+      }
+    },
+    "minimumServices": 2,
+    "gracefulDegradation": true
+  },
+  "performance": {
+    "responseTime": {
+      "simple": "<200ms",
+      "complex": "<1s",
+      "large": "<2s"
+    },
+    "concurrentRequests": 10,
+    "memoryUsage": "~50MB baseline",
+    "timeout": "30s"
+  },
+  "examples": [
+    {
+      "name": "claude-desktop",
+      "description": "Claude Desktop configuration",
+      "client": "claude-desktop",
+      "config": {
+        "mcpServers": {
+          "ptolemies": {
+            "command": "npx",
+            "args": ["-y", "@devq-ai/ptolemies-mcp"],
+            "env": {
+              "NEO4J_URI": "bolt://localhost:7687",
+              "NEO4J_USERNAME": "neo4j",
+              "NEO4J_PASSWORD": "your-password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "zed-ide",
+      "description": "Zed IDE configuration",
+      "client": "zed",
+      "config": {
+        "mcpServers": {
+          "ptolemies": {
+            "command": "npx",
+            "args": ["-y", "@devq-ai/ptolemies-mcp"],
+            "env": {
+              "NEO4J_URI": "bolt://localhost:7687",
+              "SURREALDB_URL": "ws://localhost:8000/rpc"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "continue-dev",
+      "description": "Continue.dev configuration",
+      "client": "continue",
+      "config": {
+        "mcp": {
+          "servers": {
+            "ptolemies": {
+              "command": "npx",
+              "args": ["-y", "@devq-ai/ptolemies-mcp"]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "documentation": {
+    "quickStart": "https://docs.devq.ai/ptolemies-mcp/quick-start",
+    "installation": "https://docs.devq.ai/ptolemies-mcp/installation",
+    "configuration": "https://docs.devq.ai/ptolemies-mcp/configuration",
+    "api": "https://docs.devq.ai/ptolemies-mcp/api",
+    "tools": "https://docs.devq.ai/ptolemies-mcp/tools",
+    "examples": "https://docs.devq.ai/ptolemies-mcp/examples",
+    "troubleshooting": "https://docs.devq.ai/ptolemies-mcp/troubleshooting",
+    "changelog": "https://docs.devq.ai/ptolemies-mcp/changelog"
+  },
+  "support": {
+    "issues": "https://github.com/devq-ai/ptolemies/issues",
+    "discussions": "https://github.com/devq-ai/ptolemies/discussions",
+    "discord": "https://discord.gg/devq-ai",
+    "email": "engineering@devq.ai",
+    "documentation": "https://docs.devq.ai/ptolemies-mcp"
+  },
+  "metadata": {
+    "featured": true,
+    "verified": true,
+    "maturity": "stable",
+    "lastUpdated": "2024-01-20T00:00:00Z",
+    "tags": [
+      "knowledge-management",
+      "ai-validation",
+      "semantic-search",
+      "graph-database",
+      "vector-search",
+      "code-analysis",
+      "framework-analysis",
+      "devq-ai-ecosystem"
+    ],
+    "dataSources": {
+      "neo4j": "77 nodes, 156 relationships across 17 frameworks",
+      "surrealdb": "Document chunks with semantic embeddings",
+      "dehallucinator": "AI validation with 97.3% accuracy"
+    },
+    "useCases": [
+      "AI assistant knowledge enhancement",
+      "Code validation and quality assurance",
+      "Framework learning and discovery",
+      "Documentation gap analysis",
+      "Technology relationship mapping"
+    ]
+  }
+}
