@@ -15,9 +15,9 @@
   },
   "services": {
     "core_api": {
-      "status": "available",
+      "status": "offline",
       "endpoint": "http://localhost:8001",
-      "health": "healthy",
+      "health": "unknown",
       "documentation": "/docs"
     },
     "crawler": {
@@ -75,7 +75,7 @@
     "active_sources": 17,
     "average_quality_score": 0.86,
     "coverage": "Complete across major technology stack",
-    "last_updated": "2024-12-26",
+    "last_updated": "2025-06-26",
     "sources": {
       "pydantic_ai": {
         "chunks": 79,
@@ -191,7 +191,7 @@
     },
     "status": "Production Ready",
     "threshold": "Production grade",
-    "last_updated": "2024-12-26",
+    "last_updated": "2025-06-26",
     "location": "./dehallucinator/"
   },
   "neo4j_graph": {
@@ -290,13 +290,13 @@
       "ai_detection": "97.3% accuracy with production patterns"
     },
     "completed_phases": [
-      "\u2705 Phase 1: Infrastructure Cleanup (100% complete)",
-      "\u2705 Phase 2: MCP Server Integration (100% complete)",
-      "\u2705 Phase 3: Service Verification (100% complete)",
-      "\u2705 Phase 4: Ptolemies MCP Development (100% complete)",
-      "\u2705 Phase 5: Status Dashboard (100% complete)",
-      "\u2705 Phase 6: Documentation & Testing (100% complete)",
-      "\u2705 Phase 7: Production Deployment (100% complete)"
+      "✅ Phase 1: Infrastructure Cleanup (100% complete)",
+      "✅ Phase 2: MCP Server Integration (100% complete)",
+      "✅ Phase 3: Service Verification (100% complete)",
+      "✅ Phase 4: Ptolemies MCP Development (100% complete)",
+      "✅ Phase 5: Status Dashboard (100% complete)",
+      "✅ Phase 6: Documentation & Testing (100% complete)",
+      "✅ Phase 7: Production Deployment (100% complete)"
     ],
     "project_status": {
       "overall_completion": "100%",
@@ -311,6 +311,6 @@
       "enhancement_roadmap": "Advanced analytics and mobile app planned"
     }
   },
-  "timestamp": "2025-06-26T05:03:12.145357+00:00",
+  "timestamp": "2025-06-26T05:18:31.658371+00:00",
   "generated_by": "Ptolemies Status Generator v1.0.0"
 }
