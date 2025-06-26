@@ -134,7 +134,7 @@
 			<div class="mb-6">
 				<div class="flex items-center justify-center gap-3 mb-2">
 					<span class="text-4xl">{getOverallStatusIcon(systemHealth.overall_status)}</span>
-					<h1 class="text-3xl md:text-5xl font-bold {getOverallStatusColor(systemHealth.overall_status)}">
+					<h1 class="text-3xl md:text-5xl font-bold title-hacker cyber-glow {getOverallStatusColor(systemHealth.overall_status)}">
 						{getOverallStatusText(systemHealth.overall_status)}
 					</h1>
 				</div>
@@ -162,12 +162,12 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-2">
 							<span class="text-2xl">⏱️</span>
-							<h3 class="font-semibold text-sm">Uptime</h3>
+							<h3 class="font-semibold text-sm font-hacker">Uptime</h3>
 						</div>
-						<div class="text-2xl font-bold text-success">
+						<div class="text-2xl font-bold text-success font-hacker">
 							{systemHealth.system_uptime}%
 						</div>
-						<div class="text-xs opacity-70">30-day average</div>
+						<div class="text-xs opacity-70 font-hacker">30-day average</div>
 					</div>
 				</div>
 
@@ -176,12 +176,12 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-2">
 							<span class="text-2xl">🔧</span>
-							<h3 class="font-semibold text-sm">Services</h3>
+							<h3 class="font-semibold text-sm font-hacker">Services</h3>
 						</div>
-						<div class="text-2xl font-bold {serviceHealth === 100 ? 'text-success' : 'text-warning'}">
+						<div class="text-2xl font-bold font-hacker {serviceHealth === 100 ? 'text-success' : 'text-warning'}">
 							{systemHealth.services_operational}/{systemHealth.total_services}
 						</div>
-						<div class="text-xs opacity-70">Operational</div>
+						<div class="text-xs opacity-70 font-hacker">Operational</div>
 					</div>
 				</div>
 
@@ -190,12 +190,12 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-2">
 							<span class="text-2xl">⚡</span>
-							<h3 class="font-semibold text-sm">Response</h3>
+							<h3 class="font-semibold text-sm font-hacker">Response</h3>
 						</div>
-						<div class="text-2xl font-bold {systemHealth.response_time_avg < 200 ? 'text-success' : 'text-warning'}">
+						<div class="text-2xl font-bold font-hacker {systemHealth.response_time_avg < 200 ? 'text-success' : 'text-warning'}">
 							{systemHealth.response_time_avg}ms
 						</div>
-						<div class="text-xs opacity-70">Average</div>
+						<div class="text-xs opacity-70 font-hacker">Average</div>
 					</div>
 				</div>
 
@@ -204,28 +204,28 @@
 					<div class="card-body p-4">
 						<div class="flex items-center gap-2 mb-2">
 							<span class="text-2xl">📊</span>
-							<h3 class="font-semibold text-sm">Error Rate</h3>
+							<h3 class="font-semibold text-sm font-hacker">Error Rate</h3>
 						</div>
-						<div class="text-2xl font-bold {systemHealth.error_rate < 1 ? 'text-success' : 'text-error'}">
+						<div class="text-2xl font-bold font-hacker {systemHealth.error_rate < 1 ? 'text-success' : 'text-error'}">
 							{systemHealth.error_rate.toFixed(1)}%
 						</div>
-						<div class="text-xs opacity-70">Last 24h</div>
+						<div class="text-xs opacity-70 font-hacker">Last 24h</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- Quick Access Navigation -->
 			<div class="flex flex-wrap justify-center gap-4 mb-6">
-				<a href="#knowledge-base" class="btn btn-outline btn-primary btn-sm">
+				<a href="#knowledge-base" class="btn btn-outline btn-primary btn-sm font-hacker">
 					📚 Knowledge Base ({quickMetrics.knowledge_base_chunks} chunks)
 				</a>
-				<a href="#neo4j-graph" class="btn btn-outline btn-secondary btn-sm">
+				<a href="#neo4j-graph" class="btn btn-outline btn-secondary btn-sm font-hacker">
 					🕸️ Neo4j Graph ({quickMetrics.neo4j_nodes} nodes)
 				</a>
-				<a href="#ai-detection" class="btn btn-outline btn-accent btn-sm">
+				<a href="#ai-detection" class="btn btn-outline btn-accent btn-sm font-hacker">
 					🛡️ AI Detection ({quickMetrics.ai_accuracy}% accuracy)
 				</a>
-				<a href="#services" class="btn btn-outline btn-info btn-sm">
+				<a href="#services" class="btn btn-outline btn-info btn-sm font-hacker">
 					🔧 Service Status
 				</a>
 			</div>
