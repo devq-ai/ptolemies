@@ -5,7 +5,7 @@ module.exports = {
 		extend: {
 			colors: {
 				// Dark Palette 1: "Midnight UI" (Elegant & Minimal)
-				primary: '#1B03A3', // Neon Blue
+				primary: '#E3E3E3', // Changed from Neon Blue to Soft White
 				secondary: '#9D00FF', // Neon Purple
 				accent: '#FF10F0', // Neon Pink (FIXED: Single value, not object)
 				destructive: '#FF3131', // Neon Red
@@ -15,8 +15,8 @@ module.exports = {
 
 				// Background colors
 				'bg-primary': '#010B13', // Rich Black
-				'bg-secondary': '#0F1111', // Charcoal Black
-				'bg-surface': '#1A1A1A', // Midnight Black
+				'bg-secondary': '#121212', // Changed to #121212 for cards
+				'bg-surface': '#121212', // Changed to #121212 for cards
 
 				// Foreground colors
 				'fg-primary': '#E3E3E3', // Soft White
@@ -48,13 +48,13 @@ module.exports = {
 			{
 				ptolemies: {
 					// Custom DaisyUI theme for Ptolemies
-					primary: '#1B03A3', // Neon Blue
+					primary: '#E3E3E3', // Changed from Neon Blue to Soft White
 					secondary: '#9D00FF', // Neon Purple
 					accent: '#FF10F0', // Neon Pink
 					neutral: '#1A1A1A', // Midnight Black
-					'base-100': '#010B13', // Rich Black
-					'base-200': '#0F1111', // Charcoal Black
-					'base-300': '#1A1A1A', // Midnight Black
+					'base-100': '#010B13', // Rich Black - Primary Background
+					'base-200': '#121212', // Changed to #121212 for cards
+					'base-300': '#121212', // Changed to #121212 for cards
 					info: '#00FFFF', // Neon Cyan
 					success: '#39FF14', // Neon Green
 					warning: '#E9FF32', // Neon Yellow

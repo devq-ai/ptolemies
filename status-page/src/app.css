@@ -13,7 +13,7 @@
 
 /* Root CSS Variables for Midnight UI Theme */
 :root {
-  --color-primary: #1B03A3;
+  --color-primary: #E3E3E3;
   --color-secondary: #9D00FF;
   --color-accent: #FF10F0;
   --color-success: #39FF14;
@@ -22,8 +22,8 @@
   --color-info: #00FFFF;
 
   --bg-primary: #010B13;
-  --bg-secondary: #0F1111;
-  --bg-surface: #1A1A1A;
+  --bg-secondary: #121212;
+  --bg-surface: #121212;
 
   --fg-primary: #E3E3E3;
   --fg-secondary: #A3A3A3;
@@ -155,14 +155,122 @@ body {
 
 /* Enhanced Card Styles */
 .card {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  border-radius: 0.125rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .card:hover {
   border-color: var(--color-accent);
   box-shadow: var(--shadow-glow);
+}
+
+/* Force card backgrounds */
+.card-body {
+  background: #121212 !important;
+}
+
+.bg-base-100, .bg-base-200, .bg-base-300 {
+  background: #121212 !important;
+}
+
+/* Remove problematic background colors */
+.bg-warning, .bg-success {
+  background: #121212 !important;
+}
+
+/* Stats component overrides */
+.stats .stat {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  border-radius: 0.125rem;
+}
+
+/* Alert component overrides */
+.alert {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  border-radius: 0.125rem;
+}
+
+/* Hero component overrides */
+.hero {
+  background: #010B13 !important;
+}
+
+/* Collapse component overrides */
+.collapse {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  border-radius: 0.125rem;
+}
+
+.collapse-title, .collapse-content {
+  background: #121212 !important;
+}
+
+/* Badge component overrides */
+.badge {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  color: #E3E3E3;
+}
+
+.badge-success {
+  background: #121212 !important;
+  border: 1px solid #39FF14;
+  color: #39FF14;
+}
+
+.badge-warning {
+  background: #121212 !important;
+  border: 1px solid #E9FF32;
+  color: #E9FF32;
+}
+
+.badge-error {
+  background: #121212 !important;
+  border: 1px solid #FF3131;
+  color: #FF3131;
+}
+
+.badge-info {
+  background: #121212 !important;
+  border: 1px solid #00FFFF;
+  color: #00FFFF;
+}
+
+/* Progress component overrides */
+.progress {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+}
+
+/* Radial progress overrides */
+.radial-progress {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+}
+
+/* Button overrides */
+.btn {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  color: #E3E3E3;
+}
+
+.btn-primary {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  color: #E3E3E3;
+}
+
+.btn-outline {
+  background: #121212 !important;
+  border: 1px solid #E3E3E3;
+  color: #E3E3E3;
 }
 
 /* Neon Glow Effects */

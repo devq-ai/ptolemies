@@ -135,12 +135,12 @@
 
 	// Service categories for filtering
 	const categories = [
-		{ id: 'all', name: 'All Services', icon: '🔧' },
-		{ id: 'core', name: 'Core Services', icon: '⚡' },
-		{ id: 'database', name: 'Databases', icon: '🗄️' },
-		{ id: 'api', name: 'APIs', icon: '🔌' },
-		{ id: 'ai', name: 'AI Services', icon: '🤖' },
-		{ id: 'monitoring', name: 'Monitoring', icon: '📊' }
+		{ id: 'all', name: 'All Services' },
+		{ id: 'core', name: 'Core Services' },
+		{ id: 'database', name: 'Databases' },
+		{ id: 'api', name: 'APIs' },
+		{ id: 'ai', name: 'AI Services' },
+		{ id: 'monitoring', name: 'Monitoring' }
 	];
 
 	// Status options for filtering
@@ -219,27 +219,7 @@
 		}
 	}
 
-	function getStatusIcon(status: string) {
-		switch (status) {
-			case 'operational': return '🟢';
-			case 'degraded': return '🟡';
-			case 'partial_outage': return '🟠';
-			case 'major_outage': return '🔴';
-			case 'maintenance': return '🔵';
-			default: return '⚪';
-		}
-	}
 
-	function getCategoryIcon(category: string) {
-		switch (category) {
-			case 'core': return '⚡';
-			case 'database': return '🗄️';
-			case 'api': return '🔌';
-			case 'ai': return '🤖';
-			case 'monitoring': return '📊';
-			default: return '🔧';
-		}
-	}
 
 	function getResponseTimeColor(responseTime: number) {
 		if (responseTime < 100) return 'text-success';
@@ -295,7 +275,6 @@
 	<div class="card-body">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
 			<h2 class="card-title text-info flex items-center gap-2 mb-4 md:mb-0">
-				<span class="text-2xl">🔧</span>
 				Service Status Grid
 			</h2>
 
@@ -309,7 +288,7 @@
 					>
 						{#each categories as category}
 							<option value={category.id}>
-								{category.icon} {category.name}
+								{category.name}
 							</option>
 						{/each}
 					</select>
@@ -345,36 +324,24 @@
 		<!-- Summary Statistics -->
 		<div class="stats stats-vertical lg:stats-horizontal shadow bg-base-200 mb-6">
 			<div class="stat">
-				<div class="stat-figure text-success">
-					<span class="text-2xl">✅</span>
-				</div>
 				<div class="stat-title text-base-content">Operational</div>
 				<div class="stat-value text-success">{operationalServices}</div>
 				<div class="stat-desc text-success">Services running</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-warning">
-					<span class="text-2xl">⚠️</span>
-				</div>
 				<div class="stat-title text-base-content">Degraded</div>
 				<div class="stat-value text-warning">{degradedServices}</div>
 				<div class="stat-desc text-warning">Performance issues</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-error">
-					<span class="text-2xl">🚨</span>
-				</div>
 				<div class="stat-title text-base-content">Outages</div>
 				<div class="stat-value text-error">{outageServices}</div>
 				<div class="stat-desc text-error">Service disruptions</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-info">
-					<span class="text-2xl">🔧</span>
-				</div>
 				<div class="stat-title text-base-content">Maintenance</div>
 				<div class="stat-value text-info">{maintenanceServices}</div>
 				<div class="stat-desc text-info">Scheduled updates</div>
@@ -421,14 +388,13 @@
 						<div class="flex items-start justify-between mb-3">
 							<div class="flex-1">
 								<div class="flex items-center gap-2 mb-1">
-									<span class="text-lg">{getCategoryIcon(service.category)}</span>
 									<h3 class="font-bold text-sm text-primary">{service.name}</h3>
 								</div>
 								<p class="text-xs opacity-70 mb-2">{service.description}</p>
 							</div>
 							<div class="flex flex-col items-end gap-1">
 								<div class="badge {getStatusBadge(service.status)} badge-sm">
-									{getStatusIcon(service.status)} {service.status.replace('_', ' ').toUpperCase()}
+									{service.status.replace('_', ' ').toUpperCase()}
 								</div>
 								{#if service.incidents > 0}
 									<div class="badge badge-error badge-xs">
@@ -473,7 +439,7 @@
 									class="btn btn-outline btn-xs flex-1"
 									on:click={() => openServiceUrl(service.url)}
 								>
-									🔗 Open
+									Open
 								</button>
 							{/if}
 							{#if service.repository}
@@ -481,11 +447,11 @@
 									class="btn btn-outline btn-xs flex-1"
 									on:click={() => openRepository(service.repository)}
 								>
-									📁 Repo
+									Repo
 								</button>
 							{/if}
 							<button class="btn btn-outline btn-xs">
-								📊 Metrics
+								Metrics
 							</button>
 						</div>
 					</div>
@@ -496,7 +462,6 @@
 		<!-- Empty State -->
 		{#if filteredServices.length === 0}
 			<div class="text-center py-8">
-				<div class="text-4xl mb-4">🔍</div>
 				<h3 class="text-lg font-bold mb-2">No Services Found</h3>
 				<p class="text-sm opacity-70 mb-4">
 					No services match the current filters. Try adjusting your selection.
