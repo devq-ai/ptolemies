@@ -1,10 +1,12 @@
-name: Deploy Status Page to GitHub Pages
+name: Deploy Ptolemies Status System to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
-      - "status-page/**"
+      - "docs/**"
+      - "get_status.py"
+      - "status"
   workflow_dispatch:
 
 jobs:
@@ -20,18 +22,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: "18"
+          python-version: "3.12"
 
-      - name: Install dependencies
-        working-directory: ./status-page
-        run: npm install
-
-      - name: Build SvelteKit app
-        working-directory: ./status-page
-        run: npm run build
+      - name: Generate fresh status JSON
+        run: |
+          python get_status.py --save docs/status.json
+          echo "✅ Status JSON generated"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -39,7 +38,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./status-page/build"
+          path: "./docs"
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
