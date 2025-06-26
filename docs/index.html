@@ -356,13 +356,29 @@
 
                 // Add cache busting parameter
                 const cacheBuster = new Date().getTime();
-                const response = await fetch(`status.json?v=${cacheBuster}`);
+                const response = await fetch(`./status.json?v=${cacheBuster}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
-                statusData = await response.json();
+                const responseText = await response.text();
+                if (!responseText.trim()) {
+                    throw new Error('Empty response from server');
+                }
+
+                statusData = JSON.parse(responseText);
+
+                if (!statusData || typeof statusData !== 'object') {
+                    throw new Error('Invalid JSON structure');
+                }
+
                 renderStatus(statusData);
 
                 loadingEl.style.display = 'none';
@@ -372,15 +388,21 @@
                 console.error('Failed to load status:', error);
                 loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
-                errorEl.innerHTML = `❌ Failed to load status data: ${error.message}`;
+                errorEl.innerHTML = `❌ Failed to load status data: ${error.message}<br><small>Check browser console for details</small>`;
             }
         }
 
         // Load status on page load
-        document.addEventListener('DOMContentLoaded', loadStatus);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, attempting to load status...');
+            loadStatus();
+        });
 
         // Auto-refresh every 5 minutes
         setInterval(loadStatus, 5 * 60 * 1000);
+
+        // Add manual refresh capability
+        window.refreshStatus = loadStatus;
     </script>
 </body>
 </html>
