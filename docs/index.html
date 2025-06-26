@@ -6,351 +6,94 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Ptolemies Status - Knowledge Management System</title>
+    <title>Ptolemies Status JSON</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #e3e3e3;
-            min-height: 100vh;
-            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #111;
             padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            margin: 0;
+            font-size: 14px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #1B03A3 0%, #9D00FF 100%);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(155, 0, 255, 0.3);
+            margin-bottom: 20px;
+            color: #fff;
         }
 
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #FF10F0, #00FFFF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .refresh-btn {
+            background: #333;
+            color: #00ff00;
+            border: 1px solid #555;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
         }
 
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .status-card {
-            background: rgba(26, 26, 26, 0.8);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .status-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(255, 16, 240, 0.2);
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #FF10F0;
-        }
-
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .metric:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            font-weight: 500;
-            color: #a3a3a3;
-        }
-
-        .metric-value {
-            font-weight: 600;
-            color: #39FF14;
-        }
-
-        .status-online {
-            color: #39FF14;
-        }
-
-        .status-configured {
-            color: #E9FF32;
+        .refresh-btn:hover {
+            background: #555;
         }
 
         .loading {
+            color: #ffff00;
             text-align: center;
-            font-size: 1.2rem;
-            color: #9D00FF;
             padding: 40px;
         }
 
         .error {
+            color: #ff0000;
             text-align: center;
-            color: #FF3131;
             padding: 40px;
-            background: rgba(255, 49, 49, 0.1);
-            border-radius: 10px;
-            border: 1px solid #FF3131;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 30px;
-            border-top: 1px solid #333;
-            color: #666;
-        }
-
-        .footer a {
-            color: #FF10F0;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: #00FFFF;
-        }
-
-        .refresh-btn {
-            background: linear-gradient(45deg, #FF10F0, #9D00FF);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .refresh-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 16, 240, 0.4);
-        }
-
-        .timestamp {
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .status-grid {
-                grid-template-columns: 1fr;
-            }
+            background: #220000;
+            border: 1px solid #ff0000;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏛️ Ptolemies</h1>
-            <p>Knowledge Management System Status</p>
+            <h1>🏛️ Ptolemies Status JSON</h1>
+            <p>Raw JSON data for DevQ.ai integration</p>
+            <button class="refresh-btn" onclick="loadJSON()">🔄 Refresh JSON</button>
         </div>
 
         <div id="loading" class="loading">
-            ⚡ Loading Ptolemies status...
+            ⚡ Loading Ptolemies status JSON...
         </div>
 
         <div id="error" class="error" style="display: none;">
-            ❌ Failed to load status data
+            ❌ Failed to load JSON data
         </div>
 
-        <div id="content" style="display: none;">
-            <button class="refresh-btn" onclick="loadStatus()">🔄 Refresh Status</button>
-
-            <div class="status-grid">
-                <!-- System Card -->
-                <div class="status-card">
-                    <div class="card-title">🏛️ System</div>
-                    <div id="system-metrics"></div>
-                </div>
-
-                <!-- Services Card -->
-                <div class="status-card">
-                    <div class="card-title">🔧 Services</div>
-                    <div id="services-metrics"></div>
-                </div>
-
-                <!-- Knowledge Base Card -->
-                <div class="status-card">
-                    <div class="card-title">📚 Knowledge Base</div>
-                    <div id="knowledge-metrics"></div>
-                </div>
-
-                <!-- AI Detection Card -->
-                <div class="status-card">
-                    <div class="card-title">🤖 AI Detection</div>
-                    <div id="ai-metrics"></div>
-                </div>
-
-                <!-- Neo4j Graph Card -->
-                <div class="status-card">
-                    <div class="card-title">🕸️ Neo4j Graph</div>
-                    <div id="neo4j-metrics"></div>
-                </div>
-
-                <!-- Performance Card -->
-                <div class="status-card">
-                    <div class="card-title">⚡ Performance</div>
-                    <div id="performance-metrics"></div>
-                </div>
-            </div>
-
-            <div class="timestamp" id="timestamp"></div>
-        </div>
-
-        <div class="footer">
-            <p>
-                Built with ❤️ by <a href="https://github.com/devq-ai" target="_blank">DevQ.ai</a> |
-                <a href="https://github.com/devq-ai/ptolemies" target="_blank">GitHub</a> |
-                <a href="http://localhost:7475" target="_blank">Neo4j Browser</a>
-            </p>
-        </div>
+        <pre id="json-content" style="display: none;"></pre>
     </div>
 
     <script>
-        let statusData = null;
-
-        function createMetric(label, value, isStatus = false) {
-            const statusClass = isStatus ? getStatusClass(value) : '';
-            return `
-                <div class="metric">
-                    <span class="metric-label">${label}</span>
-                    <span class="metric-value ${statusClass}">${value}</span>
-                </div>
-            `;
-        }
-
-        function getStatusClass(status) {
-            if (status === 'running' || status === 'available' || status === 'healthy') {
-                return 'status-online';
-            } else if (status === 'configured') {
-                return 'status-configured';
-            }
-            return '';
-        }
-
-        function formatServices(services) {
-            let html = '';
-            for (const [name, info] of Object.entries(services)) {
-                const displayName = name.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                html += createMetric(displayName, info.status, true);
-            }
-            return html;
-        }
-
-        function formatSources(sources) {
-            let html = '';
-            let count = 0;
-            for (const [name, info] of Object.entries(sources)) {
-                if (count < 5) { // Show top 5 sources
-                    const displayName = name.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                    html += createMetric(displayName, `${info.chunks} chunks`);
-                }
-                count++;
-            }
-            return html;
-        }
-
-        function renderStatus(data) {
-            // System metrics
-            document.getElementById('system-metrics').innerHTML = `
-                ${createMetric('Version', data.system.version)}
-                ${createMetric('Status', data.system.status, true)}
-                ${createMetric('Python', data.system.python_version)}
-                ${createMetric('Coverage', data.system.test_coverage)}
-                ${createMetric('Architecture', data.system.architecture)}
-            `;
-
-            // Services metrics
-            document.getElementById('services-metrics').innerHTML = formatServices(data.services);
-
-            // Knowledge base metrics
-            document.getElementById('knowledge-metrics').innerHTML = `
-                ${createMetric('Total Chunks', data.knowledge_base.total_chunks)}
-                ${createMetric('Sources', data.knowledge_base.active_sources)}
-                ${createMetric('Quality Score', data.knowledge_base.average_quality_score)}
-                ${createMetric('Processing', data.knowledge_base.processing_status)}
-                ${createMetric('Last Updated', data.knowledge_base.last_updated)}
-            `;
-
-            // AI detection metrics
-            document.getElementById('ai-metrics').innerHTML = `
-                ${createMetric('Service', data.ai_detection.service_name)}
-                ${createMetric('Accuracy', data.ai_detection.accuracy_rate)}
-                ${createMetric('Speed', data.ai_detection.analysis_speed)}
-                ${createMetric('Patterns', data.ai_detection.pattern_database_size)}
-                ${createMetric('Frameworks', data.ai_detection.frameworks_supported)}
-            `;
-
-            // Neo4j metrics
-            document.getElementById('neo4j-metrics').innerHTML = `
-                ${createMetric('Nodes', data.neo4j_graph.total_nodes)}
-                ${createMetric('Relationships', data.neo4j_graph.total_relationships)}
-                ${createMetric('Density', data.neo4j_graph.graph_density)}
-                ${createMetric('Performance', data.neo4j_graph.query_performance)}
-                ${createMetric('Browser', 'localhost:7475')}
-            `;
-
-            // Performance metrics
-            document.getElementById('performance-metrics').innerHTML = `
-                ${createMetric('API Response', data.performance.api_response_time)}
-                ${createMetric('Search Query', data.performance.search_query_performance)}
-                ${createMetric('Memory Usage', data.performance.memory_usage)}
-                ${createMetric('Uptime', data.performance.uptime)}
-                ${createMetric('Throughput', data.performance.throughput)}
-            `;
-
-            // Timestamp
-            const timestamp = new Date(data.timestamp).toLocaleString();
-            document.getElementById('timestamp').innerHTML = `Last updated: ${timestamp}`;
-        }
-
-        async function loadStatus() {
+        async function loadJSON() {
             const loadingEl = document.getElementById('loading');
             const errorEl = document.getElementById('error');
-            const contentEl = document.getElementById('content');
+            const contentEl = document.getElementById('json-content');
 
             try {
                 loadingEl.style.display = 'block';
@@ -371,41 +114,27 @@
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
-                const responseText = await response.text();
-                if (!responseText.trim()) {
-                    throw new Error('Empty response from server');
-                }
+                const jsonData = await response.json();
 
-                statusData = JSON.parse(responseText);
-
-                if (!statusData || typeof statusData !== 'object') {
-                    throw new Error('Invalid JSON structure');
-                }
-
-                renderStatus(statusData);
+                // Display formatted JSON
+                contentEl.textContent = JSON.stringify(jsonData, null, 2);
 
                 loadingEl.style.display = 'none';
                 contentEl.style.display = 'block';
 
             } catch (error) {
-                console.error('Failed to load status:', error);
+                console.error('Failed to load JSON:', error);
                 loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
-                errorEl.innerHTML = `❌ Failed to load status data: ${error.message}<br><small>Check browser console for details</small>`;
+                errorEl.innerHTML = `❌ Failed to load JSON data: ${error.message}`;
             }
         }
 
-        // Load status on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, attempting to load status...');
-            loadStatus();
-        });
+        // Load JSON on page load
+        document.addEventListener('DOMContentLoaded', loadJSON);
 
         // Auto-refresh every 5 minutes
-        setInterval(loadStatus, 5 * 60 * 1000);
-
-        // Add manual refresh capability
-        window.refreshStatus = loadStatus;
+        setInterval(loadJSON, 5 * 60 * 1000);
     </script>
 </body>
 </html>
