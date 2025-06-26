@@ -38,13 +38,13 @@
 
 		<!-- Legacy Status Monitoring -->
 		<div class="max-w-3xl mx-auto mt-8">
-			<div class="card bg-base-300 shadow-xl">
-				<div class="card-body">
-					<h2 class="card-title text-neutral flex items-center gap-2 mb-4">
+			<div class="card shadow-xl" style="background: #000000 !important;">
+				<div class="card-body" style="background: #000000 !important;">
+					<h2 class="card-title flex items-center gap-2 mb-4" style="color: #ffffff !important;">
 						<span class="text-2xl">📊</span>
 						Legacy Status Reports
 					</h2>
-					<div class="w-full header min-h-[10vh] flex items-end justify-center rounded-lg mb-4" style="background: #000000;">
+					<div class="w-full header min-h-[10vh] flex items-end justify-center rounded-lg mb-4" style="background: #000000 !important; background-color: #000000 !important;">
 						<div class="h-full w-full mx-2">
 							<System systems={data.statusLog} />
 						</div>

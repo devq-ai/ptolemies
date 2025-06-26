@@ -30,21 +30,16 @@
 </script>
 
 <div class="lg:mx-20 md:my-10">
-	<div class="card bg-base-100 w-full my-8 shadow-xl">
-		<div class="card-body">
+	<div class="card bg-black w-full my-8 shadow-xl" style="background: #000000 !important;">
+		<div class="card-body" style="background: #000000 !important;">
 			<div class="flex flex-col md:flex-row gap-y-4 items-center justify-between">
 				<div class="flex items-center gap-2">
-					<div
-						class="badge"
-						class:badge-success={systemState === StatusCode.OK}
-						class:badge-error={systemState === StatusCode.ERROR}
-						class:badge-warning={systemState === StatusCode.UNSTABLE}
-					>
+					<div class="badge text-white" style="background: #000000 !important; color: #ffffff !important;">
 						{systemState === StatusCode.OK ? '✓' : systemState === StatusCode.ERROR ? '⤫' : '?'}
 					</div>
-					<h2 class="card-title">{systemMessage}</h2>
+					<h2 class="card-title text-white">{systemMessage}</h2>
 				</div>
-				<h3 class="text-sm text-neutral-500 md:min-w-32">
+				<h3 class="text-sm text-white md:min-w-32">
 					Last update {lastUpdate[0]?.date.toLocaleDateString('en-US', {
 						month: 'long',
 						day: '2-digit',

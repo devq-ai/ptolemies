@@ -587,6 +587,37 @@ input, select, textarea {
   border: none !important;
 }
 
+/* Targeted green color elimination */
+.bg-green-500, .bg-green-400, .bg-green-300, .bg-green-200, .bg-green-100,
+.text-green-500, .text-green-400, .text-green-300, .text-green-200, .text-green-100,
+[style*="background:#39FF14"], [style*="background: #39FF14"],
+[style*="color:#39FF14"], [style*="color: #39FF14"] {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Force all DaisyUI success colors to black/white */
+.badge-success, .btn-success, .alert-success, .bg-success, .text-success {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Override any CSS variables that might contain green */
+:root {
+  --success: #000000 !important;
+  --su: #000000 !important;
+  --green: #000000 !important;
+}
+
+/* Force header to be black */
+.header, [class*="header"] {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
 .cyber-glow {
   font-family: 'Hacker', monospace;
   text-shadow: 0 0 5px currentColor;
