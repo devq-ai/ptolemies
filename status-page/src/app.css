@@ -13,9 +13,9 @@
 
 /* Root CSS Variables for Midnight UI Theme */
 :root {
-  --color-primary: #E3E3E3;
+  --color-primary: #010B13;
   --color-secondary: #9D00FF;
-  --color-accent: #FF10F0;
+  --color-accent: #010B13;
   --color-success: #39FF14;
   --color-warning: #E9FF32;
   --color-error: #FF3131;
@@ -184,14 +184,12 @@ body {
 /* Stats component overrides */
 .stats .stat {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   border-radius: 0.125rem;
 }
 
 /* Alert component overrides */
 .alert {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   border-radius: 0.125rem;
 }
 
@@ -203,7 +201,6 @@ body {
 /* Collapse component overrides */
 .collapse {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   border-radius: 0.125rem;
 }
 
@@ -214,63 +211,68 @@ body {
 /* Badge component overrides */
 .badge {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   color: #E3E3E3;
+  border: none !important;
 }
 
 .badge-success {
   background: #121212 !important;
-  border: 1px solid #39FF14;
   color: #39FF14;
+  border: none !important;
 }
 
 .badge-warning {
   background: #121212 !important;
-  border: 1px solid #E9FF32;
   color: #E9FF32;
+  border: none !important;
 }
 
 .badge-error {
   background: #121212 !important;
-  border: 1px solid #FF3131;
   color: #FF3131;
+  border: none !important;
 }
 
 .badge-info {
   background: #121212 !important;
-  border: 1px solid #00FFFF;
   color: #00FFFF;
+  border: none !important;
 }
 
 /* Progress component overrides */
 .progress {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
+  border: none !important;
 }
 
 /* Radial progress overrides */
 .radial-progress {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
+  border: none !important;
+}
+
+/* Text color overrides */
+.text-primary {
+  color: #E3E3E3 !important;
 }
 
 /* Button overrides */
 .btn {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   color: #E3E3E3;
+  border: none !important;
 }
 
 .btn-primary {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   color: #E3E3E3;
+  border: none !important;
 }
 
 .btn-outline {
   background: #121212 !important;
-  border: 1px solid #E3E3E3;
   color: #E3E3E3;
+  border: none !important;
 }
 
 /* Neon Glow Effects */
@@ -355,21 +357,32 @@ body {
 .table {
   border-collapse: separate;
   border-spacing: 0;
+  border: none !important;
 }
 
 .table th {
   background: var(--bg-secondary);
   color: var(--fg-primary);
   font-weight: 600;
-  border-bottom: 2px solid var(--color-accent);
+  border: none !important;
 }
 
 .table td {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border: none !important;
 }
 
 .table tr:hover {
   background: rgba(255, 16, 240, 0.05);
+}
+
+/* Remove all borders from form elements */
+input, select, textarea {
+  border: none !important;
+}
+
+/* Remove borders from timeline elements */
+.timeline, .timeline-start, .timeline-end, .timeline-middle {
+  border: none !important;
 }
 
 /* Badge Enhancements */
@@ -377,7 +390,7 @@ body {
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
-  border: 1px solid currentColor;
+  border: none !important;
 }
 
 .badge-success {
@@ -536,7 +549,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(255, 16, 240, 0.3);
+  border: none !important;
 }
 
 /* Enhanced Terminal/Console Styling */
@@ -546,8 +559,8 @@ body {
   color: #39FF14;
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #39FF14;
   box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+  border: none !important;
 }
 
 .cyber-glow {

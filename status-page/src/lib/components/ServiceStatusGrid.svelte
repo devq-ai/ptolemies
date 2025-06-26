@@ -352,7 +352,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 			<div class="card bg-base-200 shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-primary">Average Response Time</h3>
+					<h3 class="card-title text-sm text-[#E3E3E3]">Average Response Time</h3>
 					<div class="flex items-center gap-2">
 						<div class="text-2xl font-bold {getResponseTimeColor(avgResponseTime)}">
 							{avgResponseTime.toFixed(0)}ms
@@ -388,7 +388,7 @@
 						<div class="flex items-start justify-between mb-3">
 							<div class="flex-1">
 								<div class="flex items-center gap-2 mb-1">
-									<h3 class="font-bold text-sm text-primary">{service.name}</h3>
+									<h3 class="font-bold text-sm text-[#E3E3E3]">{service.name}</h3>
 								</div>
 								<p class="text-xs opacity-70 mb-2">{service.description}</p>
 							</div>

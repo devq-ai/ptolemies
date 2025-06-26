@@ -289,7 +289,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 			<div class="card bg-base-200 shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-primary">Performance</h3>
+					<h3 class="card-title text-sm text-[#E3E3E3]">Performance</h3>
 					<div class="space-y-2">
 						<div class="flex justify-between text-xs">
 							<span>Avg Time/File:</span>
@@ -317,7 +317,7 @@
 					<div class="space-y-2">
 						<div class="flex justify-between text-xs">
 							<span>Analyses Today:</span>
-							<span class="font-bold text-primary">{dehallucinatorStats.recent_analyses}</span>
+							<span class="font-bold text-[#E3E3E3]">{dehallucinatorStats.recent_analyses}</span>
 						</div>
 						<div class="flex justify-between text-xs">
 							<span>Service Version:</span>
@@ -346,7 +346,7 @@
 				<tbody>
 					{#each detectionCategories as category}
 						<tr class="hover:bg-base-100">
-							<td class="font-medium text-primary">{category.category}</td>
+							<td class="font-medium text-[#E3E3E3]">{category.category}</td>
 							<td>
 								<div class="badge badge-neutral">{category.count.toLocaleString()}</div>
 							</td>

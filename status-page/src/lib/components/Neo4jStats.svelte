@@ -197,9 +197,9 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 			<div class="card bg-base-200 shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-primary">Graph Density</h3>
+					<h3 class="card-title text-sm text-[#E3E3E3]">Graph Density</h3>
 					<div class="flex items-center gap-2">
-						<div class="radial-progress text-primary" style="--value:{graphDensity};" role="progressbar">
+						<div class="radial-progress text-[#E3E3E3]" style="--value:{graphDensity};" role="progressbar">
 							{graphDensity}%
 						</div>
 						<div class="text-xs opacity-70">
@@ -236,7 +236,7 @@
 				<tbody>
 					{#each frameworkCategories as { category, count, frameworks }}
 						<tr class="hover:bg-base-100">
-							<td class="font-medium text-primary">{category}</td>
+							<td class="font-medium text-[#E3E3E3]">{category}</td>
 							<td>
 								<div class="badge badge-secondary">{count}</div>
 							</td>

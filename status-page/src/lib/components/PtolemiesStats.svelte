@@ -42,7 +42,7 @@
 
 <div class="card bg-base-300 shadow-xl mb-6" data-theme="ptolemies">
 	<div class="card-body">
-		<h2 class="card-title text-primary flex items-center gap-2">
+		<h2 class="card-title text-[#E3E3E3] flex items-center gap-2">
 			<span class="text-2xl">📚</span>
 			Ptolemies Knowledge Base
 		</h2>
@@ -108,7 +108,7 @@
 				<tbody>
 					{#each chunkData as { source, chunks, quality, status }}
 						<tr class="hover:bg-base-100">
-							<td class="font-medium text-primary">{source}</td>
+							<td class="font-medium text-[#E3E3E3]">{source}</td>
 							<td>
 								<div class="badge badge-neutral">{chunks}</div>
 							</td>

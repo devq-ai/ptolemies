@@ -65,6 +65,6 @@
 <style lang="postcss">
 	.header {
 		height: 100%;
-		background: linear-gradient(180deg, #FF10F0 60%, transparent 40%);
+		background: linear-gradient(180deg, #010B13 60%, transparent 40%);
 	}
 </style>

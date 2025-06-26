@@ -5,9 +5,9 @@ module.exports = {
 		extend: {
 			colors: {
 				// Dark Palette 1: "Midnight UI" (Elegant & Minimal)
-				primary: '#E3E3E3', // Changed from Neon Blue to Soft White
+				primary: '#010B13', // Primary Background
 				secondary: '#9D00FF', // Neon Purple
-				accent: '#FF10F0', // Neon Pink (FIXED: Single value, not object)
+				accent: '#010B13', // Primary Background (was Neon Pink)
 				destructive: '#FF3131', // Neon Red
 				success: '#39FF14', // Neon Green
 				warning: '#E9FF32', // Neon Yellow
@@ -48,9 +48,9 @@ module.exports = {
 			{
 				ptolemies: {
 					// Custom DaisyUI theme for Ptolemies
-					primary: '#E3E3E3', // Changed from Neon Blue to Soft White
+					primary: '#010B13', // Primary Background
 					secondary: '#9D00FF', // Neon Purple
-					accent: '#FF10F0', // Neon Pink
+					accent: '#010B13', // Primary Background
 					neutral: '#1A1A1A', // Midnight Black
 					'base-100': '#010B13', // Rich Black - Primary Background
 					'base-200': '#121212', // Changed to #121212 for cards
