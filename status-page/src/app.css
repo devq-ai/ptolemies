@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hacker Font Import */
+@font-face {
+  font-family: 'Hacker';
+  src: url('/fonts/Hacker.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Root CSS Variables for Midnight UI Theme */
 :root {
   --color-primary: #1B03A3;
@@ -37,7 +46,7 @@ html {
 
 body {
   @apply bg-bg-primary text-fg-primary min-h-screen;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Hacker', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-feature-settings: 'liga' 1, 'kern' 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -393,6 +402,59 @@ body {
 ::-moz-selection {
   background: var(--color-accent);
   color: var(--fg-primary);
+}
+
+/* Hacker Font Utility Classes */
+.font-hacker {
+  font-family: 'Hacker', 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+}
+
+.text-hacker {
+  font-family: 'Hacker', monospace;
+  font-weight: normal;
+  letter-spacing: 0.025em;
+}
+
+.title-hacker {
+  font-family: 'Hacker', monospace;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.code-hacker {
+  font-family: 'Hacker', 'Courier New', monospace;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 16, 240, 0.3);
+}
+
+/* Enhanced Terminal/Console Styling */
+.terminal-text {
+  font-family: 'Hacker', monospace;
+  background: #000;
+  color: #39FF14;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #39FF14;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.cyber-glow {
+  font-family: 'Hacker', monospace;
+  text-shadow: 0 0 5px currentColor;
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
 }
 
 /* Screen Reader Only Content */

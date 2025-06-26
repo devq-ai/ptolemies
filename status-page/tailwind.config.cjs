@@ -24,7 +24,19 @@ module.exports = {
 				'fg-disabled': '#606770' // Neutral Grey
 			},
 			fontFamily: {
-				mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace']
+				mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
+				hacker: ['Hacker', 'JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
+				sans: [
+					'Hacker',
+					'system-ui',
+					'-apple-system',
+					'BlinkMacSystemFont',
+					'Segoe UI',
+					'Roboto',
+					'Helvetica Neue',
+					'Arial',
+					'sans-serif'
+				]
 			}
 		}
 	},
