@@ -197,7 +197,7 @@
 		<p class="text-sm opacity-70 text-white">AI Hallucination Detection & Code Validation</p>
 
 		<!-- Service Status & Quick Access -->
-		<div class="alert bg-black text-white mb-4"></div>
+		<div class="alert bg-black text-white mb-4">
 			<div class="flex-1">
 				<div class="flex items-center gap-3">
 					<div class="badge {getStatusBadge(dehallucinatorStats.service_status)}">
