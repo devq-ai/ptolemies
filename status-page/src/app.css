@@ -1,3 +1,38 @@
+/* NUCLEAR APPROACH - FORCE EVERYTHING BLACK/WHITE */
+* {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body, html {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Override ALL DaisyUI classes */
+.alert, .badge, .btn, .card, .collapse, .dropdown, .hero, .stats, .stat, .progress, .radial-progress {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Override ALL possible green variants */
+[class*="success"], [class*="green"], [style*="green"], [style*="#39FF14"], [style*="#00FF00"] {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Force header to be black */
+.header, [class*="header"], div[class*="header"] {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -32,6 +67,10 @@
   --shadow-glow: 0 0 20px rgba(255, 16, 240, 0.3);
   --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.3);
   --shadow-elevated: 0 8px 25px rgba(0, 0, 0, 0.5);
+
+  --success: #000000 !important;
+  --su: #000000 !important;
+  --green: #000000 !important;
 }
 
 /* Base Styles */
