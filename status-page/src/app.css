@@ -16,7 +16,7 @@
   --color-primary: #010B13;
   --color-secondary: #9D00FF;
   --color-accent: #010B13;
-  --color-success: #39FF14;
+  --color-success: #010B13;
   --color-warning: #E9FF32;
   --color-error: #FF3131;
   --color-info: #00FFFF;
@@ -181,6 +181,16 @@ body {
   background: #121212 !important;
 }
 
+/* Override all success colors to prevent green */
+.text-success, .badge-success, .btn-success {
+  color: #E3E3E3 !important;
+  background: #121212 !important;
+}
+
+.bg-success {
+  background: #010B13 !important;
+}
+
 /* Stats component overrides */
 .stats .stat {
   background: #121212 !important;
@@ -203,6 +213,13 @@ body {
   background: #010B13 !important;
 }
 
+/* Success color overrides to prevent green header */
+.badge-success {
+  background: #010B13 !important;
+  color: #E3E3E3 !important;
+  border: none !important;
+}
+
 /* Collapse component overrides */
 .collapse {
   background: #121212 !important;
@@ -221,8 +238,8 @@ body {
 }
 
 .badge-success {
-  background: #121212 !important;
-  color: #39FF14;
+  background: #010B13 !important;
+  color: #E3E3E3 !important;
   border: none !important;
 }
 
@@ -561,10 +578,10 @@ input, select, textarea {
 .terminal-text {
   font-family: 'Hacker', monospace;
   background: #000;
-  color: #39FF14;
+  color: #E3E3E3;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 10px rgba(227, 227, 227, 0.3);
   border: none !important;
 }
 

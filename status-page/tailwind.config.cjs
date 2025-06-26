@@ -9,7 +9,7 @@ module.exports = {
 				secondary: '#9D00FF', // Neon Purple
 				accent: '#010B13', // Primary Background (was Neon Pink)
 				destructive: '#FF3131', // Neon Red
-				success: '#39FF14', // Neon Green
+				success: '#010B13', // Changed to primary background
 				warning: '#E9FF32', // Neon Yellow
 				info: '#00FFFF', // Neon Cyan
 
@@ -56,7 +56,7 @@ module.exports = {
 					'base-200': '#121212', // Changed to #121212 for cards
 					'base-300': '#121212', // Changed to #121212 for cards
 					info: '#00FFFF', // Neon Cyan
-					success: '#39FF14', // Neon Green
+					success: '#010B13', // Changed to primary background
 					warning: '#E9FF32', // Neon Yellow
 					error: '#FF3131', // Neon Red
 
