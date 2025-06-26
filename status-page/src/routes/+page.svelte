@@ -44,7 +44,7 @@
 						<span class="text-2xl">📊</span>
 						Legacy Status Reports
 					</h2>
-					<div class="w-full header min-h-[10vh] flex items-end justify-center rounded-lg mb-4" style="background: #010B13;">
+					<div class="w-full header min-h-[10vh] flex items-end justify-center rounded-lg mb-4" style="background: #000000;">
 						<div class="h-full w-full mx-2">
 							<System systems={data.statusLog} />
 						</div>
@@ -65,6 +65,6 @@
 <style lang="postcss">
 	.header {
 		height: 100%;
-		background: #010B13 !important;
+		background: #000000 !important;
 	}
 </style>

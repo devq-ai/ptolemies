@@ -4,24 +4,24 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				// Dark Palette 1: "Midnight UI" (Elegant & Minimal)
-				primary: '#010B13', // Primary Background
-				secondary: '#9D00FF', // Neon Purple
-				accent: '#010B13', // Primary Background (was Neon Pink)
-				destructive: '#FF3131', // Neon Red
-				success: '#010B13', // Changed to primary background
-				warning: '#E9FF32', // Neon Yellow
-				info: '#00FFFF', // Neon Cyan
+				// Monochrome theme - black and white only
+				primary: '#000000', // Pure Black
+				secondary: '#000000', // Pure Black
+				accent: '#000000', // Pure Black
+				destructive: '#000000', // Pure Black
+				success: '#000000', // Pure Black
+				warning: '#000000', // Pure Black
+				info: '#000000', // Pure Black
 
 				// Background colors
-				'bg-primary': '#010B13', // Rich Black
-				'bg-secondary': '#121212', // Changed to #121212 for cards
-				'bg-surface': '#121212', // Changed to #121212 for cards
+				'bg-primary': '#000000', // Pure Black
+				'bg-secondary': '#000000', // Pure Black
+				'bg-surface': '#000000', // Pure Black
 
 				// Foreground colors
-				'fg-primary': '#E3E3E3', // Soft White
-				'fg-secondary': '#A3A3A3', // Stone Grey
-				'fg-disabled': '#606770' // Neutral Grey
+				'fg-primary': '#ffffff', // Pure White
+				'fg-secondary': '#ffffff', // Pure White
+				'fg-disabled': '#ffffff' // Pure White
 			},
 			fontFamily: {
 				mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
@@ -47,29 +47,29 @@ module.exports = {
 		themes: [
 			{
 				ptolemies: {
-					// Custom DaisyUI theme for Ptolemies
-					primary: '#010B13', // Primary Background
-					secondary: '#9D00FF', // Neon Purple
-					accent: '#010B13', // Primary Background
-					neutral: '#1A1A1A', // Midnight Black
-					'base-100': '#010B13', // Rich Black - Primary Background
-					'base-200': '#121212', // Changed to #121212 for cards
-					'base-300': '#121212', // Changed to #121212 for cards
-					info: '#00FFFF', // Neon Cyan
-					success: '#010B13', // Changed to primary background
-					warning: '#E9FF32', // Neon Yellow
-					error: '#FF3131', // Neon Red
+					// Monochrome DaisyUI theme
+					primary: '#000000', // Pure Black
+					secondary: '#000000', // Pure Black
+					accent: '#000000', // Pure Black
+					neutral: '#000000', // Pure Black
+					'base-100': '#000000', // Pure Black
+					'base-200': '#000000', // Pure Black
+					'base-300': '#000000', // Pure Black
+					info: '#000000', // Pure Black
+					success: '#000000', // Pure Black
+					warning: '#000000', // Pure Black
+					error: '#000000', // Pure Black
 
 					// Text colors
-					'base-content': '#E3E3E3', // Soft White
-					'primary-content': '#E3E3E3', // Soft White
-					'secondary-content': '#A3A3A3', // Stone Grey
-					'accent-content': '#E3E3E3', // Soft White
-					'neutral-content': '#A3A3A3', // Stone Grey
-					'info-content': '#010B13', // Rich Black
-					'success-content': '#010B13', // Rich Black
-					'warning-content': '#010B13', // Rich Black
-					'error-content': '#E3E3E3' // Soft White
+					'base-content': '#ffffff', // Pure White
+					'primary-content': '#ffffff', // Pure White
+					'secondary-content': '#ffffff', // Pure White
+					'accent-content': '#ffffff', // Pure White
+					'neutral-content': '#ffffff', // Pure White
+					'info-content': '#ffffff', // Pure White
+					'success-content': '#ffffff', // Pure White
+					'warning-content': '#ffffff', // Pure White
+					'error-content': '#ffffff' // Pure White
 				}
 			}
 		],

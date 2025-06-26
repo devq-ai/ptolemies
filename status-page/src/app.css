@@ -11,23 +11,23 @@
   font-display: swap;
 }
 
-/* Root CSS Variables for Midnight UI Theme */
+/* Root CSS Variables for Monochrome Theme */
 :root {
-  --color-primary: #010B13;
-  --color-secondary: #9D00FF;
-  --color-accent: #010B13;
-  --color-success: #010B13;
-  --color-warning: #E9FF32;
-  --color-error: #FF3131;
-  --color-info: #00FFFF;
+  --color-primary: #000000;
+  --color-secondary: #000000;
+  --color-accent: #000000;
+  --color-success: #000000;
+  --color-warning: #000000;
+  --color-error: #000000;
+  --color-info: #000000;
 
-  --bg-primary: #010B13;
-  --bg-secondary: #121212;
-  --bg-surface: #121212;
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --bg-surface: #000000;
 
-  --fg-primary: #E3E3E3;
-  --fg-secondary: #A3A3A3;
-  --fg-disabled: #606770;
+  --fg-primary: #ffffff;
+  --fg-secondary: #ffffff;
+  --fg-disabled: #ffffff;
 
   --shadow-glow: 0 0 20px rgba(255, 16, 240, 0.3);
   --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -45,13 +45,15 @@ html {
 }
 
 body {
-  @apply bg-bg-primary text-fg-primary min-h-screen;
+  background: #000000 !important;
+  color: #ffffff !important;
   font-family: 'Hacker', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-feature-settings: 'liga' 1, 'kern' 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 /* Accessibility Improvements */
@@ -155,145 +157,145 @@ body {
 
 /* Enhanced Card Styles */
 .card {
-  background: #121212 !important;
-  border: 1px solid #E3E3E3;
+  background: #000000 !important;
+  border: 1px solid #ffffff;
   border-radius: 0.125rem;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
 .card:hover {
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-glow);
+  border-color: #ffffff;
+  box-shadow: none;
 }
 
 /* Force card backgrounds */
 .card-body {
-  background: #121212 !important;
+  background: #000000 !important;
 }
 
 .bg-base-100, .bg-base-200, .bg-base-300 {
-  background: #121212 !important;
+  background: #000000 !important;
 }
 
 /* Remove problematic background colors */
 .bg-warning, .bg-success {
-  background: #121212 !important;
+  background: #000000 !important;
 }
 
-/* Override all success colors to prevent green */
+/* Override all success colors */
 .text-success, .badge-success, .btn-success {
-  color: #E3E3E3 !important;
-  background: #121212 !important;
+  color: #ffffff !important;
+  background: #000000 !important;
 }
 
 .bg-success {
-  background: #010B13 !important;
+  background: #000000 !important;
 }
 
 /* Stats component overrides */
 .stats .stat {
-  background: #121212 !important;
+  background: #000000 !important;
   border-radius: 0.125rem;
 }
 
 /* Alert component overrides */
 .alert {
-  background: #121212 !important;
+  background: #000000 !important;
   border-radius: 0.125rem;
 }
 
 /* Hero component overrides */
 .hero {
-  background: #010B13 !important;
+  background: #000000 !important;
 }
 
 /* Accent background overrides */
 .bg-accent {
-  background: #010B13 !important;
+  background: #000000 !important;
 }
 
-/* Success color overrides to prevent green header */
+/* Success color overrides */
 .badge-success {
-  background: #010B13 !important;
-  color: #E3E3E3 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
   border: none !important;
 }
 
 /* Collapse component overrides */
 .collapse {
-  background: #121212 !important;
+  background: #000000 !important;
   border-radius: 0.125rem;
 }
 
 .collapse-title, .collapse-content {
-  background: #121212 !important;
+  background: #000000 !important;
 }
 
 /* Badge component overrides */
 .badge {
-  background: #121212 !important;
-  color: #E3E3E3;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 .badge-success {
-  background: #010B13 !important;
-  color: #E3E3E3 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
   border: none !important;
 }
 
 .badge-warning {
-  background: #121212 !important;
-  color: #E9FF32;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 .badge-error {
-  background: #121212 !important;
-  color: #FF3131;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 .badge-info {
-  background: #121212 !important;
-  color: #00FFFF;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 /* Progress component overrides */
 .progress {
-  background: #121212 !important;
+  background: #000000 !important;
   border: none !important;
 }
 
 /* Radial progress overrides */
 .radial-progress {
-  background: #121212 !important;
+  background: #000000 !important;
   border: none !important;
 }
 
 /* Text color overrides */
 .text-primary {
-  color: #E3E3E3 !important;
+  color: #ffffff !important;
 }
 
 /* Button overrides */
 .btn {
-  background: #121212 !important;
-  color: #E3E3E3;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 .btn-primary {
-  background: #121212 !important;
-  color: #E3E3E3;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
 .btn-outline {
-  background: #121212 !important;
-  color: #E3E3E3;
+  background: #000000 !important;
+  color: #ffffff;
   border: none !important;
 }
 
@@ -577,11 +579,11 @@ input, select, textarea {
 /* Enhanced Terminal/Console Styling */
 .terminal-text {
   font-family: 'Hacker', monospace;
-  background: #000;
-  color: #E3E3E3;
+  background: #000000;
+  color: #ffffff;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(227, 227, 227, 0.3);
+  box-shadow: none;
   border: none !important;
 }
 

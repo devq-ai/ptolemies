@@ -274,7 +274,7 @@
 <div class="card bg-base-300 shadow-xl mb-6" data-theme="ptolemies" id="services">
 	<div class="card-body">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-			<h2 class="card-title text-info flex items-center gap-2 mb-4 md:mb-0">
+			<h2 class="card-title text-white flex items-center gap-2 mb-4 md:mb-0">
 				Service Status Grid
 			</h2>
 
@@ -352,9 +352,9 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 			<div class="card bg-base-200 shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-[#E3E3E3]">Average Response Time</h3>
+					<h3 class="card-title text-sm text-white">Average Response Time</h3>
 					<div class="flex items-center gap-2">
-						<div class="text-2xl font-bold {getResponseTimeColor(avgResponseTime)}">
+						<div class="text-2xl font-bold text-white">
 							{avgResponseTime.toFixed(0)}ms
 						</div>
 						<div class="text-xs opacity-70">
@@ -366,9 +366,9 @@
 
 			<div class="card bg-base-200 shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-secondary">Average Uptime</h3>
+					<h3 class="card-title text-sm text-white">Average Uptime</h3>
 					<div class="flex items-center gap-2">
-						<div class="text-2xl font-bold {getUptimeColor(avgUptime)}">
+						<div class="text-2xl font-bold text-white">
 							{avgUptime.toFixed(1)}%
 						</div>
 						<div class="text-xs opacity-70">
@@ -388,7 +388,7 @@
 						<div class="flex items-start justify-between mb-3">
 							<div class="flex-1">
 								<div class="flex items-center gap-2 mb-1">
-									<h3 class="font-bold text-sm text-[#E3E3E3]">{service.name}</h3>
+									<h3 class="font-bold text-sm text-white">{service.name}</h3>
 								</div>
 								<p class="text-xs opacity-70 mb-2">{service.description}</p>
 							</div>
@@ -408,11 +408,11 @@
 						<div class="space-y-2 mb-3">
 							<div class="flex justify-between text-xs">
 								<span>Uptime:</span>
-								<span class="font-bold {getUptimeColor(service.uptime)}">{service.uptime}%</span>
+								<span class="font-bold text-white">{service.uptime}%</span>
 							</div>
 							<div class="flex justify-between text-xs">
 								<span>Response:</span>
-								<span class="font-bold {getResponseTimeColor(service.response_time)}">{service.response_time}ms</span>
+								<span class="font-bold text-white">{service.response_time}ms</span>
 							</div>
 							<div class="flex justify-between text-xs">
 								<span>Last Check:</span>

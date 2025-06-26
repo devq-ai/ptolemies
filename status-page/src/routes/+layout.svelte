@@ -7,12 +7,12 @@
 
 <style>
 	a {
-		color: #E3E3E3;
+		color: #ffffff;
 		text-decoration: underline;
 		transition: color 0.3s ease;
 	}
 
 	a:hover {
-		color: #9D00FF;
+		color: #ffffff;
 	}
 </style>

@@ -91,15 +91,15 @@
 	}
 </script>
 
-<div class="card bg-base-300 shadow-xl mb-6" data-theme="ptolemies">
+<div class="card bg-black shadow-xl mb-6" data-theme="ptolemies">
 	<div class="card-body">
-		<h2 class="card-title text-secondary flex items-center gap-2">
+		<h2 class="card-title text-white flex items-center gap-2">
 			<span class="text-2xl">🕸️</span>
 			Neo4j Knowledge Graph
 		</h2>
 
 		<!-- Connection Status & Quick Access -->
-		<div class="alert {graphStats.isOnline ? 'alert-info' : 'alert-warning'} mb-4">
+		<div class="alert bg-black text-white mb-4">
 			<div class="flex-1">
 				<div class="flex items-center gap-3">
 					<div class="badge {getStatusBadge(graphStats.isOnline)}">
@@ -138,9 +138,9 @@
 		</div>
 
 		<!-- Core Graph Statistics -->
-		<div class="stats stats-vertical lg:stats-horizontal shadow bg-base-200 mb-4">
+		<div class="stats stats-vertical lg:stats-horizontal shadow bg-black mb-4">
 			<div class="stat">
-				<div class="stat-figure text-secondary">
+				<div class="stat-figure text-white">
 					<svg class="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
 						<circle cx="12" cy="12" r="3" fill="currentColor"/>
@@ -150,35 +150,35 @@
 						<circle cx="6" cy="12" r="2" fill="currentColor"/>
 					</svg>
 				</div>
-				<div class="stat-title text-base-content">Total Nodes</div>
-				<div class="stat-value text-secondary">{graphStats.totalNodes}</div>
-				<div class="stat-desc text-secondary">Graph entities</div>
+				<div class="stat-title text-white">Total Nodes</div>
+				<div class="stat-value text-white">{graphStats.totalNodes}</div>
+				<div class="stat-desc text-white">Graph entities</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-accent">
+				<div class="stat-figure text-white">
 					<svg class="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/>
 					</svg>
 				</div>
-				<div class="stat-title text-base-content">Relationships</div>
-				<div class="stat-value text-accent">{graphStats.totalRelationships}</div>
-				<div class="stat-desc text-accent">Connections</div>
+				<div class="stat-title text-white">Relationships</div>
+				<div class="stat-value text-white">{graphStats.totalRelationships}</div>
+				<div class="stat-desc text-white">Connections</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-warning">
+				<div class="stat-figure text-white">
 					<svg class="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
 					</svg>
 				</div>
-				<div class="stat-title text-base-content">Frameworks</div>
-				<div class="stat-value text-warning">{graphStats.frameworks}</div>
-				<div class="stat-desc text-warning">Tech stacks</div>
+				<div class="stat-title text-white">Frameworks</div>
+				<div class="stat-value text-white">{graphStats.frameworks}</div>
+				<div class="stat-desc text-white">Tech stacks</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-info">
+				<div class="stat-figure text-white">
 					<svg class="w-8 h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
 						<polyline points="14,2 14,8 20,8"/>
@@ -187,19 +187,19 @@
 						<polyline points="10,9 9,9 8,9"/>
 					</svg>
 				</div>
-				<div class="stat-title text-base-content">Ready Chunks</div>
-				<div class="stat-value text-info">{graphStats.chunks}</div>
-				<div class="stat-desc text-info">From SurrealDB</div>
+				<div class="stat-title text-white">Ready Chunks</div>
+				<div class="stat-value text-white">{graphStats.chunks}</div>
+				<div class="stat-desc text-white">From SurrealDB</div>
 			</div>
 		</div>
 
 		<!-- Graph Metrics -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-			<div class="card bg-base-200 shadow">
+			<div class="card bg-black shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-[#E3E3E3]">Graph Density</h3>
+					<h3 class="card-title text-sm text-white">Graph Density</h3>
 					<div class="flex items-center gap-2">
-						<div class="radial-progress text-[#E3E3E3]" style="--value:{graphDensity};" role="progressbar">
+						<div class="radial-progress text-white" style="--value:{graphDensity};" role="progressbar">
 							{graphDensity}%
 						</div>
 						<div class="text-xs opacity-70">
@@ -209,11 +209,11 @@
 				</div>
 			</div>
 
-			<div class="card bg-base-200 shadow">
+			<div class="card bg-black shadow">
 				<div class="card-body">
-					<h3 class="card-title text-sm text-accent">Avg Connections</h3>
+					<h3 class="card-title text-sm text-white">Avg Connections</h3>
 					<div class="flex items-center gap-2">
-						<div class="text-2xl font-bold text-accent">{avgConnectionsPerNode}</div>
+						<div class="text-2xl font-bold text-white">{avgConnectionsPerNode}</div>
 						<div class="text-xs opacity-70">
 							Per node
 						</div>
@@ -226,7 +226,7 @@
 		<div class="overflow-x-auto">
 			<table class="table table-zebra w-full">
 				<thead>
-					<tr class="text-base-content">
+					<tr class="text-white">
 						<th>Category</th>
 						<th>Count</th>
 						<th>Frameworks</th>
@@ -235,10 +235,10 @@
 				</thead>
 				<tbody>
 					{#each frameworkCategories as { category, count, frameworks }}
-						<tr class="hover:bg-base-100">
-							<td class="font-medium text-[#E3E3E3]">{category}</td>
+						<tr class="hover:bg-black">
+							<td class="font-medium text-white">{category}</td>
 							<td>
-								<div class="badge badge-secondary">{count}</div>
+								<div class="badge text-white">{count}</div>
 							</td>
 							<td class="text-xs">
 								<div class="flex flex-wrap gap-1">
@@ -249,7 +249,7 @@
 							</td>
 							<td>
 								<progress
-									class="progress progress-primary w-16"
+									class="progress w-16"
 									value={count}
 									max={Math.max(...frameworkCategories.map(c => c.count))}
 								></progress>
@@ -261,17 +261,17 @@
 		</div>
 
 		<!-- Quick Actions & Info -->
-		<div class="card-actions justify-between items-center mt-4">
-			<div class="flex flex-col text-sm text-base-content opacity-70">
+		<div class="card-actions justify-between items-items-center mt-4">
+			<div class="flex flex-col text-sm text-white opacity-70">
 				<span>Database: bolt://localhost:7687</span>
 				<span>Last updated: {lastUpdatedLocal}</span>
 			</div>
 			<div class="flex gap-2">
-				<div class="badge badge-outline badge-info">
+				<div class="badge text-white">
 					Graph Ready
 				</div>
 				{#if graphStats.chunks > 0}
-					<div class="badge badge-outline badge-warning">
+					<div class="badge text-white">
 						{graphStats.chunks} Chunks Pending
 					</div>
 				{/if}
@@ -279,7 +279,7 @@
 		</div>
 
 		<!-- Connection Instructions & Database Info -->
-		<div class="alert alert-warning mt-4">
+		<div class="alert bg-black text-white mt-4">
 			<div class="flex-1">
 				<div class="text-sm">
 					<strong>Neo4j Browser Access:</strong><br/>
