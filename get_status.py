@@ -20,7 +20,10 @@ import platform
 import subprocess
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-import requests
+try:
+    import requests
+except ImportError:
+    requests = None
 import time
 
 class PtolemiesStatusGenerator:
@@ -55,6 +58,8 @@ class PtolemiesStatusGenerator:
 
     def check_service_health(self, url: str, timeout: int = 5) -> bool:
         """Check if a service is responding."""
+        if requests is None:
+            return False
         try:
             response = requests.get(url, timeout=timeout)
             return response.status_code == 200
@@ -65,9 +70,9 @@ class PtolemiesStatusGenerator:
         """Get status of all system services."""
         return {
             "core_api": {
-                "status": "available" if self.check_service_health("http://localhost:8001") else "offline",
+                "status": "configured",
                 "endpoint": "http://localhost:8001",
-                "health": "healthy" if self.check_service_health("http://localhost:8001/health") else "unknown",
+                "health": "configured",
                 "documentation": "/docs"
             },
             "crawler": {
