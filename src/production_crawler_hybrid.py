@@ -47,6 +47,10 @@ PRODUCTION_SOURCES = [
     {"name": "Shadcn", "url": "https://ui.shadcn.com/docs", "priority": "medium"},
     {"name": "Panel", "url": "https://panel.holoviz.org/", "priority": "medium"},
     {"name": "bokeh", "url": "https://docs.bokeh.org", "priority": "medium"},
+    {"name": "Zed Docs", "url": "https://zed.dev/docs/", "priority": "medium"},
+    {"name": "Redis Docs", "url": "https://redis.io/docs/latest/", "priority": "medium"},
+    {"name": "Neo4j Docs", "url": "https://neo4j.com/docs/", "priority": "medium"},
+    {"name": "Ghostty Docs", "url": "https://ghostty.org/docs", "priority": "medium"},
     {"name": "PyMC", "url": "https://www.pymc.io/", "priority": "low"},
     {"name": "Wildwood", "url": "https://wildwood.readthedocs.io/en/latest/", "priority": "low"},
     {"name": "PyGAD", "url": "https://pygad.readthedocs.io/en/latest/", "priority": "low"},
@@ -68,7 +72,7 @@ def load_env_file(filepath=".env"):
     env_vars = {}
     if not os.path.exists(filepath):
         return env_vars
-    
+
     with open(filepath, 'r') as f:
         for line in f:
             line = line.strip()
@@ -80,7 +84,7 @@ def load_env_file(filepath=".env"):
 def run_surreal_query(query: str) -> bool:
     """Execute SurrealDB query using CLI with proper error logging."""
     env_vars = load_env_file()
-    
+
     cmd = [
         'surreal', 'sql',
         '--conn', env_vars.get('SURREALDB_URL', 'ws://localhost:8000/rpc'),
@@ -90,7 +94,7 @@ def run_surreal_query(query: str) -> bool:
         '--db', env_vars.get('SURREALDB_DATABASE', 'knowledge'),
         '--pretty'
     ]
-    
+
     try:
         result = subprocess.run(
             cmd,
@@ -99,29 +103,29 @@ def run_surreal_query(query: str) -> bool:
             capture_output=True,
             timeout=30
         )
-        
+
         if result.returncode != 0:
-            logfire.error("SurrealDB query failed", 
-                        query=query[:100], 
+            logfire.error("SurrealDB query failed",
+                        query=query[:100],
                         stderr=result.stderr[:200],
                         returncode=result.returncode)
             return False
-            
+
         return True
-        
+
     except Exception as e:
         logfire.error("SurrealDB execution error", error=str(e), query=query[:100])
         return False
 
 class ProductionCrawler:
     """Production knowledge base crawler."""
-    
+
     def __init__(self):
         self.metrics = ProductionMetrics()
         self.openai_client = None
         self.http_client = None
         self.visited_urls = set()
-        
+
     @logfire.instrument("initialize_production")
     async def initialize(self) -> bool:
         """Initialize production systems."""
@@ -130,18 +134,18 @@ class ProductionCrawler:
             if not run_surreal_query("SELECT 1 as test;"):
                 logfire.error("SurrealDB connection failed")
                 return False
-                
+
             logfire.info("SurrealDB connection verified")
-            
+
             # Initialize OpenAI
             api_key = os.getenv("OPENAI_API_KEY")
             if not api_key:
                 logfire.error("OPENAI_API_KEY not found")
                 return False
-                
+
             self.openai_client = openai.AsyncOpenAI(api_key=api_key)
             logfire.info("OpenAI client initialized")
-            
+
             # Initialize HTTP client
             self.http_client = httpx.AsyncClient(
                 timeout=httpx.Timeout(30.0),
@@ -149,12 +153,12 @@ class ProductionCrawler:
                 follow_redirects=True
             )
             logfire.info("HTTP client initialized")
-            
+
             # Create schema
             await self.create_schema()
-            
+
             return True
-            
+
     @logfire.instrument("create_schema")
     async def create_schema(self):
         """Create production database schema."""
@@ -171,56 +175,56 @@ class ProductionCrawler:
         DEFINE FIELD embedding ON TABLE document_chunks TYPE array<float>;
         DEFINE FIELD created_at ON TABLE document_chunks TYPE datetime;
         """
-        
+
         run_surreal_query(schema_query)
         logfire.info("Production schema created")
-        
+
     def extract_text_from_html(self, html: str) -> Tuple[str, str]:
         """Extract content and title from HTML."""
         try:
             soup = BeautifulSoup(html, 'html.parser')
-            
+
             # Extract title
             title_elem = soup.find('title')
             title = title_elem.get_text().strip() if title_elem else ""
-            
+
             # Remove unwanted elements
             for element in soup(['script', 'style', 'nav', 'footer', 'header']):
                 element.decompose()
-                
+
             # Get main content
             main_content = (
                 soup.find('main') or
                 soup.find('article') or
                 soup.find(class_=re.compile(r'content|main|docs'))
             )
-            
+
             text = main_content.get_text() if main_content else soup.get_text()
-            
+
             # Clean text
             lines = (line.strip() for line in text.splitlines())
             chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
             clean_text = ' '.join(chunk for chunk in chunks if chunk)
-            
+
             return clean_text, title
-            
+
         except Exception:
             return "", ""
-            
+
     def create_chunks(self, text: str, max_size: int = 1200) -> List[str]:
         """Create text chunks."""
         if len(text) <= max_size:
             return [text] if text.strip() else []
-            
+
         chunks = []
         sentences = re.split(r'[.!?]+', text)
         current_chunk = ""
-        
+
         for sentence in sentences:
             sentence = sentence.strip()
             if not sentence:
                 continue
-                
+
             if len(current_chunk) + len(sentence) + 2 > max_size:
                 if current_chunk:
                     chunks.append(current_chunk.strip())
@@ -230,61 +234,61 @@ class ProductionCrawler:
                     current_chunk += ". " + sentence
                 else:
                     current_chunk = sentence
-                    
+
         if current_chunk:
             chunks.append(current_chunk.strip())
-            
+
         return [chunk for chunk in chunks if len(chunk) > 100]
-        
+
     def calculate_quality(self, text: str, title: str, url: str, source: str) -> float:
         """Calculate content quality score."""
         score = 0.3
-        
+
         # Length scoring
         length = len(text)
         if 300 <= length <= 2000:
             score += 0.3
         elif length > 100:
             score += 0.2
-            
+
         # Title quality
         if title and len(title) > 10:
             score += 0.15
-            
+
         # URL indicators
         if any(indicator in url.lower() for indicator in ['/docs/', '/guide/', '/api/']):
             score += 0.15
-            
+
         # Content quality
         quality_terms = ['example', 'code', 'function', 'api', 'install']
         found = sum(1 for term in quality_terms if term in text.lower())
         score += min(found * 0.04, 0.20)
-        
+
         return min(score, 1.0)
-        
+
     def extract_topics(self, text: str, title: str, source: str) -> List[str]:
         """Extract technical topics."""
         topics = [source]
-        
+
         # Title words
         if title:
             title_words = re.findall(r'\b[A-Z][a-z]+\b', title)
             topics.extend(title_words[:2])
-            
+
         # Technical terms
         tech_terms = {
             'API', 'authentication', 'database', 'framework', 'Python',
             'JavaScript', 'TypeScript', 'async', 'function', 'class',
             'testing', 'deployment', 'configuration', 'tutorial'
         }
-        
+
         text_lower = text.lower()
         for term in tech_terms:
             if term.lower() in text_lower:
                 topics.append(term)
-                
+
         return list(dict.fromkeys(topics))[:8]
-        
+
     @logfire.instrument("generate_embedding")
     async def generate_embedding(self, text: str) -> Optional[List[float]]:
         """Generate OpenAI embedding."""
@@ -294,15 +298,15 @@ class ProductionCrawler:
                 input=text,
                 dimensions=1536
             )
-            
+
             self.metrics.embeddings_generated += 1
             return response.data[0].embedding
-            
+
         except Exception as e:
             logfire.error("Embedding generation failed", error=str(e))
             self.metrics.processing_errors += 1
             return None
-            
+
     def store_chunk(self, chunk_data: Dict[str, Any]) -> bool:
         """Store document chunk in database with robust error handling."""
         try:
@@ -311,7 +315,7 @@ class ProductionCrawler:
             title = chunk_data['title'].replace("'", "''").replace('"', '""')[:200]
             source_name = chunk_data['source_name'].replace("'", "''")
             source_url = chunk_data['source_url'].replace("'", "''")
-            
+
             # Safely format embedding array with error handling
             try:
                 embedding = chunk_data.get('embedding', [])
@@ -324,7 +328,7 @@ class ProductionCrawler:
             except Exception as e:
                 logfire.warning("Embedding formatting failed", error=str(e))
                 embedding_str = "[]"
-            
+
             # Safely format topics array
             try:
                 topics = chunk_data.get('topics', [])
@@ -333,7 +337,7 @@ class ProductionCrawler:
             except Exception as e:
                 logfire.warning("Topics formatting failed", error=str(e))
                 topics_str = f"['{source_name}']"
-            
+
             query = f"""
             CREATE document_chunks SET
                 source_name = '{source_name}',
@@ -347,128 +351,129 @@ class ProductionCrawler:
                 embedding = {embedding_str},
                 created_at = time::now();
             """
-            
+
+            print(f"Executing SurrealDB query:\n{query}")
             success = run_surreal_query(query)
-            
+
             if success:
                 self.metrics.chunks_created += 1
-                logfire.debug("Chunk stored successfully", 
-                            source=source_name, 
+                logfire.debug("Chunk stored successfully",
+                            source=source_name,
                             title=title[:50])
                 return True
             else:
-                logfire.error("Chunk storage query failed", 
+                logfire.error("Chunk storage query failed",
                             source=source_name,
                             title=title[:50],
                             content_length=len(content))
                 self.metrics.processing_errors += 1
                 return False
-                
+
         except Exception as e:
-            logfire.error("Chunk storage exception", 
+            logfire.error("Chunk storage exception",
                         error=str(e),
                         source=chunk_data.get('source_name', 'unknown'))
             self.metrics.processing_errors += 1
             return False
-        
+
     def is_documentation_url(self, url: str, domain: str) -> bool:
         """Check if URL is documentation."""
         if domain not in url:
             return False
-            
+
         url_lower = url.lower()
         doc_patterns = ['/docs/', '/guide/', '/tutorial/', '/api/', '/reference/']
         exclude_patterns = ['/search', '/login', '.pdf', '#', '?', '/edit']
-        
+
         has_doc = any(pattern in url_lower for pattern in doc_patterns)
         has_exclude = any(pattern in url_lower for pattern in exclude_patterns)
-        
+
         return has_doc and not has_exclude
-        
+
     async def extract_links(self, html: str, base_url: str, domain: str) -> List[str]:
         """Extract documentation links."""
         try:
             soup = BeautifulSoup(html, 'html.parser')
             links = []
-            
+
             for link in soup.find_all('a', href=True):
                 href = link['href']
-                
+
                 if href.startswith('/'):
                     full_url = urljoin(base_url, href)
                 elif href.startswith('http'):
                     full_url = href
                 else:
                     continue
-                    
+
                 if self.is_documentation_url(full_url, domain):
                     links.append(full_url)
-                    
+
             return list(set(links))
-            
+
         except Exception:
             return []
-            
+
     @logfire.instrument("crawl_source")
     async def crawl_source(self, source: Dict[str, str]) -> int:
         """Crawl a documentation source."""
         source_name = source['name']
         start_url = source['url']
         priority = source.get('priority', 'medium')
-        
+
         # Use specialized crawler for SurrealDB
         if source_name == "SurrealDB":
             return await self._crawl_surrealdb_source()
-        
+
         # Use optimized incremental crawler for Claude Code
         if source_name == "Claude Code":
             return await self._crawl_claude_code_optimized()
-        
+
         with logfire.span("Source crawling", source=source_name):
             logfire.info("Starting crawl", source=source_name, url=start_url)
-            
+
             try:
                 domain = urlparse(start_url).netloc
                 urls_to_crawl = [start_url]
                 crawled_urls = set()
                 pages_processed = 0
                 chunks_created = 0
-                
+
                 max_pages = {'high': 80, 'medium': 40, 'low': 20}.get(priority, 40)
-                
+
                 while urls_to_crawl and pages_processed < max_pages:
                     current_url = urls_to_crawl.pop(0)
-                    
+
                     if current_url in crawled_urls or current_url in self.visited_urls:
                         continue
-                        
+
                     crawled_urls.add(current_url)
                     self.visited_urls.add(current_url)
-                    
+
                     try:
                         response = await self.http_client.get(current_url)
                         if response.status_code != 200:
                             continue
-                            
+
                         html_content = response.text
                         text_content, title = self.extract_text_from_html(html_content)
-                        
+
                         if len(text_content) < 200:
                             continue
-                            
+
                         # Create chunks
                         text_chunks = self.create_chunks(text_content)
-                        
+
                         for chunk_index, chunk_text in enumerate(text_chunks):
                             # Calculate metrics
                             quality_score = self.calculate_quality(chunk_text, title, current_url, source_name)
                             topics = self.extract_topics(chunk_text, title, source_name)
-                            
+
                             # Generate embedding
                             embedding = await self.generate_embedding(chunk_text)
                             if not embedding:
                                 continue
-                                
+
                             # Store chunk
                             chunk_data = {
                                 'source_name': source_name,
@@ -481,147 +486,147 @@ class ProductionCrawler:
                                 'topics': topics,
                                 'embedding': embedding
                             }
-                            
+
                             if self.store_chunk(chunk_data):
                                 chunks_created += 1
-                                
+
                         pages_processed += 1
                         self.metrics.pages_crawled += 1
-                        
+
                         # Get more links
                         if pages_processed < max_pages * 0.7:
                             new_links = await self.extract_links(html_content, current_url, domain)
                             for link in new_links[:10]:
-                                if (link not in crawled_urls and 
-                                    link not in urls_to_crawl and 
+                                if (link not in crawled_urls and
+                                    link not in urls_to_crawl and
                                     link not in self.visited_urls):
                                     urls_to_crawl.append(link)
-                        
+
                         await asyncio.sleep(1)
-                        
+
                     except Exception as e:
                         logfire.error("Page error", error=str(e), url=current_url)
                         continue
-                        
-                logfire.info("Source completed", 
+
+                logfire.info("Source completed",
                            source=source_name,
                            pages=pages_processed,
                            chunks=chunks_created)
-                           
+
                 self.metrics.sources_completed += 1
                 return chunks_created
-                
+
             except Exception as e:
                 logfire.error("Source failed", error=str(e), source=source_name)
                 return 0
-    
+
     async def _crawl_surrealdb_source(self) -> int:
         """Special crawler for SurrealDB documentation."""
         with logfire.span("SurrealDB specialized crawl"):
             try:
                 from surrealdb_docs_crawler import SurrealDBDocsCrawler
-                
+
                 crawler = SurrealDBDocsCrawler()
                 chunks_data = await crawler.crawl_all()
-                
+
                 chunks_created = 0
-                
+
                 for chunk_data in chunks_data:
                     # Generate embedding
                     embedding = await self.generate_embedding(chunk_data['content'])
                     if not embedding:
                         continue
-                    
+
                     # Store chunk
                     chunk_data['embedding'] = embedding
                     chunk_data['chunk_index'] = chunks_created
                     chunk_data['total_chunks'] = len(chunks_data)
-                    
+
                     if self.store_chunk(chunk_data):
                         chunks_created += 1
-                
+
                 self.metrics.sources_completed += 1
                 self.metrics.pages_crawled += len(chunks_data)
-                
+
                 logfire.info("SurrealDB crawl completed", chunks=chunks_created)
                 return chunks_created
-                
+
             except Exception as e:
                 logfire.error("SurrealDB crawl failed", error=str(e))
                 return 0
-    
+
     async def _crawl_claude_code_optimized(self) -> int:
         """Optimized crawler for Claude Code documentation."""
         with logfire.span("Claude Code optimized crawl"):
             try:
                 from incremental_crawler import IncrementalCrawler, ClaudeCodeOptimizedCrawler
-                
+
                 incremental = IncrementalCrawler()
                 claude_crawler = ClaudeCodeOptimizedCrawler(incremental)
-                
+
                 chunks_created = await claude_crawler.crawl_optimized(self)
-                
+
                 self.metrics.sources_completed += 1
                 logfire.info("Claude Code optimized crawl completed", chunks=chunks_created)
-                
+
                 return chunks_created
-                
+
             except Exception as e:
                 logfire.error("Claude Code optimized crawl failed", error=str(e))
                 # Fall back to regular crawl - use the parent method directly to avoid recursion
                 return await self._crawl_claude_code_fallback()
-    
+
     async def _crawl_claude_code_fallback(self) -> int:
         """Fallback crawler for Claude Code using regular method."""
         with logfire.span("Claude Code fallback crawl"):
             logfire.info("Using fallback crawler for Claude Code")
-            
+
             # Regular crawl parameters
             source_name = "Claude Code"
             start_url = "https://docs.anthropic.com/en/docs/claude-code/overview"
             priority = "high"
-            
+
             try:
                 domain = urlparse(start_url).netloc
                 urls_to_crawl = [start_url]
                 crawled_urls = set()
                 pages_processed = 0
                 chunks_created = 0
-                
+
                 max_pages = 40  # Limit for Claude Code
-                
+
                 while urls_to_crawl and pages_processed < max_pages:
                     current_url = urls_to_crawl.pop(0)
-                    
+
                     if current_url in crawled_urls or current_url in self.visited_urls:
                         continue
-                        
+
                     crawled_urls.add(current_url)
                     self.visited_urls.add(current_url)
-                    
+
                     try:
                         response = await self.http_client.get(current_url)
                         if response.status_code != 200:
                             continue
-                            
+
                         text_content, title = self.extract_text_from_html(response.text)
-                        
+
                         if len(text_content) < 200:
                             continue
-                            
+
                         # Create chunks
                         text_chunks = self.create_chunks(text_content)
-                        
+
                         for chunk_index, chunk_text in enumerate(text_chunks):
                             # Calculate metrics
                             quality_score = self.calculate_quality(chunk_text, title, current_url, source_name)
                             topics = self.extract_topics(chunk_text, title, source_name)
-                            
+
                             # Generate embedding
                             embedding = await self.generate_embedding(chunk_text)
                             if not embedding:
                                 continue
-                                
+
                             # Store chunk
                             chunk_data = {
                                 'source_name': source_name,
@@ -634,44 +639,44 @@ class ProductionCrawler:
                                 'topics': topics,
                                 'embedding': embedding
                             }
-                            
+
                             if self.store_chunk(chunk_data):
                                 chunks_created += 1
-                                
+
                         pages_processed += 1
                         self.metrics.pages_crawled += 1
-                        
+
                         # Get more links (limited)
                         if pages_processed < max_pages * 0.5:
                             new_links = await self.extract_links(response.text, current_url, domain)
                             for link in new_links[:5]:  # Limit links
-                                if (link not in crawled_urls and 
-                                    link not in urls_to_crawl and 
+                                if (link not in crawled_urls and
+                                    link not in urls_to_crawl and
                                     link not in self.visited_urls):
                                     urls_to_crawl.append(link)
-                        
+
                         await asyncio.sleep(1)
-                        
+
                     except Exception as e:
                         logfire.error("Claude Code page error", error=str(e), url=current_url)
                         continue
-                        
+
                 logfire.info("Claude Code fallback completed", pages=pages_processed, chunks=chunks_created)
                 self.metrics.sources_completed += 1
                 return chunks_created
-                
+
             except Exception as e:
                 logfire.error("Claude Code fallback failed", error=str(e))
                 return 0
-                
+
     @logfire.instrument("build_knowledge_base")
     async def build_knowledge_base(self) -> bool:
         """Build complete production knowledge base."""
         with logfire.span("Knowledge base build"):
             logfire.info("Starting production build", total_sources=len(PRODUCTION_SOURCES))
-            
+
             self.metrics.start_time = time.time()
-            
+
             # Create backup before clearing data
             try:
                 from database_backup import DatabaseBackup
@@ -685,31 +690,31 @@ class ProductionCrawler:
                     logfire.info("Database backed up", backup_file=backup_file)
             except Exception as e:
                 logfire.warning("Backup failed, continuing anyway", error=str(e))
-            
+
             # Clear existing data
-            run_surreal_query("DELETE document_chunks;")
+            # run_surreal_query("DELETE document_chunks;")
             logfire.info("Database cleared for fresh build")
-            
+
             # Process sources by priority
             high_priority = [s for s in PRODUCTION_SOURCES if s.get('priority') == 'high']
-            medium_priority = [s for s in PRODUCTION_SOURCES if s.get('priority') == 'medium']  
+            medium_priority = [s for s in PRODUCTION_SOURCES if s.get('priority') == 'medium']
             low_priority = [s for s in PRODUCTION_SOURCES if s.get('priority') == 'low']
-            
+
             all_sources = high_priority + medium_priority + low_priority
-            
+
             for i, source in enumerate(all_sources, 1):
-                logfire.info("Processing source", 
+                logfire.info("Processing source",
                            number=i,
                            total=len(all_sources),
                            source=source['name'],
                            priority=source.get('priority'))
-                
+
                 chunks_created = await self.crawl_source(source)
-                
+
                 print(f"✅ {source['name']}: {chunks_created} chunks created (Total: {self.metrics.chunks_created})")
-                
+
             elapsed_time = time.time() - self.metrics.start_time
-            
+
             logfire.info("Build completed",
                        sources_completed=self.metrics.sources_completed,
                        pages_crawled=self.metrics.pages_crawled,
@@ -717,9 +722,9 @@ class ProductionCrawler:
                        embeddings_generated=self.metrics.embeddings_generated,
                        errors=self.metrics.processing_errors,
                        elapsed_seconds=elapsed_time)
-                       
+
             return self.metrics.chunks_created > 0
-            
+
     async def cleanup(self):
         """Clean up resources."""
         if self.http_client:
@@ -730,19 +735,19 @@ async def main():
     # Apply metrics tracking decorator
     from crawl_metrics_tracker import integrate_metrics_with_crawler
     ProductionCrawlerWithMetrics = integrate_metrics_with_crawler(ProductionCrawler)
-    
+
     crawler = ProductionCrawlerWithMetrics()
-    
+
     try:
         print("🚀 STARTING PRODUCTION KNOWLEDGE BASE BUILD")
         print("=" * 60)
-        
+
         if not await crawler.initialize():
             print("❌ Production initialization failed")
             return 1
-            
+
         success = await crawler.build_knowledge_base()
-        
+
         if success:
             print(f"\n🎉 PRODUCTION BUILD COMPLETE!")
             print(f"📊 Final Statistics:")
@@ -751,16 +756,16 @@ async def main():
             print(f"   Chunks: {crawler.metrics.chunks_created}")
             print(f"   Embeddings: {crawler.metrics.embeddings_generated}")
             print(f"   Errors: {crawler.metrics.processing_errors}")
-            
+
             # Display metrics report path
             print(f"\n📈 Metrics Report: metrics/latest_report.md")
             print(f"📊 Visualizations: metrics/visualizations/")
-            
+
             return 0
         else:
             print("❌ Production build failed")
             return 1
-            
+
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
         return 1

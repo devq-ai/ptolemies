@@ -9,11 +9,11 @@
  * while leveraging the comprehensive Python implementation.
  */
 
-import { spawn, ChildProcess } from 'child_process';
-import { resolve, join } from 'path';
-import { existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { spawn, ChildProcess } from "child_process";
+import { resolve, join } from "path";
+import { existsSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 // Get current directory for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -43,9 +43,10 @@ class PtolemiesMCPServer {
     this.config = config;
 
     // Determine Python server path
-    const packageRoot = resolve(__dirname, '..');
-    this.pythonServerPath = config.serverPath ||
-      join(packageRoot, 'python-server', 'ptolemies_mcp_server.py');
+    const packageRoot = resolve(__dirname, "..");
+    this.pythonServerPath =
+      config.serverPath ||
+      join(packageRoot, "python-server", "ptolemies_mcp_server.py");
 
     // Validate Python server exists
     if (!existsSync(this.pythonServerPath)) {
@@ -59,11 +60,13 @@ class PtolemiesMCPServer {
   async start(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        const pythonCommand = this.config.pythonPath || 'python3';
+        const pythonCommand = this.config.pythonPath || "python3";
         const env = this.buildEnvironment();
 
         if (this.config.debug) {
-          console.error(`[ptolemies] Starting server with Python: ${pythonCommand}`);
+          console.error(
+            `[ptolemies] Starting server with Python: ${pythonCommand}`,
+          );
           console.error(`[ptolemies] Server path: ${this.pythonServerPath}`);
           console.error(`[ptolemies] Environment:`, env);
         }
@@ -71,27 +74,29 @@ class PtolemiesMCPServer {
         // Spawn Python server process
         this.serverProcess = spawn(pythonCommand, [this.pythonServerPath], {
           env: { ...process.env, ...env },
-          stdio: ['pipe', 'pipe', 'pipe']
+          stdio: ["pipe", "pipe", "pipe"],
         });
 
         // Handle server startup
-        this.serverProcess.on('spawn', () => {
+        this.serverProcess.on("spawn", () => {
           if (this.config.debug) {
-            console.error('[ptolemies] Server process spawned successfully');
+            console.error("[ptolemies] Server process spawned successfully");
           }
           resolve();
         });
 
         // Handle server errors
-        this.serverProcess.on('error', (error) => {
+        this.serverProcess.on("error", (error) => {
           console.error(`[ptolemies] Server error: ${error.message}`);
           reject(error);
         });
 
         // Handle server exit
-        this.serverProcess.on('exit', (code, signal) => {
+        this.serverProcess.on("exit", (code, signal) => {
           if (this.config.debug) {
-            console.error(`[ptolemies] Server exited with code ${code}, signal ${signal}`);
+            console.error(
+              `[ptolemies] Server exited with code ${code}, signal ${signal}`,
+            );
           }
           this.serverProcess = null;
         });
@@ -107,7 +112,6 @@ class PtolemiesMCPServer {
 
         // Pipe stdin to server
         process.stdin.pipe(this.serverProcess.stdin!);
-
       } catch (error) {
         reject(error);
       }
@@ -120,17 +124,17 @@ class PtolemiesMCPServer {
   async stop(): Promise<void> {
     return new Promise((resolve) => {
       if (this.serverProcess) {
-        this.serverProcess.on('exit', () => {
+        this.serverProcess.on("exit", () => {
           this.serverProcess = null;
           resolve();
         });
 
-        this.serverProcess.kill('SIGTERM');
+        this.serverProcess.kill("SIGTERM");
 
         // Force kill after 5 seconds
         setTimeout(() => {
           if (this.serverProcess) {
-            this.serverProcess.kill('SIGKILL');
+            this.serverProcess.kill("SIGKILL");
           }
         }, 5000);
       } else {
@@ -144,7 +148,7 @@ class PtolemiesMCPServer {
    */
   async healthCheck(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      const pythonCommand = this.config.pythonPath || 'python3';
+      const pythonCommand = this.config.pythonPath || "python3";
       const env = this.buildEnvironment();
 
       // Run health check script
@@ -176,30 +180,30 @@ result = asyncio.run(check_health())
 sys.exit(0 if result else 1)
       `;
 
-      const healthProcess = spawn(pythonCommand, ['-c', healthCheckScript], {
+      const healthProcess = spawn(pythonCommand, ["-c", healthCheckScript], {
         env: { ...process.env, ...env },
-        stdio: ['pipe', 'pipe', 'pipe']
+        stdio: ["pipe", "pipe", "pipe"],
       });
 
-      let output = '';
-      healthProcess.stdout?.on('data', (data) => {
+      let output = "";
+      healthProcess.stdout?.on("data", (data) => {
         output += data.toString();
       });
 
-      healthProcess.stderr?.on('data', (data) => {
+      healthProcess.stderr?.on("data", (data) => {
         if (this.config.debug) {
           console.error(`[ptolemies] Health check: ${data}`);
         }
       });
 
-      healthProcess.on('exit', (code) => {
+      healthProcess.on("exit", (code) => {
         if (this.config.debug) {
           console.error(`[ptolemies] Health check output:\n${output}`);
         }
         resolve(code === 0);
       });
 
-      healthProcess.on('error', (error) => {
+      healthProcess.on("error", (error) => {
         console.error(`[ptolemies] Health check error: ${error.message}`);
         reject(error);
       });
@@ -214,22 +218,27 @@ sys.exit(0 if result else 1)
 
     // Neo4j configuration
     if (this.config.neo4jUri) env.NEO4J_URI = this.config.neo4jUri;
-    if (this.config.neo4jUsername) env.NEO4J_USERNAME = this.config.neo4jUsername;
-    if (this.config.neo4jPassword) env.NEO4J_PASSWORD = this.config.neo4jPassword;
-    if (this.config.neo4jDatabase) env.NEO4J_DATABASE = this.config.neo4jDatabase;
+    if (this.config.neo4jUsername)
+      env.NEO4J_USERNAME = this.config.neo4jUsername;
+    if (this.config.neo4jPassword)
+      env.NEO4J_PASSWORD = this.config.neo4jPassword;
+    if (this.config.neo4jDatabase)
+      env.NEO4J_DATABASE = this.config.neo4jDatabase;
 
     // SurrealDB configuration
     if (this.config.surrealdbUrl) env.SURREALDB_URL = this.config.surrealdbUrl;
-    if (this.config.surrealdbNamespace) env.SURREALDB_NAMESPACE = this.config.surrealdbNamespace;
-    if (this.config.surrealdbDatabase) env.SURREALDB_DATABASE = this.config.surrealdbDatabase;
+    if (this.config.surrealdbNamespace)
+      env.SURREALDB_NAMESPACE = this.config.surrealdbNamespace;
+    if (this.config.surrealdbDatabase)
+      env.SURREALDB_DATABASE = this.config.surrealdbDatabase;
 
     // OpenAI configuration
     if (this.config.openaiApiKey) env.OPENAI_API_KEY = this.config.openaiApiKey;
 
     // Python path configuration
-    const packageRoot = resolve(__dirname, '..');
+    const packageRoot = resolve(__dirname, "..");
     const pythonServerDir = dirname(this.pythonServerPath);
-    env.PYTHONPATH = `${pythonServerDir}:${env.PYTHONPATH || ''}`;
+    env.PYTHONPATH = `${pythonServerDir}:${env.PYTHONPATH || ""}`;
 
     return env;
   }
@@ -247,62 +256,62 @@ function parseArgs(): ServerConfig {
     const nextArg = args[i + 1];
 
     switch (arg) {
-      case '--neo4j-uri':
+      case "--neo4j-uri":
         config.neo4jUri = nextArg;
         i++;
         break;
-      case '--neo4j-username':
+      case "--neo4j-username":
         config.neo4jUsername = nextArg;
         i++;
         break;
-      case '--neo4j-password':
+      case "--neo4j-password":
         config.neo4jPassword = nextArg;
         i++;
         break;
-      case '--neo4j-database':
+      case "--neo4j-database":
         config.neo4jDatabase = nextArg;
         i++;
         break;
-      case '--surrealdb-url':
+      case "--surrealdb-url":
         config.surrealdbUrl = nextArg;
         i++;
         break;
-      case '--surrealdb-namespace':
+      case "--surrealdb-namespace":
         config.surrealdbNamespace = nextArg;
         i++;
         break;
-      case '--surrealdb-database':
+      case "--surrealdb-database":
         config.surrealdbDatabase = nextArg;
         i++;
         break;
-      case '--openai-api-key':
+      case "--openai-api-key":
         config.openaiApiKey = nextArg;
         i++;
         break;
-      case '--python-path':
+      case "--python-path":
         config.pythonPath = nextArg;
         i++;
         break;
-      case '--server-path':
+      case "--server-path":
         config.serverPath = nextArg;
         i++;
         break;
-      case '--debug':
+      case "--debug":
         config.debug = true;
         break;
-      case '--health-check':
+      case "--health-check":
         config.healthCheck = true;
         break;
-      case '--help':
+      case "--help":
         showHelp();
         process.exit(0);
         break;
-      case '--version':
+      case "--version":
         showVersion();
         process.exit(0);
         break;
       default:
-        if (arg.startsWith('--')) {
+        if (arg && arg.startsWith("--")) {
           console.error(`Unknown option: ${arg}`);
           process.exit(1);
         }
@@ -370,13 +379,15 @@ For more information, visit: https://docs.devq.ai/ptolemies-mcp
 function showVersion(): void {
   // Read version from package.json
   try {
-    const packagePath = resolve(__dirname, '..', 'package.json');
-    const packageJson = JSON.parse(require('fs').readFileSync(packagePath, 'utf8'));
+    const packagePath = resolve(__dirname, "..", "package.json");
+    const packageJson = JSON.parse(
+      require("fs").readFileSync(packagePath, "utf8"),
+    );
     console.log(`${packageJson.name} v${packageJson.version}`);
     console.log(`DevQ.AI Ptolemies MCP Server`);
     console.log(`https://devq.ai`);
   } catch (error) {
-    console.log('Ptolemies MCP Server v1.0.0');
+    console.log("Ptolemies MCP Server v1.0.0");
   }
 }
 
@@ -391,36 +402,35 @@ async function main(): Promise<void> {
 
     // Handle health check
     if (config.healthCheck) {
-      console.log('Performing health check...');
+      console.log("Performing health check...");
       const healthy = await server.healthCheck();
-      console.log(`Health status: ${healthy ? 'HEALTHY' : 'DEGRADED'}`);
+      console.log(`Health status: ${healthy ? "HEALTHY" : "DEGRADED"}`);
       process.exit(healthy ? 0 : 1);
     }
 
     // Start the server
     if (config.debug) {
-      console.error('[ptolemies] Starting Ptolemies MCP Server...');
+      console.error("[ptolemies] Starting Ptolemies MCP Server...");
     }
 
     await server.start();
 
     // Handle graceful shutdown
-    process.on('SIGINT', async () => {
+    process.on("SIGINT", async () => {
       if (config.debug) {
-        console.error('[ptolemies] Received SIGINT, shutting down...');
+        console.error("[ptolemies] Received SIGINT, shutting down...");
       }
       await server.stop();
       process.exit(0);
     });
 
-    process.on('SIGTERM', async () => {
+    process.on("SIGTERM", async () => {
       if (config.debug) {
-        console.error('[ptolemies] Received SIGTERM, shutting down...');
+        console.error("[ptolemies] Received SIGTERM, shutting down...");
       }
       await server.stop();
       process.exit(0);
     });
-
   } catch (error) {
     console.error(`[ptolemies] Failed to start server: ${error}`);
     process.exit(1);
@@ -433,7 +443,7 @@ export { PtolemiesMCPServer, ServerConfig };
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((error) => {
-    console.error('Fatal error:', error);
+    console.error("Fatal error:", error);
     process.exit(1);
   });
 }

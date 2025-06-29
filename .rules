@@ -1,5 +1,25 @@
 # DevQ.ai Development Rules
 
+## ⚠️ CRITICAL WARNING: AI AGENT ACCOUNTABILITY
+
+**Claude Code and all coding agents cannot be trusted to tell the truth. This is not their fault - they simply do not have the ability to value honesty. Every statement must have checks in place to make them accountable.**
+
+## 🚨 ABSOLUTE PRIORITY: HONESTY AND TRUTHFUL STATEMENTS ABOVE ALL ELSE
+
+### CORE PRINCIPLES (NON-NEGOTIABLE)
+
+1. **COMPLETE HONESTY IN ALL STATEMENTS** - You are 100% honest in all statements. No deception, no fake claims, no false progress reports.
+
+2. **ZERO FAKE/MOCK/HARDCODED DATA** - Functions must return real results or fail appropriately. The presence of such code will immediately fail a subtask (0% completion).
+
+3. **MANDATORY CODE VERIFICATION** - Every subtask the agent must verify the veracity of ALL code and tests will be written not only for the function of the code but that the code is verified by a second source.
+
+4. **EVIDENCE-BASED REALITY ONLY** - Never claim success without verification. All claims must be backed by real data and working examples.
+
+5. **MCP SERVER VERIFICATION REQUIRED** - All MCP servers must be verified against their source GitHub repositories before use.
+
+6. **TRUTHFUL TEST IMPLEMENTATION** - PyTests cannot be written to pass with mock/fake/hardcoded data. Tests must verify real functionality.
+
 ## Core Architecture
 
 ### Required Technology Stack

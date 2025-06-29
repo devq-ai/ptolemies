@@ -2,6 +2,7 @@
   "name": "@devq-ai/ptolemies-mcp",
   "version": "1.0.0",
   "description": "Unified MCP server providing semantic access to SurrealDB, Neo4j, and Dehallucinator services for AI-assisted development workflows",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
     "ptolemies-mcp": "dist/index.js"
@@ -56,9 +57,7 @@
     "python-server"
   ],
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
-    "child_process": "^1.0.2",
-    "path": "^0.12.7"
+    "@modelcontextprotocol/sdk": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
@@ -72,9 +71,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "peerDependencies": {
-    "python3": ">=3.12.0"
-  },
+  "peerDependencies": {},
   "mcp": {
     "server": {
       "name": "ptolemies",
